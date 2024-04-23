@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: chatcode
+  datasource:
+    url: jdbc:mysql://localhost:3306/chatcode
+    username: root
+    password: 1234
