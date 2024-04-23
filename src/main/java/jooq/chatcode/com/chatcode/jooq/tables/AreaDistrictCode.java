@@ -4,7 +4,8 @@
 package com.chatcode.jooq.tables;
 
 
-import com.chatcode.jooq.Chatcode;
+import com.chatcode.jooq.DefaultSchema;
+import com.chatcode.jooq.Keys;
 import com.chatcode.jooq.tables.records.AreaDistrictCodeRecord;
 
 import java.util.Collection;
@@ -21,6 +22,7 @@ import org.jooq.Stringly;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -35,7 +37,7 @@ public class AreaDistrictCode extends TableImpl<AreaDistrictCodeRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>CHATCODE.area_district_code</code>
+     * The reference instance of <code>area_district_code</code>
      */
     public static final AreaDistrictCode AREA_DISTRICT_CODE = new AreaDistrictCode();
 
@@ -48,22 +50,22 @@ public class AreaDistrictCode extends TableImpl<AreaDistrictCodeRecord> {
     }
 
     /**
-     * The column <code>CHATCODE.area_district_code.id</code>.
+     * The column <code>area_district_code.id</code>.
      */
     public final TableField<AreaDistrictCodeRecord, String> ID = createField(DSL.name("id"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>CHATCODE.area_district_code.version</code>.
+     * The column <code>area_district_code.version</code>.
      */
     public final TableField<AreaDistrictCodeRecord, Long> VERSION = createField(DSL.name("version"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>CHATCODE.area_district_code.area_city_code_id</code>.
+     * The column <code>area_district_code.area_city_code_id</code>.
      */
     public final TableField<AreaDistrictCodeRecord, String> AREA_CITY_CODE_ID = createField(DSL.name("area_city_code_id"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>CHATCODE.area_district_code.name</code>.
+     * The column <code>area_district_code.name</code>.
      */
     public final TableField<AreaDistrictCodeRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
@@ -76,23 +78,21 @@ public class AreaDistrictCode extends TableImpl<AreaDistrictCodeRecord> {
     }
 
     /**
-     * Create an aliased <code>CHATCODE.area_district_code</code> table
-     * reference
+     * Create an aliased <code>area_district_code</code> table reference
      */
     public AreaDistrictCode(String alias) {
         this(DSL.name(alias), AREA_DISTRICT_CODE);
     }
 
     /**
-     * Create an aliased <code>CHATCODE.area_district_code</code> table
-     * reference
+     * Create an aliased <code>area_district_code</code> table reference
      */
     public AreaDistrictCode(Name alias) {
         this(alias, AREA_DISTRICT_CODE);
     }
 
     /**
-     * Create a <code>CHATCODE.area_district_code</code> table reference
+     * Create a <code>area_district_code</code> table reference
      */
     public AreaDistrictCode() {
         this(DSL.name("area_district_code"), null);
@@ -100,7 +100,12 @@ public class AreaDistrictCode extends TableImpl<AreaDistrictCodeRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Chatcode.CHATCODE;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public UniqueKey<AreaDistrictCodeRecord> getPrimaryKey() {
+        return Keys.PK_AREA_DISTRICT_CODE;
     }
 
     @Override

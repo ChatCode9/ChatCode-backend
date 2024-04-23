@@ -32,14 +32,14 @@ public class UserRole implements Serializable {
     }
 
     /**
-     * Getter for <code>CHATCODE.user_role.user_id</code>.
+     * Getter for <code>user_role.user_id</code>.
      */
     public Long getUserId() {
         return this.userId;
     }
 
     /**
-     * Getter for <code>CHATCODE.user_role.role_id</code>.
+     * Getter for <code>user_role.role_id</code>.
      */
     public Long getRoleId() {
         return this.roleId;

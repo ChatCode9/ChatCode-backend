@@ -25,6 +25,7 @@ dependencies {
 
     // Jooq
     jooqGenerator 'com.mysql:mysql-connector-j'
+    jooqGenerator 'org.jooq:jooq-meta-extensions:3.19.1'
 
     // Spring Security
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -49,23 +50,33 @@ jooq {
             generateSchemaSourceOnCompilation = true  // default (can be omitted)
 
             generationTool {
-                jdbc {
-                    driver = 'com.mysql.cj.jdbc.Driver'
-                    url = 'jdbc:mysql://localhost:3306'
-                    user = 'root'
-                    password = '1234'
-                    properties {
-                        property {
-                            key = 'ssl'
-                            value = 'false'
-                        }
-                    }
-                }
+//                jdbc {
+//                    driver = 'com.mysql.cj.jdbc.Driver'
+//                    url = 'jdbc:mysql://localhost:3306'
+//                    user = 'root'
+//                    password = '1234'
+//                    properties {
+//                        property {
+//                            key = 'ssl'
+//                            value = 'false'
+//                        }
+//                    }
+//                }
+//                jdbc {
+//                    // DDLDatabase는 JDBC 연결을 사용하지 않음
+//                    driver = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+//                    url = 'jdbc:jooq-meta-extensions:ddl:ignore' // JDBC URL은 사용되지 않지만, 유효해야 함
+//                }
                 generator {
                     name = 'org.jooq.codegen.DefaultGenerator'
                     database {
-                        name = 'org.jooq.meta.mysql.MySQLDatabase'
-                        inputSchema = 'CHATCODE'
+                        name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+                        properties {
+                            property {
+                                key = 'scripts'
+                                value = 'db/mysql/initdb.d/create_table.sql' // SQL 스크립트 파일 위치
+                            }
+                        }
                     }
                     generate {
                         deprecated = false

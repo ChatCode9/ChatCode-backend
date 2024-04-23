@@ -18,7 +18,7 @@ public class AvatarInterestTagRecord extends TableRecordImpl<AvatarInterestTagRe
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>CHATCODE.avatar_interest_tag.avtar_id</code>.
+     * Setter for <code>avatar_interest_tag.avtar_id</code>.
      */
     public AvatarInterestTagRecord setAvtarId(Long value) {
         set(0, value);
@@ -26,14 +26,14 @@ public class AvatarInterestTagRecord extends TableRecordImpl<AvatarInterestTagRe
     }
 
     /**
-     * Getter for <code>CHATCODE.avatar_interest_tag.avtar_id</code>.
+     * Getter for <code>avatar_interest_tag.avtar_id</code>.
      */
     public Long getAvtarId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>CHATCODE.avatar_interest_tag.name</code>.
+     * Setter for <code>avatar_interest_tag.name</code>.
      */
     public AvatarInterestTagRecord setName(String value) {
         set(1, value);
@@ -41,7 +41,7 @@ public class AvatarInterestTagRecord extends TableRecordImpl<AvatarInterestTagRe
     }
 
     /**
-     * Getter for <code>CHATCODE.avatar_interest_tag.name</code>.
+     * Getter for <code>avatar_interest_tag.name</code>.
      */
     public String getName() {
         return (String) get(1);

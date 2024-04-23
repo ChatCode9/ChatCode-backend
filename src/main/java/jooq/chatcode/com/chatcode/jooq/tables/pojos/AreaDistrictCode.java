@@ -40,28 +40,28 @@ public class AreaDistrictCode implements Serializable {
     }
 
     /**
-     * Getter for <code>CHATCODE.area_district_code.id</code>.
+     * Getter for <code>area_district_code.id</code>.
      */
     public String getId() {
         return this.id;
     }
 
     /**
-     * Getter for <code>CHATCODE.area_district_code.version</code>.
+     * Getter for <code>area_district_code.version</code>.
      */
     public Long getVersion() {
         return this.version;
     }
 
     /**
-     * Getter for <code>CHATCODE.area_district_code.area_city_code_id</code>.
+     * Getter for <code>area_district_code.area_city_code_id</code>.
      */
     public String getAreaCityCodeId() {
         return this.areaCityCodeId;
     }
 
     /**
-     * Getter for <code>CHATCODE.area_district_code.name</code>.
+     * Getter for <code>area_district_code.name</code>.
      */
     public String getName() {
         return this.name;

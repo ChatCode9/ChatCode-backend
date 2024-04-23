@@ -18,6 +18,7 @@ public class Article implements Serializable {
 
     private final Long id;
     private final Long version;
+    private final Long authorId;
     private final Boolean completed;
     private final Long contentId;
     private final String createIp;
@@ -38,6 +39,7 @@ public class Article implements Serializable {
     public Article(Article value) {
         this.id = value.id;
         this.version = value.version;
+        this.authorId = value.authorId;
         this.completed = value.completed;
         this.contentId = value.contentId;
         this.createIp = value.createIp;
@@ -59,6 +61,7 @@ public class Article implements Serializable {
     public Article(
         Long id,
         Long version,
+        Long authorId,
         Boolean completed,
         Long contentId,
         String createIp,
@@ -78,6 +81,7 @@ public class Article implements Serializable {
     ) {
         this.id = id;
         this.version = version;
+        this.authorId = authorId;
         this.completed = completed;
         this.contentId = contentId;
         this.createIp = createIp;
@@ -97,126 +101,133 @@ public class Article implements Serializable {
     }
 
     /**
-     * Getter for <code>CHATCODE.article.id</code>.
+     * Getter for <code>article.id</code>.
      */
     public Long getId() {
         return this.id;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.version</code>.
+     * Getter for <code>article.version</code>.
      */
     public Long getVersion() {
         return this.version;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.completed</code>.
+     * Getter for <code>article.author_id</code>.
+     */
+    public Long getAuthorId() {
+        return this.authorId;
+    }
+
+    /**
+     * Getter for <code>article.completed</code>.
      */
     public Boolean getCompleted() {
         return this.completed;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.content_id</code>.
+     * Getter for <code>article.content_id</code>.
      */
     public Long getContentId() {
         return this.contentId;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.create_ip</code>.
+     * Getter for <code>article.create_ip</code>.
      */
     public String getCreateIp() {
         return this.createIp;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.date_created</code>.
+     * Getter for <code>article.date_created</code>.
      */
     public LocalDateTime getDateCreated() {
         return this.dateCreated;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.enabled</code>.
+     * Getter for <code>article.enabled</code>.
      */
     public Boolean getEnabled() {
         return this.enabled;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.last_editor_id</code>.
+     * Getter for <code>article.last_editor_id</code>.
      */
     public Long getLastEditorId() {
         return this.lastEditorId;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.last_updated</code>.
+     * Getter for <code>article.last_updated</code>.
      */
     public LocalDateTime getLastUpdated() {
         return this.lastUpdated;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.note_count</code>.
+     * Getter for <code>article.note_count</code>.
      */
     public Integer getNoteCount() {
         return this.noteCount;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.scrap_count</code>.
+     * Getter for <code>article.scrap_count</code>.
      */
     public Integer getScrapCount() {
         return this.scrapCount;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.selected_note_id</code>.
+     * Getter for <code>article.selected_note_id</code>.
      */
     public Long getSelectedNoteId() {
         return this.selectedNoteId;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.tag_string</code>.
+     * Getter for <code>article.tag_string</code>.
      */
     public String getTagString() {
         return this.tagString;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.title</code>.
+     * Getter for <code>article.title</code>.
      */
     public String getTitle() {
         return this.title;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.view_count</code>.
+     * Getter for <code>article.view_count</code>.
      */
     public Integer getViewCount() {
         return this.viewCount;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.like_count</code>.
+     * Getter for <code>article.like_count</code>.
      */
     public Integer getLikeCount() {
         return this.likeCount;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.dislike_count</code>.
+     * Getter for <code>article.dislike_count</code>.
      */
     public Integer getDislikeCount() {
         return this.dislikeCount;
     }
 
     /**
-     * Getter for <code>CHATCODE.article.category_id</code>.
+     * Getter for <code>article.category_id</code>.
      */
     public String getCategoryId() {
         return this.categoryId;
@@ -242,6 +253,12 @@ public class Article implements Serializable {
                 return false;
         }
         else if (!this.version.equals(other.version))
+            return false;
+        if (this.authorId == null) {
+            if (other.authorId != null)
+                return false;
+        }
+        else if (!this.authorId.equals(other.authorId))
             return false;
         if (this.completed == null) {
             if (other.completed != null)
@@ -348,6 +365,7 @@ public class Article implements Serializable {
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.version == null) ? 0 : this.version.hashCode());
+        result = prime * result + ((this.authorId == null) ? 0 : this.authorId.hashCode());
         result = prime * result + ((this.completed == null) ? 0 : this.completed.hashCode());
         result = prime * result + ((this.contentId == null) ? 0 : this.contentId.hashCode());
         result = prime * result + ((this.createIp == null) ? 0 : this.createIp.hashCode());
@@ -373,6 +391,7 @@ public class Article implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(version);
+        sb.append(", ").append(authorId);
         sb.append(", ").append(completed);
         sb.append(", ").append(contentId);
         sb.append(", ").append(createIp);

@@ -32,14 +32,14 @@ public class AvatarInterestTag implements Serializable {
     }
 
     /**
-     * Getter for <code>CHATCODE.avatar_interest_tag.avtar_id</code>.
+     * Getter for <code>avatar_interest_tag.avtar_id</code>.
      */
     public Long getAvtarId() {
         return this.avtarId;
     }
 
     /**
-     * Getter for <code>CHATCODE.avatar_interest_tag.name</code>.
+     * Getter for <code>avatar_interest_tag.name</code>.
      */
     public String getName() {
         return this.name;

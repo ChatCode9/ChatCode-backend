@@ -4,7 +4,7 @@
 package com.chatcode.jooq.tables;
 
 
-import com.chatcode.jooq.Chatcode;
+import com.chatcode.jooq.DefaultSchema;
 import com.chatcode.jooq.tables.records.AvatarInterestTagRecord;
 
 import java.util.Collection;
@@ -35,7 +35,7 @@ public class AvatarInterestTag extends TableImpl<AvatarInterestTagRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>CHATCODE.avatar_interest_tag</code>
+     * The reference instance of <code>avatar_interest_tag</code>
      */
     public static final AvatarInterestTag AVATAR_INTEREST_TAG = new AvatarInterestTag();
 
@@ -48,12 +48,12 @@ public class AvatarInterestTag extends TableImpl<AvatarInterestTagRecord> {
     }
 
     /**
-     * The column <code>CHATCODE.avatar_interest_tag.avtar_id</code>.
+     * The column <code>avatar_interest_tag.avtar_id</code>.
      */
     public final TableField<AvatarInterestTagRecord, Long> AVTAR_ID = createField(DSL.name("avtar_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>CHATCODE.avatar_interest_tag.name</code>.
+     * The column <code>avatar_interest_tag.name</code>.
      */
     public final TableField<AvatarInterestTagRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
@@ -66,23 +66,21 @@ public class AvatarInterestTag extends TableImpl<AvatarInterestTagRecord> {
     }
 
     /**
-     * Create an aliased <code>CHATCODE.avatar_interest_tag</code> table
-     * reference
+     * Create an aliased <code>avatar_interest_tag</code> table reference
      */
     public AvatarInterestTag(String alias) {
         this(DSL.name(alias), AVATAR_INTEREST_TAG);
     }
 
     /**
-     * Create an aliased <code>CHATCODE.avatar_interest_tag</code> table
-     * reference
+     * Create an aliased <code>avatar_interest_tag</code> table reference
      */
     public AvatarInterestTag(Name alias) {
         this(alias, AVATAR_INTEREST_TAG);
     }
 
     /**
-     * Create a <code>CHATCODE.avatar_interest_tag</code> table reference
+     * Create a <code>avatar_interest_tag</code> table reference
      */
     public AvatarInterestTag() {
         this(DSL.name("avatar_interest_tag"), null);
@@ -90,7 +88,7 @@ public class AvatarInterestTag extends TableImpl<AvatarInterestTagRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Chatcode.CHATCODE;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override

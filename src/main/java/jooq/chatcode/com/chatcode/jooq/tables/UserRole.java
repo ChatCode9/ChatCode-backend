@@ -4,16 +4,25 @@
 package com.chatcode.jooq.tables;
 
 
-import com.chatcode.jooq.Chatcode;
+import com.chatcode.jooq.DefaultSchema;
+import com.chatcode.jooq.Keys;
+import com.chatcode.jooq.tables.Role.RolePath;
+import com.chatcode.jooq.tables.User.UserPath;
 import com.chatcode.jooq.tables.records.UserRoleRecord;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.InverseForeignKey;
 import org.jooq.Name;
+import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
+import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -21,6 +30,7 @@ import org.jooq.Stringly;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -35,7 +45,7 @@ public class UserRole extends TableImpl<UserRoleRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>CHATCODE.user_role</code>
+     * The reference instance of <code>user_role</code>
      */
     public static final UserRole USER_ROLE = new UserRole();
 
@@ -48,12 +58,12 @@ public class UserRole extends TableImpl<UserRoleRecord> {
     }
 
     /**
-     * The column <code>CHATCODE.user_role.user_id</code>.
+     * The column <code>user_role.user_id</code>.
      */
     public final TableField<UserRoleRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>CHATCODE.user_role.role_id</code>.
+     * The column <code>user_role.role_id</code>.
      */
     public final TableField<UserRoleRecord, Long> ROLE_ID = createField(DSL.name("role_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
@@ -66,29 +76,94 @@ public class UserRole extends TableImpl<UserRoleRecord> {
     }
 
     /**
-     * Create an aliased <code>CHATCODE.user_role</code> table reference
+     * Create an aliased <code>user_role</code> table reference
      */
     public UserRole(String alias) {
         this(DSL.name(alias), USER_ROLE);
     }
 
     /**
-     * Create an aliased <code>CHATCODE.user_role</code> table reference
+     * Create an aliased <code>user_role</code> table reference
      */
     public UserRole(Name alias) {
         this(alias, USER_ROLE);
     }
 
     /**
-     * Create a <code>CHATCODE.user_role</code> table reference
+     * Create a <code>user_role</code> table reference
      */
     public UserRole() {
         this(DSL.name("user_role"), null);
     }
 
+    public <O extends Record> UserRole(Table<O> path, ForeignKey<O, UserRoleRecord> childPath, InverseForeignKey<O, UserRoleRecord> parentPath) {
+        super(path, childPath, parentPath, USER_ROLE);
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class UserRolePath extends UserRole implements Path<UserRoleRecord> {
+        public <O extends Record> UserRolePath(Table<O> path, ForeignKey<O, UserRoleRecord> childPath, InverseForeignKey<O, UserRoleRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+        private UserRolePath(Name alias, Table<UserRoleRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public UserRolePath as(String alias) {
+            return new UserRolePath(DSL.name(alias), this);
+        }
+
+        @Override
+        public UserRolePath as(Name alias) {
+            return new UserRolePath(alias, this);
+        }
+
+        @Override
+        public UserRolePath as(Table<?> alias) {
+            return new UserRolePath(alias.getQualifiedName(), this);
+        }
+    }
+
     @Override
     public Schema getSchema() {
-        return aliased() ? null : Chatcode.CHATCODE;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public UniqueKey<UserRoleRecord> getPrimaryKey() {
+        return Keys.PK_USER_ROLE;
+    }
+
+    @Override
+    public List<ForeignKey<UserRoleRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.FK_USER_TO_USER_ROLE_1, Keys.FK_ROLE_TO_USER_ROLE_1);
+    }
+
+    private transient UserPath _user;
+
+    /**
+     * Get the implicit join path to the <code>PUBLIC.user</code> table.
+     */
+    public UserPath user() {
+        if (_user == null)
+            _user = new UserPath(this, Keys.FK_USER_TO_USER_ROLE_1, null);
+
+        return _user;
+    }
+
+    private transient RolePath _role;
+
+    /**
+     * Get the implicit join path to the <code>PUBLIC.role</code> table.
+     */
+    public RolePath role() {
+        if (_role == null)
+            _role = new RolePath(this, Keys.FK_ROLE_TO_USER_ROLE_1, null);
+
+        return _role;
     }
 
     @Override
