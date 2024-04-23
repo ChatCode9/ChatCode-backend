@@ -1,13 +1,13 @@
 version: "2.2"
 services:
   mysql:
-    container_name: "mysql"
+    container_name: "Chatcode_DB"
     image: mysql:8.0
-#    command: >
-#      bash -c "
-#      chmod 644 /etc/mysql/conf.d/*.cnf
-#      && /entrypoint.sh mysqld
-#      "
+    command: >
+      bash -c "
+      chmod 644 /etc/mysql/conf.d/*.cnf
+      && /entrypoint.sh mysqld
+      "
     ports:
       - "3306:3306"
     env_file: .env.mysql
