@@ -1,20 +1,20 @@
-package com.chatcode.repository;
+package com.chatcode.service;
 
-import com.chatcode.jooq.tables.Article;
+import static com.chatcode.jooq.tables.Article.ARTICLE;
+
+import com.chatcode.jooq.tables.pojos.Article;
 import java.util.List;
 import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JooqArticleRepository {
+public class JooqArticleService {
 
-    private final DSLContext dsl;
+    @Autowired
+    private DSLContext dsl;
 
-    public JooqArticleRepository(DSLContext dsl) {
-        this.dsl = dsl;
-    }
-
-    public List<com.chatcode.jooq.tables.pojos.Article> findAll() {
-        return dsl.selectFrom(Article).fetchInto(com.chatcode.jooq.tables.pojos.Article.class);
+    public List<Article> findAll() {
+        return dsl.selectFrom(ARTICLE).fetchInto(Article.class);
     }
 }
