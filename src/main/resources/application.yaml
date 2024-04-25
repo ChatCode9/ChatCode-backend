@@ -5,3 +5,12 @@ spring:
     url: jdbc:mysql://localhost:3306/chatcode
     username: root
     password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 20  # 커넥션 풀에서 최대 활성 상태의 커넥션 수
+        max-idle: 5     # 커넥션 풀에서 유지할 최대 대기 상태의 커넥션 수
+        min-idle: 0     # 커넥션 풀에서 유지할 최소 대기 상태의 커넥션 수
+        max-wait: -1ms
