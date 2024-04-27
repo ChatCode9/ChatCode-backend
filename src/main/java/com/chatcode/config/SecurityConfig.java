@@ -1,5 +1,7 @@
 package com.chatcode.config;
 
+import com.chatcode.config.auth.oauth.LoginOauth2UserService;
+import com.chatcode.config.auth.oauth.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+    private final LoginOauth2UserService loginOauth2UserService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -52,7 +56,9 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("USER")
                 .anyRequest().permitAll());
 
-        // TODO: add OAuth2Login
+        http.oauth2Login(oauth2 -> oauth2.loginPage("/user/login")
+                .userInfoEndpoint(userInfo -> userInfo.userService(loginOauth2UserService))
+                .successHandler(new OAuth2SuccessHandler()));
 
         return http.build();
     }
