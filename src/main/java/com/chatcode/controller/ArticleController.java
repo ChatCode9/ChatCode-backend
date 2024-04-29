@@ -1,11 +1,12 @@
 package com.chatcode.controller;
 
-import com.chatcode.jooq.tables.pojos.Article;
+import com.chatcode.dto.BaseResponseDto;
+import com.chatcode.dto.User;
 import com.chatcode.service.JooqArticleService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,13 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/articles")
 public class ArticleController {
 
-    @Autowired
-    private JooqArticleService service;
+  @Autowired
+  private JooqArticleService service;
 
-    @GetMapping("")
-    public ResponseEntity<List<Article>> findAll(){
-        List<Article> articles = service.findAll();
+  @PostMapping("/{id}/like")
+  public ResponseEntity<BaseResponseDto<String>> like(@PathVariable("id") Integer id) {
+    service.like(id, new User());
+    return ResponseEntity.ok(new BaseResponseDto<>(200, "", "success"));
+  }
 
-        return ResponseEntity.ok(articles);
-    }
+  @PostMapping("/{id}/dislike")
+  public ResponseEntity<BaseResponseDto<String>> dislike(@PathVariable("id") Integer id) {
+    service.dislike(id, new User());
+    return ResponseEntity.ok(new BaseResponseDto<>(200, "", "success"));
+  }
 }
