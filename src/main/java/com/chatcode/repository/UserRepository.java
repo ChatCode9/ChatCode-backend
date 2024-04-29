@@ -26,10 +26,18 @@ public class UserRepository {
         return dsl.selectFrom(USER).fetchInto(User.class);
     }
 
+    public Optional<User> findById(Long id) {
+        Optional<User> user = dsl.selectFrom(USER)
+                .where(USER.ID.eq(id))
+                .fetchOptionalInto(User.class);
+        return user;
+    }
+
     public Optional<User> findByUsername(String username) {
-        return dsl.selectFrom(USER)
+        Optional<User> user = dsl.selectFrom(USER)
                 .where(USER.USERNAME.eq(username))
                 .fetchOptionalInto(User.class);
+        return user;
     }
 
     public List<String> findRolesById(Long userId) {
@@ -51,15 +59,6 @@ public class UserRepository {
                         r -> r.into(USER).into(User.class),
                         r -> r.into(ROLE).into(Role.class)
                 );
-    }
-
-    public List<Role> findRolesByUsername(String username) {
-        return dsl.select()
-                .from(USER_ROLE)
-                .join(USER).on(USER_ROLE.USER_ID.eq(USER.ID))
-                .join(ROLE).on(USER_ROLE.ROLE_ID.eq(ROLE.ID))
-                .where(USER.USERNAME.eq(username))
-                .fetchInto(Role.class);
     }
 
     @Transactional
