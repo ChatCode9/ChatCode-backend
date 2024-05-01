@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -53,7 +54,7 @@ public class Content extends TableImpl<ContentRecord> {
     /**
      * The column <code>content.id</code>.
      */
-    public final TableField<ContentRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<ContentRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>content.version</code>.
@@ -142,6 +143,11 @@ public class Content extends TableImpl<ContentRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<ContentRecord, Long> getIdentity() {
+        return (Identity<ContentRecord, Long>) super.getIdentity();
     }
 
     @Override
