@@ -12,7 +12,8 @@ public record OAuth2UserInfo(
         String providerId,
         String provider
 ) {
-    public static OAuth2UserInfo of(String registrationId, Map<String, Object> attributes) throws OAuth2AuthenticationException {
+    public static OAuth2UserInfo of(String registrationId, Map<String, Object> attributes)
+            throws OAuth2AuthenticationException {
         return switch (registrationId) {
             case "google" -> ofGoogle(attributes);
             case "github" -> ofGithub(attributes);
