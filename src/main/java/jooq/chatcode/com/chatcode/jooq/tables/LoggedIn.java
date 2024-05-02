@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -53,7 +54,7 @@ public class LoggedIn extends TableImpl<LoggedInRecord> {
     /**
      * The column <code>logged_in.id</code>.
      */
-    public final TableField<LoggedInRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<LoggedInRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>logged_in.user_id</code>.
@@ -107,6 +108,11 @@ public class LoggedIn extends TableImpl<LoggedInRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<LoggedInRecord, Long> getIdentity() {
+        return (Identity<LoggedInRecord, Long>) super.getIdentity();
     }
 
     @Override

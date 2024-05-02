@@ -102,6 +102,7 @@ public class Keys {
     public static final UniqueKey<SpamWordRecord> PK_SPAM_WORD = Internal.createUniqueKey(SpamWord.SPAM_WORD, DSL.name("PK_SPAM_WORD"), new TableField[] { SpamWord.SPAM_WORD.ID }, true);
     public static final UniqueKey<TagRecord> PK_TAG = Internal.createUniqueKey(Tag.TAG, DSL.name("PK_TAG"), new TableField[] { Tag.TAG.ID }, true);
     public static final UniqueKey<TempArticleRecord> PK_TEMP_ARTICLE = Internal.createUniqueKey(TempArticle.TEMP_ARTICLE, DSL.name("PK_TEMP_ARTICLE"), new TableField[] { TempArticle.TEMP_ARTICLE.ID }, true);
+    public static final UniqueKey<UserRecord> CONSTRAINT_3 = Internal.createUniqueKey(User.USER, DSL.name("CONSTRAINT_3"), new TableField[] { User.USER.USERNAME }, true);
     public static final UniqueKey<UserRecord> PK_USER = Internal.createUniqueKey(User.USER, DSL.name("PK_USER"), new TableField[] { User.USER.ID }, true);
     public static final UniqueKey<UserRoleRecord> PK_USER_ROLE = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("PK_USER_ROLE"), new TableField[] { UserRole.USER_ROLE.USER_ID, UserRole.USER_ROLE.ROLE_ID }, true);
 

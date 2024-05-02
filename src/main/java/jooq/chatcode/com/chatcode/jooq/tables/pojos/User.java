@@ -19,16 +19,11 @@ public class User implements Serializable {
     private final Long id;
     private final Long avatarId;
     private final Long version;
-    private final Boolean accountExpired;
-    private final Boolean accountLocked;
     private final String createIp;
     private final LocalDateTime dateCreated;
     private final LocalDateTime dateWithdraw;
-    private final LocalDateTime lastPasswordChanged;
     private final String lastUpdateIp;
     private final LocalDateTime lastUpdated;
-    private final String password;
-    private final Boolean passwordExpired;
     private final String username;
     private final Boolean withdraw;
     private final Integer status;
@@ -37,16 +32,11 @@ public class User implements Serializable {
         this.id = value.id;
         this.avatarId = value.avatarId;
         this.version = value.version;
-        this.accountExpired = value.accountExpired;
-        this.accountLocked = value.accountLocked;
         this.createIp = value.createIp;
         this.dateCreated = value.dateCreated;
         this.dateWithdraw = value.dateWithdraw;
-        this.lastPasswordChanged = value.lastPasswordChanged;
         this.lastUpdateIp = value.lastUpdateIp;
         this.lastUpdated = value.lastUpdated;
-        this.password = value.password;
-        this.passwordExpired = value.passwordExpired;
         this.username = value.username;
         this.withdraw = value.withdraw;
         this.status = value.status;
@@ -56,16 +46,11 @@ public class User implements Serializable {
         Long id,
         Long avatarId,
         Long version,
-        Boolean accountExpired,
-        Boolean accountLocked,
         String createIp,
         LocalDateTime dateCreated,
         LocalDateTime dateWithdraw,
-        LocalDateTime lastPasswordChanged,
         String lastUpdateIp,
         LocalDateTime lastUpdated,
-        String password,
-        Boolean passwordExpired,
         String username,
         Boolean withdraw,
         Integer status
@@ -73,16 +58,11 @@ public class User implements Serializable {
         this.id = id;
         this.avatarId = avatarId;
         this.version = version;
-        this.accountExpired = accountExpired;
-        this.accountLocked = accountLocked;
         this.createIp = createIp;
         this.dateCreated = dateCreated;
         this.dateWithdraw = dateWithdraw;
-        this.lastPasswordChanged = lastPasswordChanged;
         this.lastUpdateIp = lastUpdateIp;
         this.lastUpdated = lastUpdated;
-        this.password = password;
-        this.passwordExpired = passwordExpired;
         this.username = username;
         this.withdraw = withdraw;
         this.status = status;
@@ -110,20 +90,6 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>user.account_expired</code>.
-     */
-    public Boolean getAccountExpired() {
-        return this.accountExpired;
-    }
-
-    /**
-     * Getter for <code>user.account_locked</code>.
-     */
-    public Boolean getAccountLocked() {
-        return this.accountLocked;
-    }
-
-    /**
      * Getter for <code>user.create_ip</code>.
      */
     public String getCreateIp() {
@@ -145,13 +111,6 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>user.last_password_changed</code>.
-     */
-    public LocalDateTime getLastPasswordChanged() {
-        return this.lastPasswordChanged;
-    }
-
-    /**
      * Getter for <code>user.last_update_ip</code>.
      */
     public String getLastUpdateIp() {
@@ -163,20 +122,6 @@ public class User implements Serializable {
      */
     public LocalDateTime getLastUpdated() {
         return this.lastUpdated;
-    }
-
-    /**
-     * Getter for <code>user.password</code>.
-     */
-    public String getPassword() {
-        return this.password;
-    }
-
-    /**
-     * Getter for <code>user.password_expired</code>.
-     */
-    public Boolean getPasswordExpired() {
-        return this.passwordExpired;
     }
 
     /**
@@ -227,18 +172,6 @@ public class User implements Serializable {
         }
         else if (!this.version.equals(other.version))
             return false;
-        if (this.accountExpired == null) {
-            if (other.accountExpired != null)
-                return false;
-        }
-        else if (!this.accountExpired.equals(other.accountExpired))
-            return false;
-        if (this.accountLocked == null) {
-            if (other.accountLocked != null)
-                return false;
-        }
-        else if (!this.accountLocked.equals(other.accountLocked))
-            return false;
         if (this.createIp == null) {
             if (other.createIp != null)
                 return false;
@@ -257,12 +190,6 @@ public class User implements Serializable {
         }
         else if (!this.dateWithdraw.equals(other.dateWithdraw))
             return false;
-        if (this.lastPasswordChanged == null) {
-            if (other.lastPasswordChanged != null)
-                return false;
-        }
-        else if (!this.lastPasswordChanged.equals(other.lastPasswordChanged))
-            return false;
         if (this.lastUpdateIp == null) {
             if (other.lastUpdateIp != null)
                 return false;
@@ -274,18 +201,6 @@ public class User implements Serializable {
                 return false;
         }
         else if (!this.lastUpdated.equals(other.lastUpdated))
-            return false;
-        if (this.password == null) {
-            if (other.password != null)
-                return false;
-        }
-        else if (!this.password.equals(other.password))
-            return false;
-        if (this.passwordExpired == null) {
-            if (other.passwordExpired != null)
-                return false;
-        }
-        else if (!this.passwordExpired.equals(other.passwordExpired))
             return false;
         if (this.username == null) {
             if (other.username != null)
@@ -315,16 +230,11 @@ public class User implements Serializable {
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.avatarId == null) ? 0 : this.avatarId.hashCode());
         result = prime * result + ((this.version == null) ? 0 : this.version.hashCode());
-        result = prime * result + ((this.accountExpired == null) ? 0 : this.accountExpired.hashCode());
-        result = prime * result + ((this.accountLocked == null) ? 0 : this.accountLocked.hashCode());
         result = prime * result + ((this.createIp == null) ? 0 : this.createIp.hashCode());
         result = prime * result + ((this.dateCreated == null) ? 0 : this.dateCreated.hashCode());
         result = prime * result + ((this.dateWithdraw == null) ? 0 : this.dateWithdraw.hashCode());
-        result = prime * result + ((this.lastPasswordChanged == null) ? 0 : this.lastPasswordChanged.hashCode());
         result = prime * result + ((this.lastUpdateIp == null) ? 0 : this.lastUpdateIp.hashCode());
         result = prime * result + ((this.lastUpdated == null) ? 0 : this.lastUpdated.hashCode());
-        result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
-        result = prime * result + ((this.passwordExpired == null) ? 0 : this.passwordExpired.hashCode());
         result = prime * result + ((this.username == null) ? 0 : this.username.hashCode());
         result = prime * result + ((this.withdraw == null) ? 0 : this.withdraw.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
@@ -338,16 +248,11 @@ public class User implements Serializable {
         sb.append(id);
         sb.append(", ").append(avatarId);
         sb.append(", ").append(version);
-        sb.append(", ").append(accountExpired);
-        sb.append(", ").append(accountLocked);
         sb.append(", ").append(createIp);
         sb.append(", ").append(dateCreated);
         sb.append(", ").append(dateWithdraw);
-        sb.append(", ").append(lastPasswordChanged);
         sb.append(", ").append(lastUpdateIp);
         sb.append(", ").append(lastUpdated);
-        sb.append(", ").append(password);
-        sb.append(", ").append(passwordExpired);
         sb.append(", ").append(username);
         sb.append(", ").append(withdraw);
         sb.append(", ").append(status);
