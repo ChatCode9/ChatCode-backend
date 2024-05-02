@@ -12,6 +12,7 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -52,7 +53,7 @@ public class Oauthid extends TableImpl<OauthidRecord> {
     /**
      * The column <code>oauthid.id</code>.
      */
-    public final TableField<OauthidRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OauthidRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>oauthid.user_id</code>.
@@ -106,6 +107,11 @@ public class Oauthid extends TableImpl<OauthidRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<OauthidRecord, Long> getIdentity() {
+        return (Identity<OauthidRecord, Long>) super.getIdentity();
     }
 
     @Override

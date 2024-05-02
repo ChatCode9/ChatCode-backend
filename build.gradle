@@ -28,7 +28,7 @@ dependencies {
     jooqGenerator 'org.jooq:jooq-meta-extensions:3.19.1'
 
     // Spring Security
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // lombook
     compileOnly 'org.projectlombok:lombok'
@@ -36,6 +36,14 @@ dependencies {
 
     // swagger
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // OAuth + JWT
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'com.auth0:java-jwt:4.4.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
