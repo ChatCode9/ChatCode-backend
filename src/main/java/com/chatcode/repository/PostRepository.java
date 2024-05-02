@@ -1,14 +1,11 @@
 package com.chatcode.repository;
 
-
 import static com.chatcode.jooq.Tables.ARTICLE;
 import static com.chatcode.jooq.Tables.CONTENT;
 import static org.jooq.impl.DSL.currentLocalDateTime;
-import static org.jooq.impl.DSL.update;
 
 import com.chatcode.dto.PostRequestDTO.PostCreateRequestDTO;
 import com.chatcode.dto.PostRequestDTO.PostUpdateRequestDTO;
-import com.chatcode.dto.PostResponseDTO;
 import com.chatcode.dto.PostResponseDTO.PostCreateResponseDTO;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
@@ -19,11 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.jooq.DSLContext;
-import org.jooq.Record2;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
