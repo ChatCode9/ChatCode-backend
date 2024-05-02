@@ -5,6 +5,16 @@ spring:
     url: jdbc:mysql://localhost:3306/chatcode
     username: root
     password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 20  # 커넥션 풀에서 최대 활성 상태의 커넥션 수
+        max-idle: 5     # 커넥션 풀에서 유지할 최대 대기 상태의 커넥션 수
+        min-idle: 0     # 커넥션 풀에서 유지할 최소 대기 상태의 커넥션 수
+        max-wait: -1ms
+
   security:
     oauth2:
       client:
@@ -17,7 +27,7 @@ spring:
               - profile
           github:
             client-id: <GITHUB_CLIENT_ID>
-            client-secret: <GITHUB_CLIENT_SECRET> 
+            client-secret: <GITHUB_CLIENT_SECRET>
 external:
   jwt:
     tokenSecretKey: cfc6f8968e16e357e2a588674174bc2ca34b538e9f759d081d48721fd0aa1f626188fca140ca58a5b88d6e98b3302c52f49f7fa1dc06924c34ecd45b31ba675e
