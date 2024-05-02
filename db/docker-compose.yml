@@ -18,3 +18,10 @@ services:
       - ${DEFAULT_PATH}/mysql/data:/var/lib/mysql
       - ${DEFAULT_PATH}/mysql/initdb.d:/docker-entrypoint-initdb.d
     restart: always
+
+  redis:
+    container_name: "Chatcode_Redis"
+    image: redis:7.2.4
+    ports:
+      - "6379:6379"
+    restart: always
