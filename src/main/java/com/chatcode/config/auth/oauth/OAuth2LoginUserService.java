@@ -1,6 +1,7 @@
 package com.chatcode.config.auth.oauth;
 
 import com.chatcode.config.auth.LoginUser;
+import com.chatcode.config.auth.oauth.dto.OAuth2Response;
 import com.chatcode.config.auth.oauth.dto.UserDto;
 import com.chatcode.jooq.tables.pojos.User;
 import com.chatcode.repository.UserRepository;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class LoginOauth2UserService extends DefaultOAuth2UserService {
+public class OAuth2LoginUserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
 
@@ -24,14 +25,14 @@ public class LoginOauth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfo.of(
+        OAuth2Response oAuth2Response = OAuth2Response.of(
                 getOAuthRegistrationId(userRequest),
                 oAuth2User.getAttributes()
         );
 
         // fetch user
-        User loginUser = userRepository.findByUsername(oAuth2UserInfo.getUsername())
-                .orElseGet(() -> signUpUser(oAuth2UserInfo));
+        User loginUser = userRepository.findByUsername(oAuth2Response.getUsername())
+                .orElseGet(() -> signUpUser(oAuth2Response));
 
         List<String> roles = userRepository.findRolesById(loginUser.getId());
 
@@ -42,13 +43,13 @@ public class LoginOauth2UserService extends DefaultOAuth2UserService {
         return userRequest.getClientRegistration().getRegistrationId();
     }
 
-    private User signUpUser(OAuth2UserInfo oAuth2UserInfo) {
+    private User signUpUser(OAuth2Response oAuth2Response) {
         // TODO: Add avatarId, createIp
         UserDto userDto = UserDto.builder()
                 .avatarId(1L)
                 .version(0L)
                 .createIp("127.0.0.1")
-                .username(oAuth2UserInfo.getUsername())
+                .username(oAuth2Response.getUsername())
                 .status(0)
                 .roles(List.of("ROLE_USER"))
                 .build();
