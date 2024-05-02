@@ -1,20 +1,17 @@
 package com.chatcode.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-public class PostResponseDTO {
+public class ArticleResponseDTO {
 
     @ToString
     @Builder
     @Getter
     @Setter
-    public static class PostCreateResponseDTO {
+    public static class ArticleCreateResponseDTO {
         private Long id;
         private String contentText;
         private String title;

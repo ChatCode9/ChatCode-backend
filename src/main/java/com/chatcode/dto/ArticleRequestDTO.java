@@ -8,13 +8,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-public class PostRequestDTO {
+public class ArticleRequestDTO {
 
     @ToString
     @Getter
     @Setter
     @Builder
-    public static class PostCreateRequestDTO {
+    public static class ArticleCreateRequestDTO {
         //content
         @NotNull
         @NotEmpty
@@ -31,7 +31,7 @@ public class PostRequestDTO {
     @ToString
     @Getter
     @Setter
-    public static class PostUpdateRequestDTO {
+    public static class ArticleUpdateRequestDTO {
         //content
         @NotNull
         @NotEmpty
@@ -45,10 +45,6 @@ public class PostRequestDTO {
         @NotEmpty
         private String title;
 
-        @NotNull
-        private Long postId;
     }
-
-
 
 }

@@ -4,9 +4,9 @@ import static com.chatcode.jooq.Tables.ARTICLE;
 import static com.chatcode.jooq.Tables.CONTENT;
 import static org.jooq.impl.DSL.currentLocalDateTime;
 
-import com.chatcode.dto.PostRequestDTO.PostCreateRequestDTO;
-import com.chatcode.dto.PostRequestDTO.PostUpdateRequestDTO;
-import com.chatcode.dto.PostResponseDTO.PostCreateResponseDTO;
+import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.ArticleResponseDTO.ArticleCreateResponseDTO;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
 
@@ -21,15 +21,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class PostRepository {
+public class ArticleRepository {
     private final DSLContext dslContext;
 
-    public PostCreateResponseDTO createPost(PostCreateRequestDTO postDTO) {
+    public ArticleCreateResponseDTO createArticle(ArticleCreateRequestDTO articleDTO) {
 
         ContentRecord contentRecord;
         contentRecord = dslContext
                 .insertInto(CONTENT)
-                .set(CONTENT.TEXT, postDTO.getContentText())
+                .set(CONTENT.TEXT, articleDTO.getContentText())
                 .set(CONTENT.TYPE, 1)
                 .set(CONTENT.VERSION, 1L)
                 .set(CONTENT.LIKE_COUNT, 0)
@@ -43,7 +43,7 @@ public class PostRepository {
         articleRecord = (ArticleRecord) dslContext
                 .insertInto(ARTICLE)
                 .set(ARTICLE.CONTENT_ID, contentRecord.getId())
-                .set(ARTICLE.TITLE, postDTO.getTitle())
+                .set(ARTICLE.TITLE, articleDTO.getTitle())
                 .set(ARTICLE.NOTE_COUNT, 0)
                 .set(ARTICLE.SCRAP_COUNT, 0)
                 .set(ARTICLE.VIEW_COUNT, 0)
@@ -57,7 +57,7 @@ public class PostRepository {
                 .returning()
                 .fetchOne();
 
-        return PostCreateResponseDTO.builder()
+        return ArticleCreateResponseDTO.builder()
                 .id(contentRecord.getId())
                 .title(articleRecord.getTitle())
                 .contentText(contentRecord.getText())
@@ -79,7 +79,7 @@ public class PostRepository {
         }
     }
 
-    public void updatePost(Long articleId, Long contentId, PostUpdateRequestDTO updateDTO) {
+    public void updateArticle(Long articleId, Long contentId, ArticleUpdateRequestDTO updateDTO) {
         dslContext.update(CONTENT)
                 .set(CONTENT.TEXT, updateDTO.getContentText())
                 .where(CONTENT.ID.eq(contentId))
@@ -92,14 +92,14 @@ public class PostRepository {
     }
 
 
-    public List<String> readPostList(){
+    public List<String> readArticleList(){
         return dslContext
                 .select(Article.ARTICLE.TITLE)
                 .from(Article.ARTICLE)
                 .fetch(Article.ARTICLE.TITLE);
     }
 
-    public Optional<String> readPostById(Long articleId) {
+    public Optional<String> readArticleById(Long articleId) {
         return dslContext.select(Content.CONTENT.TEXT)
                 .from(ARTICLE)
                 .join(CONTENT).on(ARTICLE.CONTENT_ID.eq(CONTENT.ID))
@@ -107,7 +107,7 @@ public class PostRepository {
                 .fetchOptionalInto(String.class);
     }
 
-    public void deletePost(Long articleId) {
+    public void deleteArticle(Long articleId) {
         Long contentId = findContentIdByArticleId(articleId);
         if (contentId != null) {
             dslContext.delete(CONTENT)
