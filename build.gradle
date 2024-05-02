@@ -50,7 +50,7 @@ jooq {
 
     configurations {
         main {  // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation = false  // default (can be omitted)
+            generateSchemaSourceOnCompilation = false
 
             generationTool {
 //                jdbc {

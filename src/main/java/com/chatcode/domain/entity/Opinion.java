@@ -1,14 +1,14 @@
 package com.chatcode.domain.entity;
 
 import com.chatcode.dto.like.LikeRequest;
-import com.chatcode.dto.like.Reactable;
+import com.chatcode.dto.like.Likeable;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "opinion")
-public class Opinion implements Reactable {
+public class Opinion implements Likeable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

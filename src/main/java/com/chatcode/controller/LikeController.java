@@ -24,10 +24,10 @@ public class LikeController {
     return ResponseEntity.ok(new BaseResponseDto<>(200, "", "success"));
   }
 
-  @PostMapping("opinions/{articleId}/like")
-  public ResponseEntity<BaseResponseDto<String>> likeOpinion(@PathVariable int articleId, @RequestBody LikeRequest likeRequest) {
+  @PostMapping("opinions/{opinionId}/like")
+  public ResponseEntity<BaseResponseDto<String>> likeOpinion(@PathVariable int opinionId, @RequestBody LikeRequest likeRequest) {
     //Todo UserId 실제 UserId로 수정하기
-    likeService.like(OPINION, articleId, 1, likeRequest);
+    likeService.like(OPINION, opinionId, 1, likeRequest);
     return ResponseEntity.ok(new BaseResponseDto<>(200, "", "success"));
   }
 }

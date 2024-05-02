@@ -1,15 +1,15 @@
 package com.chatcode.domain.entity;
 
 import com.chatcode.dto.like.LikeRequest;
-import com.chatcode.dto.like.Reactable;
+import com.chatcode.dto.like.Likeable;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "article")
-public class Article implements Reactable {
-
+public class Article implements Likeable {
+//TODO Entity 체크
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

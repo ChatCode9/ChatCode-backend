@@ -4,7 +4,7 @@ import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.entity.Article;
 import com.chatcode.domain.entity.Opinion;
 import com.chatcode.dto.like.LikeRequest;
-import com.chatcode.dto.like.Reactable;
+import com.chatcode.dto.like.Likeable;
 import com.chatcode.exception.common.ResourceNotFoundException;
 import com.chatcode.exception.reaction.AlreadyReactException;
 import com.chatcode.repository.ReadRepository;
@@ -28,26 +28,26 @@ public class LikeService {
   @Transactional
   public void like(LikeableContentType contentType, int contentId, int userId,
       LikeRequest likeRequest) {
-    Reactable content = getContent(contentType, contentId);
+    Likeable content = getContent(contentType, contentId);
     checkAlreadyLiked(contentType, contentId, userId);
     redisReactionRepository.addValue(contentType, contentId, 1);
     updateLikeCount(contentType, content, likeRequest);
   }
 
-  private Reactable getContent(LikeableContentType contentType, int contentId) {
+  private Likeable getContent(LikeableContentType contentType, int contentId) {
     return switch (contentType) {
       case ARTICLE -> fetchContent(articleReadRepository, contentId, contentType.name());
       case OPINION -> fetchContent(opinionReadRepository, contentId, contentType.name());
     };
   }
 
-  private <T extends Reactable> T fetchContent(ReadRepository<T> repository, int contentId,
+  private <T extends Likeable> T fetchContent(ReadRepository<T> repository, int contentId,
       String typeName) {
     return repository.findById(contentId).orElseThrow(() ->
         new ResourceNotFoundException(typeName + " not found with ID: " + contentId));
   }
 
-  private void updateLikeCount(LikeableContentType contentType, Reactable content,
+  private void updateLikeCount(LikeableContentType contentType, Likeable content,
       LikeRequest likeRequest) {
     switch (contentType) {
       case ARTICLE:
@@ -64,10 +64,10 @@ public class LikeService {
   }
 
   private void checkAlreadyLiked(LikeableContentType contentType, int contentId, long userId) {
-    Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyLiked(contentType, contentId, userId);
+    Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyLiked(contentType,
+        contentId, userId);
     alreadyLiked.filter(liked -> !liked)
         .orElseThrow(() -> new AlreadyReactException(
             "User " + userId + " has already reacted to content " + contentId));
-
   }
 }
