@@ -57,6 +57,11 @@ public class ArticleRepository {
                 .returning()
                 .fetchOne();
 
+        dslContext.update(CONTENT)
+                .set(CONTENT.ARTICLE_ID, articleRecord.getId())
+                .where(CONTENT.ID.eq(contentRecord.getId()))
+                .execute();
+
         return ArticleCreateResponseDTO.builder()
                 .id(contentRecord.getId())
                 .title(articleRecord.getTitle())
