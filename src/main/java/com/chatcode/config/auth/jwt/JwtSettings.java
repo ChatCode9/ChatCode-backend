@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-public class ExternalProperties {
+public class JwtSettings {
 
     @Value("${external.jwt.tokenSecretKey}")
     private String tokenSecretKey;
