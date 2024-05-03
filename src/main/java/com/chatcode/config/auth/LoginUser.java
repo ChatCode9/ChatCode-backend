@@ -1,6 +1,6 @@
 package com.chatcode.config.auth;
 
-import com.chatcode.jooq.tables.pojos.User;
+import com.chatcode.domain.entity.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 class JwtProviderTest {
 
     @Autowired
-    private ExternalProperties externalProperties;
+    private JwtSettings jwtSettings;
 
     @Test
     void createToken_test() {
@@ -27,13 +27,13 @@ class JwtProviderTest {
                 .build();
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(externalProperties);
+        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
 
         String token = jwtProvider.createAccessToken(loginUser);
         System.out.println("token = " + token);
 
         // then
-        assertTrue(token.startsWith(externalProperties.getTokenPrefix()));
+        assertTrue(token.startsWith(jwtSettings.getTokenPrefix()));
     }
 
     @Test
@@ -42,7 +42,7 @@ class JwtProviderTest {
         String accessToken = createAccessToken();
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(externalProperties);
+        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         if (jwtProvider.validateToken(accessToken) == false) {
             throw new RuntimeException("토큰이 유효하지 않습니다.");
         }
@@ -61,7 +61,7 @@ class JwtProviderTest {
         accessToken = accessToken + "a";
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(externalProperties);
+        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         boolean result = jwtProvider.validateToken(accessToken);
 
         // then
@@ -74,7 +74,7 @@ class JwtProviderTest {
         String accessToken = createAccessToken();
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(externalProperties);
+        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         LoginUser loginUser = jwtProvider.getLoginUser(accessToken);
 
         System.out.println("loginUser.getId() = " + loginUser.getId());
@@ -90,9 +90,9 @@ class JwtProviderTest {
                 .username("test")
                 .build();
 
-        JwtProvider jwtProvider = new JwtProvider(externalProperties);
+        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         String accessToken = jwtProvider.createAccessToken(loginUser);
-        accessToken = accessToken.replace(externalProperties.getTokenPrefix(), "");
+        accessToken = accessToken.replace(jwtSettings.getTokenPrefix(), "");
         return accessToken;
     }
 }

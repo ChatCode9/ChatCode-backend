@@ -22,7 +22,7 @@ class JwtAuthenticationFilterTest {
     @Autowired
     private JwtProvider jwtProvider;
     @Autowired
-    private ExternalProperties externalProperties;
+    private JwtSettings jwtSettings;
 
     @Test
     void authorization_success_test() throws Exception {
@@ -36,7 +36,7 @@ class JwtAuthenticationFilterTest {
         String accessToken = jwtProvider.createAccessToken(loginUser);
 
         // when
-        ResultActions resultActions = mvc.perform(get("/api").header(externalProperties.getAccessKey(), accessToken));
+        ResultActions resultActions = mvc.perform(get("/api").header(jwtSettings.getAccessKey(), accessToken));
 
         // then
         resultActions.andExpect(status().isNotFound()); // 404 (권한 인증은 통과 된 상태)
@@ -65,7 +65,7 @@ class JwtAuthenticationFilterTest {
         String accessToken = jwtProvider.createAccessToken(loginUser);
 
         // when
-        ResultActions resultActions = mvc.perform(get("/admin").header(externalProperties.getAccessKey(), accessToken));
+        ResultActions resultActions = mvc.perform(get("/admin").header(jwtSettings.getAccessKey(), accessToken));
 
         // then
         resultActions.andExpect(status().isForbidden()); // 403 (접근 권한 없음)

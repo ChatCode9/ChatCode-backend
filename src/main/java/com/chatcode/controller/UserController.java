@@ -1,10 +1,11 @@
 package com.chatcode.controller;
 
 import com.chatcode.config.auth.LoginUser;
-import com.chatcode.jooq.tables.pojos.User;
-import com.chatcode.repository.UserRepository;
+import com.chatcode.domain.entity.User;
+import com.chatcode.repository.user.UserReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserReadRepository userReadRepository;
 
     @GetMapping("/login")
     public ResponseEntity<?> test() {
@@ -36,9 +37,9 @@ public class UserController {
     }
 
     @GetMapping("")
-    @PreAuthorize("hasRole('USER')")
+    @Secured("ROLE_USER")
     public ResponseEntity<?> test3(@AuthenticationPrincipal LoginUser loginUser) {
-        User user = userRepository.findById(loginUser.getId()).get();
+        User user = userReadRepository.findById(loginUser.getId()).get();
         return ResponseEntity.ok(user);
     }
 

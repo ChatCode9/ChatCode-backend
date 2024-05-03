@@ -2,22 +2,22 @@ package com.chatcode.config;
 
 import com.chatcode.config.auth.jwt.JwtAuthenticationFilter;
 import com.chatcode.config.auth.jwt.JwtExceptionFilter;
-import com.chatcode.config.auth.oauth.LoginOauth2UserService;
+import com.chatcode.config.auth.oauth.OAuth2LoginUserService;
 import com.chatcode.config.auth.oauth.OAuth2SuccessHandler;
+import com.chatcode.dto.BaseResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -26,18 +26,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Slf4j
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Configuration
 public class SecurityConfig {
 
-    private final LoginOauth2UserService loginOauth2UserService;
+    private final OAuth2LoginUserService OAuth2LoginUserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -60,24 +56,22 @@ public class SecurityConfig {
         http.logout(logout -> logout.disable());
 
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/login/**", "/oauth2/redirect", "/user/**").permitAll()
-                .requestMatchers("/api/**").hasRole("USER")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated());
+                .anyRequest().permitAll());
 
         http.oauth2Login(oauth2 -> oauth2
-                .userInfoEndpoint(userInfo -> userInfo.userService(loginOauth2UserService))
+                .userInfoEndpoint(userInfo -> userInfo.userService(OAuth2LoginUserService))
                 .successHandler(oAuth2SuccessHandler));
 
         http.with(new CustomSecurityFilterManager(), dsl -> dsl.flag(true));
 
         http.exceptionHandling(e -> e.authenticationEntryPoint((request, response, authException) -> {
-            CustomResponseUtil.fail(response, "로그인을 진행해주세요.", HttpStatus.UNAUTHORIZED);
+            failedResponse(response, "로그인을 진행해주세요.", HttpStatus.UNAUTHORIZED);
         }));
 
         http.exceptionHandling(e -> e.accessDeniedHandler((request, response, accessDeniedException) -> {
             log.error("Access Denied Handler: {}", accessDeniedException.getMessage());
-            CustomResponseUtil.fail(response, "접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            failedResponse(response, "접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }));
 
         return http.build();
@@ -112,25 +106,17 @@ public class SecurityConfig {
         }
     }
 
-    // TODO: move this to another class
-    public class CustomResponseUtil {
+    private void failedResponse(HttpServletResponse response, String msg, HttpStatus httpStatus) {
+        try {
+            ObjectMapper om = new ObjectMapper();
+            BaseResponseDto<?> responseDto = new BaseResponseDto<>(-1, null, msg);
+            String responseBody = om.writeValueAsString(responseDto);
 
-        public static void fail(HttpServletResponse response, String msg, HttpStatus httpStatus) {
-            try {
-                ObjectMapper om = new ObjectMapper();
-                Map<String, Object> responseDto = Map.of(
-                        "code", -1,
-                        "msg", msg,
-                        "statusCode", httpStatus.value()
-                );
-                String responseBody = om.writeValueAsString(responseDto);
-
-                response.setContentType("application/json; charset=utf-8");
-                response.setStatus(httpStatus.value());
-                response.getWriter().println(responseBody);
-            } catch (Exception e) {
-                log.error("서버 파싱 에러");
-            }
+            response.setContentType("application/json; charset=utf-8");
+            response.setStatus(httpStatus.value());
+            response.getWriter().println(responseBody);
+        } catch (Exception e) {
+            log.error("Server Parsing Error: {}", e.getMessage());
         }
     }
 }

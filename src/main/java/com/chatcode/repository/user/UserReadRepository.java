@@ -1,4 +1,4 @@
-package com.chatcode.repository;
+package com.chatcode.repository.user;
 
 import static com.chatcode.jooq.tables.Role.ROLE;
 import static com.chatcode.jooq.tables.User.USER;
@@ -6,8 +6,9 @@ import static com.chatcode.jooq.tables.UserRole.USER_ROLE;
 import static org.jooq.impl.DSL.currentLocalDateTime;
 
 import com.chatcode.config.auth.oauth.dto.UserDto;
+import com.chatcode.domain.entity.User;
 import com.chatcode.jooq.tables.pojos.Role;
-import com.chatcode.jooq.tables.pojos.User;
+import com.chatcode.repository.ReadRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Repository
-public class UserRepository {
+public class UserReadRepository implements ReadRepository<User> {
 
     private final DSLContext dsl;
 
@@ -26,18 +27,15 @@ public class UserRepository {
         return dsl.selectFrom(USER).fetchInto(User.class);
     }
 
-    public Optional<User> findById(Long id) {
-        Optional<User> user = dsl.selectFrom(USER)
-                .where(USER.ID.eq(id))
-                .fetchOptionalInto(User.class);
-        return user;
+    @Override
+    public Optional<User> findById(long id) {
+        return Optional.ofNullable(dsl.selectFrom(USER).where(USER.ID.eq(id))
+                .fetchOneInto(User.class));
     }
 
     public Optional<User> findByUsername(String username) {
-        Optional<User> user = dsl.selectFrom(USER)
-                .where(USER.USERNAME.eq(username))
-                .fetchOptionalInto(User.class);
-        return user;
+        return Optional.ofNullable(dsl.selectFrom(USER).where(USER.USERNAME.eq(username))
+                .fetchOneInto(User.class));
     }
 
     public List<String> findRolesById(Long userId) {

@@ -1,10 +1,16 @@
 package com.chatcode.config.auth.oauth;
 
+import static com.chatcode.domain.RoleType.USER;
+
 import com.chatcode.config.auth.LoginUser;
 import com.chatcode.config.auth.oauth.dto.OAuth2Response;
-import com.chatcode.config.auth.oauth.dto.UserDto;
-import com.chatcode.jooq.tables.pojos.User;
-import com.chatcode.repository.UserRepository;
+import com.chatcode.domain.entity.Role;
+import com.chatcode.domain.entity.User;
+import com.chatcode.repository.role.RoleReadRepository;
+import com.chatcode.repository.role.RoleWriteRepository;
+import com.chatcode.repository.user.UserReadRepository;
+import com.chatcode.repository.user.UserWriteRepository;
+import jakarta.annotation.PostConstruct;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +25,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class OAuth2LoginUserService extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
+    private final UserReadRepository userReadRepository;
+    private final UserWriteRepository userWriteRepository;
+    private final RoleReadRepository roleReadRepository;
+    private final RoleWriteRepository roleWriteRepository;
+
+    private Role userRoleType;
+
+    @PostConstruct
+    public void init() {
+        userRoleType = roleReadRepository.findByRole(USER)
+                .orElseGet(() -> roleWriteRepository.save(new Role(USER)));
+    }
+
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -31,10 +49,10 @@ public class OAuth2LoginUserService extends DefaultOAuth2UserService {
         );
 
         // fetch user
-        User loginUser = userRepository.findByUsername(oAuth2Response.getUsername())
+        User loginUser = userReadRepository.findByUsername(oAuth2Response.getUsername())
                 .orElseGet(() -> signUpUser(oAuth2Response));
 
-        List<String> roles = userRepository.findRolesById(loginUser.getId());
+        List<String> roles = userReadRepository.findRolesById(loginUser.getId());
 
         return new LoginUser(loginUser, oAuth2User.getAttributes(), roles);
     }
@@ -44,15 +62,17 @@ public class OAuth2LoginUserService extends DefaultOAuth2UserService {
     }
 
     private User signUpUser(OAuth2Response oAuth2Response) {
-        // TODO: Add avatarId, createIp
-        UserDto userDto = UserDto.builder()
-                .avatarId(1L)
-                .version(0L)
-                .createIp("127.0.0.1")
+        // TODO: Avatar & IP
+        String ip = "127.0.0.1";
+        User signUpUser = User.builder()
+                .avatarId(1L) // TODO: Avatar
+                .createIp(ip) // TODO: IP
+                .lastUpdateIp(ip)
                 .username(oAuth2Response.getUsername())
                 .status(0)
-                .roles(List.of("ROLE_USER"))
+                .withdraw(false)
                 .build();
-        return userRepository.create(userDto);
+        signUpUser.addRole(userRoleType);
+        return userWriteRepository.save(signUpUser);
     }
 }

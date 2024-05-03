@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.chatcode.config.auth.LoginUser;
+import jakarta.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,22 +22,28 @@ public class JwtProvider {
     private static final String KEY_AVATAR = "avatarId";
     private static final String KEY_ROLE = "role";
 
-    private final ExternalProperties externalProperties;
+    private final JwtSettings jwtSettings;
+    private Algorithm algorithm;
+
+    @PostConstruct
+    public void init() {
+        algorithm = Algorithm.HMAC512(jwtSettings.getTokenSecretKey());
+    }
 
     public Algorithm getAlgorithm() {
-        return Algorithm.HMAC512(externalProperties.getTokenSecretKey());
+        return algorithm;
     }
 
     public String createAccessToken(LoginUser loginUser) {
-        return createToken(loginUser, externalProperties.getAccessTokenExpirationTime());
+        return createToken(loginUser, jwtSettings.getAccessTokenExpirationTime());
     }
 
     public String createRefreshToken(LoginUser loginUser) {
-        return createToken(loginUser, externalProperties.getRefreshTokenExpirationTime());
+        return createToken(loginUser, jwtSettings.getRefreshTokenExpirationTime());
     }
 
     private String createToken(LoginUser loginUser, Integer expirationTime) {
-        String tokenPrefix = externalProperties.getTokenPrefix();
+        String tokenPrefix = jwtSettings.getTokenPrefix();
         return tokenPrefix + JWT.create()
                 .withSubject(loginUser.getName())
                 .withClaim(KEY_USER, loginUser.getId())
