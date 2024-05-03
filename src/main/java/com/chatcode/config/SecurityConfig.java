@@ -31,7 +31,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfig {
 
-    private final OAuth2LoginUserService OAuth2LoginUserService;
+    private final OAuth2LoginUserService oAuth2LoginUserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll());
 
         http.oauth2Login(oauth2 -> oauth2
-                .userInfoEndpoint(userInfo -> userInfo.userService(OAuth2LoginUserService))
+                .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2LoginUserService))
                 .successHandler(oAuth2SuccessHandler));
 
         http.with(new CustomSecurityFilterManager(), dsl -> dsl.flag(true));
