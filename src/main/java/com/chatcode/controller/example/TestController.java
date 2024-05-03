@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    /* 주석하는 기본 방법 */
     @GetMapping("/example/post")
     @Operation(summary = "게시글 목록 조회",
             description = "게시글 목록을 조회하는 API (USER 권한 필요)")
@@ -35,11 +36,12 @@ public class TestController {
     }
 
 
+    /* 기본 주석 + response 코드 주석 */
     @GetMapping("/example/post/{id}")
     @Operation(summary = "게시글 상세 조회",
             description = "게시글 상세를 조회하는 API")
     @ApiResponse(responseCode = "200", description = "게시글 상세 조회 성공") // no example
-    @ApiResponse(responseCode = "400", description = "... 에러") // no example
+    @ApiResponse(responseCode = "400", description = "잘못된 요청 에러") // no example
     public BaseResponseDto<?> getPostById(@PathVariable Integer id) {
 
         PostResponseDTO response = new PostResponseDTO();
@@ -49,6 +51,7 @@ public class TestController {
     }
 
 
+    /* 기본 주석 + response 코드 주석 (+ response 예시까지 작성한 경우) */
     @PostMapping("/example/post")
     @Operation(summary = "게시글 등록",
             description = "게시글을 등록하는 API")
@@ -81,9 +84,9 @@ public class TestController {
 
     private List<PostResponseDTO> 서비스_getPostList(Integer page, Integer size) {
         List<PostResponseDTO> list = new ArrayList<>();
-        for (int i = (page - 1) * size; i < (page - 1) * size + size; i++) {
+        for (Integer i = (page - 1) * size; i < (page - 1) * size + size; i++) {
             PostResponseDTO response = new PostResponseDTO();
-            response.setId(i);
+            response.setId(i.longValue());
             response.setTitle("제목" + i);
             response.setContent("내용" + i);
             response.setAuthor("홍길동" + i);
