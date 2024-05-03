@@ -101,12 +101,11 @@ CREATE TABLE `opinion` (
 );
 
 CREATE TABLE `oauthid` (
-	`id`	bigint(20)	NOT NULL AUTO_INCREMENT,
+	`id`	bigint(20)	NOT NULL,
 	`user_id`	bigint(20)	NOT NULL,
 	`version`	bigint(20)	NOT NULL,
 	`access_token`	varchar(255)	NOT NULL,
-	`provider`	varchar(255)	NOT NULL,
-    CONSTRAINT PK_OAUTHID PRIMARY KEY(`id`)
+	`provider`	varchar(255)	NOT NULL
 );
 
 CREATE TABLE `category_old` (
@@ -163,22 +162,20 @@ CREATE TABLE `file` (
 );
 
 CREATE TABLE `avatar` (
-	`id`	bigint(20)	NOT NULL AUTO_INCREMENT,
+	`id`	bigint(20)	NOT NULL,
 	`version`	bigint(20)	NOT NULL,
 	`activity_point`	int(11)	NOT NULL,
 	`nickname`	varchar(20)	NOT NULL,
 	`picture`	varchar(255)	NOT NULL,
-	`picture_type`	int(11)	NOT NULL,
-    CONSTRAINT PK_AVATAR PRIMARY KEY(`id`)
+	`picture_type`	int(11)	NOT NULL
 );
 
 CREATE TABLE `logged_in` (
-	`id`	bigint(20)	NOT NULL AUTO_INCREMENT,
+	`id`	bigint(20)	NOT NULL,
 	`user_id`	bigint(20)	NOT NULL,
 	`version`	bigint(20)	NOT NULL,
 	`date_created`	datetime	NOT NULL,
-	`remote_addr`	varchar(255)	NULL,
-    CONSTRAINT PK_LOGGED_IN PRIMARY KEY(`id`)
+	`remote_addr`	varchar(255)	NULL
 );
 
 CREATE TABLE `follow` (
@@ -197,18 +194,22 @@ CREATE TABLE `content_vote` (
 );
 
 CREATE TABLE `user` (
-	`id`	bigint(20)	NOT NULL AUTO_INCREMENT,
+	`id`	bigint(20)	NOT NULL,
 	`avatar_id`	bigint(20)	NOT NULL,
 	`version`	bigint(20)	NOT NULL,
+	`account_expired`	bit(1)	NOT NULL,
+	`account_locked`	bit(1)	NOT NULL,
 	`create_ip`	varchar(255)	NULL,
 	`date_created`	datetime	NOT NULL,
 	`date_withdraw`	datetime	NULL,
+	`last_password_changed`	datetime	NOT NULL,
 	`last_update_ip`	varchar(255)	NULL,
 	`last_updated`	datetime	NOT NULL,
-	`username`	varchar(30)	NOT NULL UNIQUE,
+	`password`	varchar(255)	NOT NULL,
+	`password_expired`	bit(1)	NOT NULL,
+	`username`	varchar(15)	NOT NULL,
 	`withdraw`	bit(1)	NOT NULL,
-	`status`	int(11)	NOT NULL,
-    CONSTRAINT PK_USER PRIMARY KEY(`id`)
+	`status`	int(11)	NOT NULL
 );
 
 CREATE TABLE `tag` (
@@ -246,10 +247,9 @@ CREATE TABLE `activity` (
 );
 
 CREATE TABLE `role` (
-	`id`	bigint(20)	NOT NULL AUTO_INCREMENT,
+	`id`	bigint(20)	NOT NULL,
 	`version`	bigint(20)	NOT NULL,
-	`authority`	varchar(255)	NOT NULL,
-    CONSTRAINT PK_ROLE PRIMARY KEY(`id`)
+	`authority`	varchar(255)	NOT NULL
 );
 
 CREATE TABLE `(optional)notification` (
@@ -334,6 +334,10 @@ ALTER TABLE `opinion` ADD CONSTRAINT `PK_OPINION` PRIMARY KEY (
 	`id`
 );
 
+ALTER TABLE `oauthid` ADD CONSTRAINT `PK_OAUTHID` PRIMARY KEY (
+	`id`
+);
+
 ALTER TABLE `category_old` ADD CONSTRAINT `PK_CATEGORY_OLD` PRIMARY KEY (
 	`code`
 );
@@ -350,12 +354,24 @@ ALTER TABLE `file` ADD CONSTRAINT `PK_FILE` PRIMARY KEY (
 	`id`
 );
 
+ALTER TABLE `avatar` ADD CONSTRAINT `PK_AVATAR` PRIMARY KEY (
+	`id`
+);
+
+ALTER TABLE `logged_in` ADD CONSTRAINT `PK_LOGGED_IN` PRIMARY KEY (
+	`id`
+);
+
 ALTER TABLE `follow` ADD CONSTRAINT `PK_FOLLOW` PRIMARY KEY (
 	`follower_id`,
 	`following_id`
 );
 
 ALTER TABLE `content_vote` ADD CONSTRAINT `PK_CONTENT_VOTE` PRIMARY KEY (
+	`id`
+);
+
+ALTER TABLE `user` ADD CONSTRAINT `PK_USER` PRIMARY KEY (
 	`id`
 );
 
@@ -368,6 +384,10 @@ ALTER TABLE `change_log` ADD CONSTRAINT `PK_CHANGE_LOG` PRIMARY KEY (
 );
 
 ALTER TABLE `activity` ADD CONSTRAINT `PK_ACTIVITY` PRIMARY KEY (
+	`id`
+);
+
+ALTER TABLE `role` ADD CONSTRAINT `PK_ROLE` PRIMARY KEY (
 	`id`
 );
 

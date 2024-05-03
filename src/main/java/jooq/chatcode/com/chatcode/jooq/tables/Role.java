@@ -15,7 +15,6 @@ import java.util.Collection;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.InverseForeignKey;
 import org.jooq.Name;
 import org.jooq.Path;
@@ -59,7 +58,7 @@ public class Role extends TableImpl<RoleRecord> {
     /**
      * The column <code>role.id</code>.
      */
-    public final TableField<RoleRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<RoleRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>role.version</code>.
@@ -134,11 +133,6 @@ public class Role extends TableImpl<RoleRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
-    }
-
-    @Override
-    public Identity<RoleRecord, Long> getIdentity() {
-        return (Identity<RoleRecord, Long>) super.getIdentity();
     }
 
     @Override

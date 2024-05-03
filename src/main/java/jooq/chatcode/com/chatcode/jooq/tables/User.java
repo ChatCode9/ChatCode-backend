@@ -11,14 +11,11 @@ import com.chatcode.jooq.tables.UserRole.UserRolePath;
 import com.chatcode.jooq.tables.records.UserRecord;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.InverseForeignKey;
 import org.jooq.Name;
 import org.jooq.Path;
@@ -62,7 +59,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>user.id</code>.
      */
-    public final TableField<UserRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>user.avatar_id</code>.
@@ -73,6 +70,16 @@ public class User extends TableImpl<UserRecord> {
      * The column <code>user.version</code>.
      */
     public final TableField<UserRecord, Long> VERSION = createField(DSL.name("version"), SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
+     * The column <code>user.account_expired</code>.
+     */
+    public final TableField<UserRecord, Boolean> ACCOUNT_EXPIRED = createField(DSL.name("account_expired"), SQLDataType.BOOLEAN.nullable(false), this, "");
+
+    /**
+     * The column <code>user.account_locked</code>.
+     */
+    public final TableField<UserRecord, Boolean> ACCOUNT_LOCKED = createField(DSL.name("account_locked"), SQLDataType.BOOLEAN.nullable(false), this, "");
 
     /**
      * The column <code>user.create_ip</code>.
@@ -90,6 +97,11 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, LocalDateTime> DATE_WITHDRAW = createField(DSL.name("date_withdraw"), SQLDataType.LOCALDATETIME(6), this, "");
 
     /**
+     * The column <code>user.last_password_changed</code>.
+     */
+    public final TableField<UserRecord, LocalDateTime> LAST_PASSWORD_CHANGED = createField(DSL.name("last_password_changed"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
+
+    /**
      * The column <code>user.last_update_ip</code>.
      */
     public final TableField<UserRecord, String> LAST_UPDATE_IP = createField(DSL.name("last_update_ip"), SQLDataType.VARCHAR(255), this, "");
@@ -100,9 +112,19 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, LocalDateTime> LAST_UPDATED = createField(DSL.name("last_updated"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
 
     /**
+     * The column <code>user.password</code>.
+     */
+    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>user.password_expired</code>.
+     */
+    public final TableField<UserRecord, Boolean> PASSWORD_EXPIRED = createField(DSL.name("password_expired"), SQLDataType.BOOLEAN.nullable(false), this, "");
+
+    /**
      * The column <code>user.username</code>.
      */
-    public final TableField<UserRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.VARCHAR(30).nullable(false), this, "");
+    public final TableField<UserRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.VARCHAR(15).nullable(false), this, "");
 
     /**
      * The column <code>user.withdraw</code>.
@@ -180,18 +202,8 @@ public class User extends TableImpl<UserRecord> {
     }
 
     @Override
-    public Identity<UserRecord, Long> getIdentity() {
-        return (Identity<UserRecord, Long>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<UserRecord> getPrimaryKey() {
         return Keys.PK_USER;
-    }
-
-    @Override
-    public List<UniqueKey<UserRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.CONSTRAINT_3);
     }
 
     private transient UserRolePath _userRole;
