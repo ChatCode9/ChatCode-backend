@@ -7,6 +7,7 @@ import static org.jooq.impl.DSL.currentLocalDateTime;
 import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.ArticleResponseDTO.ArticleCreateResponseDTO;
+import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
 
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Repository;
 public class ArticleRepository {
     private final DSLContext dslContext;
 
-    public ArticleCreateResponseDTO createArticle(ArticleCreateRequestDTO articleDTO) {
+    public void createArticle(ArticleCreateRequestDTO articleDTO) {
 
         ContentRecord contentRecord;
         contentRecord = dslContext
@@ -61,27 +62,20 @@ public class ArticleRepository {
                 .set(CONTENT.ARTICLE_ID, articleRecord.getId())
                 .where(CONTENT.ID.eq(contentRecord.getId()))
                 .execute();
-
-        return ArticleCreateResponseDTO.builder()
-                .id(contentRecord.getId())
-                .title(articleRecord.getTitle())
-                .contentText(contentRecord.getText())
-                .version(contentRecord.getVersion())
-                .build();
     }
 
+
     public Long findContentIdByArticleId(Long articleId) {
-        return dslContext.select(Content.CONTENT.ID)
+        Long contentId = dslContext.select(Content.CONTENT.ID)
                 .from(Article.ARTICLE)
                 .join(Content.CONTENT).on(Article.ARTICLE.CONTENT_ID.eq(Content.CONTENT.ID))
                 .where(Article.ARTICLE.ID.eq(articleId))
                 .fetchOneInto(Long.class);
-    }
 
-    public static class ContentNotFoundException extends RuntimeException {
-        public ContentNotFoundException(String message) {
-            super(message);
+        if (contentId == null) {
+            throw new ContentNotFoundException("Content not found for article id: " + articleId);
         }
+        return contentId;
     }
 
     public void updateArticle(Long articleId, Long contentId, ArticleUpdateRequestDTO updateDTO) {

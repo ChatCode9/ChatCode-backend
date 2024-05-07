@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/Article")
+@RequestMapping("/articles")
 public class ArticleController {
     private final ArticleService articleService;
 
@@ -20,14 +20,15 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+
     @PostMapping("/create")
-    public BaseResponseDto<?> createArticle(@Valid @RequestBody ArticleRequestDTO.ArticleCreateRequestDTO params) {
-        ArticleCreateResponseDTO responseBody = articleService.articleCreate(params);
-        return new BaseResponseDto<>(1, responseBody, "성공적으로 게시글이 등록되었습니다.");
+    public BaseResponseDto<ArticleCreateResponseDTO> createArticle(@Valid @RequestBody ArticleRequestDTO.ArticleCreateRequestDTO params) {
+        articleService.articleCreate(params);
+        return new BaseResponseDto<>(1, null, "성공적으로 게시글이 등록되었습니다.");
     }
 
     @PostMapping("/update/{articleId}")
-    public BaseResponseDto<?> updateArticle(@PathVariable Long articleId, @RequestBody ArticleUpdateRequestDTO params) {
+    public BaseResponseDto<ArticleCreateResponseDTO> updateArticle(@PathVariable Long articleId, @RequestBody ArticleUpdateRequestDTO params) {
         articleService.articleUpdate(articleId, params);
         return new BaseResponseDto<>(1, null, "업데이트 성공");
     }
@@ -39,17 +40,16 @@ public class ArticleController {
     }
 
     @GetMapping("/{articleId}")
-    public BaseResponseDto<?> readArticleById(@PathVariable Long articleId) {
+    public BaseResponseDto<String> readArticleById(@PathVariable Long articleId) {
         Optional<String> contentText = articleService.readArticleById(articleId);
         if (contentText.isPresent()) {
             return new BaseResponseDto<>(1, contentText.get(), "글 내용 조회 성공");
-        } else {
-            return new BaseResponseDto<>(0, null, "해당 제목에 대한 글 내용이 없습니다.");
         }
+        return new BaseResponseDto<>(0, null, "해당 제목에 대한 글 내용이 없습니다.");
     }
 
     @DeleteMapping("/delete/{articleId}")
-    public BaseResponseDto<?> deleteArticleAndContent(@PathVariable Long articleId) {
+    public BaseResponseDto<ArticleCreateResponseDTO> deleteArticleAndContent(@PathVariable Long articleId) {
         articleService.deleteArticle(articleId);
         return new BaseResponseDto<>(1, null, "포스트 삭제 성공");
     }
