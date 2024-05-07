@@ -66,40 +66,10 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     }
 
     /**
-     * Setter for <code>user.account_expired</code>.
-     */
-    public UserRecord setAccountExpired(Boolean value) {
-        set(3, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>user.account_expired</code>.
-     */
-    public Boolean getAccountExpired() {
-        return (Boolean) get(3);
-    }
-
-    /**
-     * Setter for <code>user.account_locked</code>.
-     */
-    public UserRecord setAccountLocked(Boolean value) {
-        set(4, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>user.account_locked</code>.
-     */
-    public Boolean getAccountLocked() {
-        return (Boolean) get(4);
-    }
-
-    /**
      * Setter for <code>user.create_ip</code>.
      */
     public UserRecord setCreateIp(String value) {
-        set(5, value);
+        set(3, value);
         return this;
     }
 
@@ -107,14 +77,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.create_ip</code>.
      */
     public String getCreateIp() {
-        return (String) get(5);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>user.date_created</code>.
      */
     public UserRecord setDateCreated(LocalDateTime value) {
-        set(6, value);
+        set(4, value);
         return this;
     }
 
@@ -122,14 +92,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.date_created</code>.
      */
     public LocalDateTime getDateCreated() {
-        return (LocalDateTime) get(6);
+        return (LocalDateTime) get(4);
     }
 
     /**
      * Setter for <code>user.date_withdraw</code>.
      */
     public UserRecord setDateWithdraw(LocalDateTime value) {
-        set(7, value);
+        set(5, value);
         return this;
     }
 
@@ -137,29 +107,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.date_withdraw</code>.
      */
     public LocalDateTime getDateWithdraw() {
-        return (LocalDateTime) get(7);
-    }
-
-    /**
-     * Setter for <code>user.last_password_changed</code>.
-     */
-    public UserRecord setLastPasswordChanged(LocalDateTime value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>user.last_password_changed</code>.
-     */
-    public LocalDateTime getLastPasswordChanged() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>user.last_update_ip</code>.
      */
     public UserRecord setLastUpdateIp(String value) {
-        set(9, value);
+        set(6, value);
         return this;
     }
 
@@ -167,14 +122,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.last_update_ip</code>.
      */
     public String getLastUpdateIp() {
-        return (String) get(9);
+        return (String) get(6);
     }
 
     /**
      * Setter for <code>user.last_updated</code>.
      */
     public UserRecord setLastUpdated(LocalDateTime value) {
-        set(10, value);
+        set(7, value);
         return this;
     }
 
@@ -182,44 +137,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.last_updated</code>.
      */
     public LocalDateTime getLastUpdated() {
-        return (LocalDateTime) get(10);
-    }
-
-    /**
-     * Setter for <code>user.password</code>.
-     */
-    public UserRecord setPassword(String value) {
-        set(11, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>user.password</code>.
-     */
-    public String getPassword() {
-        return (String) get(11);
-    }
-
-    /**
-     * Setter for <code>user.password_expired</code>.
-     */
-    public UserRecord setPasswordExpired(Boolean value) {
-        set(12, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>user.password_expired</code>.
-     */
-    public Boolean getPasswordExpired() {
-        return (Boolean) get(12);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>user.username</code>.
      */
     public UserRecord setUsername(String value) {
-        set(13, value);
+        set(8, value);
         return this;
     }
 
@@ -227,14 +152,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.username</code>.
      */
     public String getUsername() {
-        return (String) get(13);
+        return (String) get(8);
     }
 
     /**
      * Setter for <code>user.withdraw</code>.
      */
     public UserRecord setWithdraw(Boolean value) {
-        set(14, value);
+        set(9, value);
         return this;
     }
 
@@ -242,14 +167,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.withdraw</code>.
      */
     public Boolean getWithdraw() {
-        return (Boolean) get(14);
+        return (Boolean) get(9);
     }
 
     /**
      * Setter for <code>user.status</code>.
      */
     public UserRecord setStatus(Integer value) {
-        set(15, value);
+        set(10, value);
         return this;
     }
 
@@ -257,7 +182,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
      * Getter for <code>user.status</code>.
      */
     public Integer getStatus() {
-        return (Integer) get(15);
+        return (Integer) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -283,22 +208,17 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long id, Long avatarId, Long version, Boolean accountExpired, Boolean accountLocked, String createIp, LocalDateTime dateCreated, LocalDateTime dateWithdraw, LocalDateTime lastPasswordChanged, String lastUpdateIp, LocalDateTime lastUpdated, String password, Boolean passwordExpired, String username, Boolean withdraw, Integer status) {
+    public UserRecord(Long id, Long avatarId, Long version, String createIp, LocalDateTime dateCreated, LocalDateTime dateWithdraw, String lastUpdateIp, LocalDateTime lastUpdated, String username, Boolean withdraw, Integer status) {
         super(User.USER);
 
         setId(id);
         setAvatarId(avatarId);
         setVersion(version);
-        setAccountExpired(accountExpired);
-        setAccountLocked(accountLocked);
         setCreateIp(createIp);
         setDateCreated(dateCreated);
         setDateWithdraw(dateWithdraw);
-        setLastPasswordChanged(lastPasswordChanged);
         setLastUpdateIp(lastUpdateIp);
         setLastUpdated(lastUpdated);
-        setPassword(password);
-        setPasswordExpired(passwordExpired);
         setUsername(username);
         setWithdraw(withdraw);
         setStatus(status);
@@ -315,16 +235,11 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> {
             setId(value.getId());
             setAvatarId(value.getAvatarId());
             setVersion(value.getVersion());
-            setAccountExpired(value.getAccountExpired());
-            setAccountLocked(value.getAccountLocked());
             setCreateIp(value.getCreateIp());
             setDateCreated(value.getDateCreated());
             setDateWithdraw(value.getDateWithdraw());
-            setLastPasswordChanged(value.getLastPasswordChanged());
             setLastUpdateIp(value.getLastUpdateIp());
             setLastUpdated(value.getLastUpdated());
-            setPassword(value.getPassword());
-            setPasswordExpired(value.getPasswordExpired());
             setUsername(value.getUsername());
             setWithdraw(value.getWithdraw());
             setStatus(value.getStatus());
