@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -63,7 +62,8 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2LoginUserService))
                 .successHandler(oAuth2SuccessHandler));
 
-        http.with(new CustomSecurityFilterManager(), dsl -> dsl.flag(true));
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
 
         http.exceptionHandling(e -> e.authenticationEntryPoint((request, response, authException) -> {
             failedResponse(response, "로그인을 진행해주세요.", HttpStatus.UNAUTHORIZED);
@@ -79,31 +79,13 @@ public class SecurityConfig {
 
     private CorsConfigurationSource configurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("*"); // TODO: change to specific domain
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
-        private boolean flag;
-
-        @Override
-        public void configure(HttpSecurity builder) throws Exception {
-
-            builder.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-            builder.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
-
-            super.configure(builder);
-        }
-
-        public CustomSecurityFilterManager flag(boolean value) {
-            this.flag = value;
-            return this;
-        }
     }
 
     private void failedResponse(HttpServletResponse response, String msg, HttpStatus httpStatus) {

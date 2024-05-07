@@ -1,14 +1,15 @@
 package com.chatcode.config.auth.oauth;
 
 import com.chatcode.config.auth.LoginUser;
-import com.chatcode.config.auth.jwt.JwtSettings;
 import com.chatcode.config.auth.jwt.JwtProvider;
+import com.chatcode.config.auth.jwt.JwtSettings;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-    private static final String REDIRECT_URL = "http://localhost:8080";
+    @Value("${external.url.redirect}")
+    private String REDIRECT_URL;
     private final JwtProvider jwtProvider;
     private final JwtSettings jwtSettings;
 

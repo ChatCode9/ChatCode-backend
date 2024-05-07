@@ -3,9 +3,7 @@ package com.chatcode.repository.user;
 import static com.chatcode.jooq.tables.Role.ROLE;
 import static com.chatcode.jooq.tables.User.USER;
 import static com.chatcode.jooq.tables.UserRole.USER_ROLE;
-import static org.jooq.impl.DSL.currentLocalDateTime;
 
-import com.chatcode.config.auth.oauth.dto.UserDto;
 import com.chatcode.domain.entity.User;
 import com.chatcode.jooq.tables.pojos.Role;
 import com.chatcode.repository.ReadRepository;
@@ -15,7 +13,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Repository
@@ -57,35 +54,5 @@ public class UserReadRepository implements ReadRepository<User> {
                         r -> r.into(USER).into(User.class),
                         r -> r.into(ROLE).into(Role.class)
                 );
-    }
-
-    @Transactional
-    public User create(UserDto userDto) {
-        User user = dsl.insertInto(USER)
-                .set(USER.AVATAR_ID, userDto.avatarId())
-                .set(USER.VERSION, userDto.version())
-                .set(USER.CREATE_IP, userDto.createIp())
-                .set(USER.LAST_UPDATE_IP, userDto.createIp())
-                .set(USER.DATE_CREATED, currentLocalDateTime())
-                .set(USER.LAST_UPDATED, currentLocalDateTime())
-                .set(USER.USERNAME, userDto.username())
-                .set(USER.STATUS, userDto.status())
-                .set(USER.WITHDRAW, false)
-                .returning()
-                .fetchOne()
-                .into(User.class);
-
-        List<Long> roleIds = dsl.select(ROLE.ID)
-                .from(ROLE)
-                .where(ROLE.AUTHORITY.in(userDto.roles()))
-                .fetch(ROLE.ID);
-
-        for (Long roleId : roleIds) {
-            dsl.insertInto(USER_ROLE)
-                    .set(USER_ROLE.USER_ID, user.getId())
-                    .set(USER_ROLE.ROLE_ID, roleId)
-                    .execute();
-        }
-        return user;
     }
 }

@@ -15,6 +15,8 @@ class JwtProviderTest {
 
     @Autowired
     private JwtSettings jwtSettings;
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Test
     void createToken_test() {
@@ -27,8 +29,6 @@ class JwtProviderTest {
                 .build();
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
-
         String token = jwtProvider.createAccessToken(loginUser);
         System.out.println("token = " + token);
 
@@ -74,7 +74,6 @@ class JwtProviderTest {
         String accessToken = createAccessToken();
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         LoginUser loginUser = jwtProvider.getLoginUser(accessToken);
 
         System.out.println("loginUser.getId() = " + loginUser.getId());
@@ -90,7 +89,6 @@ class JwtProviderTest {
                 .username("test")
                 .build();
 
-        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         String accessToken = jwtProvider.createAccessToken(loginUser);
         accessToken = accessToken.replace(jwtSettings.getTokenPrefix(), "");
         return accessToken;
