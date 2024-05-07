@@ -11,7 +11,7 @@ CREATE TABLE `area_district_code` (
 );
 
 CREATE TABLE `article` (
-	`id`	bigint(20)	NOT NULL,
+	`id`	bigint(20)	NOT NULL AUTO_INCREMENT,
 	`version`	bigint(20)	NOT NULL,
 	`author_id`	bigint(20)	NULL,
 	`completed`	bit(1)	NULL,
@@ -29,7 +29,8 @@ CREATE TABLE `article` (
 	`view_count`	int(11)	NOT NULL,
 	`like_count`	int(11)	NOT NULL,
 	`dislike_count`	int(11)	NOT NULL,
-	`category_id`	varchar(255)	NOT NULL
+	`category_id`	varchar(255)	NOT NULL,
+    CONSTRAINT PK_ARTICLE PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `avatar_interest_tag` (
@@ -265,7 +266,7 @@ CREATE TABLE `(optional)notification` (
 );
 
 CREATE TABLE `content` (
-	`id`	bigint(20)	NOT NULL,
+    `id`	bigint(20)	NOT NULL AUTO_INCREMENT,
 	`version`	bigint(20)	NOT NULL,
 	`article_id`	bigint(20)	NULL,
 	`author_id`	bigint(20)	NULL,
@@ -276,7 +277,8 @@ CREATE TABLE `content` (
 	`text`	longtext	NOT NULL,
 	`type`	int(11)	NOT NULL,
 	`like_count`	int(11)	NOT NULL,
-	`dislike_count`	int(11)	NOT NULL
+	`dislike_count`	int(11)	NOT NULL,
+    CONSTRAINT PK_CONTENT PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `category` (
@@ -302,10 +304,6 @@ ALTER TABLE `user_role` ADD CONSTRAINT `PK_USER_ROLE` PRIMARY KEY (
 );
 
 ALTER TABLE `area_district_code` ADD CONSTRAINT `PK_AREA_DISTRICT_CODE` PRIMARY KEY (
-	`id`
-);
-
-ALTER TABLE `article` ADD CONSTRAINT `PK_ARTICLE` PRIMARY KEY (
 	`id`
 );
 
@@ -372,10 +370,6 @@ ALTER TABLE `activity` ADD CONSTRAINT `PK_ACTIVITY` PRIMARY KEY (
 );
 
 ALTER TABLE `(optional)notification` ADD CONSTRAINT `PK_(OPTIONAL)NOTIFICATION` PRIMARY KEY (
-	`id`
-);
-
-ALTER TABLE `content` ADD CONSTRAINT `PK_CONTENT` PRIMARY KEY (
 	`id`
 );
 

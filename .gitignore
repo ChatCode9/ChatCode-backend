@@ -1,5 +1,7 @@
 ### db ###
 /db/mysql/data
+/db/.env
+
 
 HELP.md
 .gradle
