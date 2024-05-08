@@ -21,10 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
@@ -36,6 +33,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 })
 @Entity
 public class User extends AuditingFields {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Version
+    protected Long version;
 
     @Column(name = "avatar_id", nullable = false)
     private Long avatarId;
