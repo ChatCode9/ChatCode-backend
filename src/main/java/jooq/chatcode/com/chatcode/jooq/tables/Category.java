@@ -12,6 +12,7 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -50,9 +51,9 @@ public class Category extends TableImpl<CategoryRecord> {
     }
 
     /**
-     * The column <code>category.code</code>.
+     * The column <code>category.id</code>.
      */
-    public final TableField<CategoryRecord, String> CODE = createField(DSL.name("code"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<CategoryRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>category.name</code>.
@@ -63,16 +64,6 @@ public class Category extends TableImpl<CategoryRecord> {
      * The column <code>category.sort_order</code>.
      */
     public final TableField<CategoryRecord, Integer> SORT_ORDER = createField(DSL.name("sort_order"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>category.type</code>.
-     */
-    public final TableField<CategoryRecord, Integer> TYPE = createField(DSL.name("type"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>category.parent_id</code>.
-     */
-    public final TableField<CategoryRecord, Integer> PARENT_ID = createField(DSL.name("parent_id"), SQLDataType.INTEGER, this, "");
 
     private Category(Name alias, Table<CategoryRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -106,6 +97,11 @@ public class Category extends TableImpl<CategoryRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<CategoryRecord, Long> getIdentity() {
+        return (Identity<CategoryRecord, Long>) super.getIdentity();
     }
 
     @Override
