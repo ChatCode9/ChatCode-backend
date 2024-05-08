@@ -40,3 +40,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### yaml ###
+/src/main/resources/yaml/application-oauth2.yaml
