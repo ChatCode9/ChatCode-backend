@@ -8,8 +8,9 @@ spring:
       - classpath:/yaml/application-oauth2.yaml
       - classpath:/yaml/application-log.yaml
       - classpath:/yaml/application-jwt.yaml
+      - classpath:/yaml/application-aws.yaml
   profiles:
     group:
-      develop: dev, oauth2, jwt, log
-      production: prod, oauth2, jwt
+      develop: dev, oauth2, jwt, log, aws
+      production: prod, oauth2, jwt, aws
     active: develop
