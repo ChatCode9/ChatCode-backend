@@ -5,7 +5,7 @@ import com.chatcode.dto.category.CategoryRequest.CategoryCreateRequest;
 import com.chatcode.dto.category.CategoryRequest.CategoryUpdateNameRequest;
 import com.chatcode.dto.category.CategoryRequest.CategoryUpdateOrderRequest;
 import com.chatcode.dto.category.CategoryResponse;
-import com.chatcode.exception.category.IllegalCategoryOrderExcetion;
+import com.chatcode.exception.category.IllegalCategoryOrderException;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.category.CategoryReadRepository;
 import com.chatcode.repository.category.CategoryWriteRepository;
@@ -45,11 +45,11 @@ public class CategoryService {
     public List<CategoryResponse> updateCategoryOrders(CategoryUpdateOrderRequest params) {
 
         if (isInvalidOrderSize(params.getOrders())) {
-            throw new IllegalCategoryOrderExcetion("Invalid order size");
+            throw new IllegalCategoryOrderException("Invalid order size");
         }
 
         if (isDuplicated(params.getOrders())) {
-            throw new IllegalCategoryOrderExcetion("Duplicated category id");
+            throw new IllegalCategoryOrderException("Duplicated category id");
         }
 
         for (Long param : params.getOrders()) {
