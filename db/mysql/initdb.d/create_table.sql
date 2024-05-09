@@ -171,7 +171,7 @@ CREATE TABLE `file`
 (
     `id`           bigint                                  NOT NULL AUTO_INCREMENT,
     `url`          varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `target_id`    bigint                                  NOT NULL,
+    `target_id`    bigint                                  NULL,
     `date_created` datetime DEFAULT NULL,
     `last_updated` datetime DEFAULT NULL,
     CONSTRAINT PK_FILE PRIMARY KEY (`id`)

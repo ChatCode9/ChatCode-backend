@@ -1,26 +1,29 @@
 package com.chatcode.service;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.chatcode.domain.file.ImageFile;
+import com.chatcode.exception.file.ImageFileUploadException;
 import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
-
-import static com.chatcode.utils.CommonUtils.getExtension;
+import java.io.InputStream;
 
 @Service
 @NoArgsConstructor
 public class S3Service {
+
+    private static final String DIRECTORY_DELIMITER = "/";
 
     private AmazonS3 s3Client;
 
@@ -46,13 +49,19 @@ public class S3Service {
                 .build();
     }
 
-    public String upload(MultipartFile file, String path) throws IOException {
-        String extension = getExtension(file.getOriginalFilename()).orElse("");
+    public String uploadImage(final ImageFile image) {
+        final String path = "article" + DIRECTORY_DELIMITER + image.getUUIDFileName();
+        final ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(image.getContentType());
+        metadata.setContentLength(image.getSize());
 
-        String fileName = path + "/" + UUID.randomUUID() + "." + extension;
+        try (final InputStream inputStream = image.getInputStream()) {
+            s3Client.putObject(new PutObjectRequest(bucket, path, inputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (final AmazonServiceException | IOException e) {
+            throw new ImageFileUploadException();
+        }
 
-        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-        return s3Client.getUrl(bucket, fileName).toString();
+        return s3Client.getUrl(bucket, path).toString();
     }
+
 }

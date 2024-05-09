@@ -1,36 +1,36 @@
 package com.chatcode.controller;
 
-import com.chatcode.dto.file.FileDto;
+import com.chatcode.dto.BaseResponseDto;
+import com.chatcode.dto.file.FileRequestDto;
+import com.chatcode.dto.file.FileResponseDto;
 import com.chatcode.service.FileService;
-import com.chatcode.service.S3Service;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
-@Controller
-@AllArgsConstructor
+@Tag(name = "파일 업로드 API", description = "파일 업로드 API")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/files")
 public class FileController {
 
-    private final S3Service s3Service;
     private final FileService fileService;
 
-    @GetMapping("/file")
-    public String dispWrite() {
+    @PostMapping
+    @Operation(summary = "파일 업로드",
+            description = "파일 업로드하는 API")
+    @ApiResponse(responseCode = "200", description = "파일 업로드 성공")
+    @ApiResponse(responseCode = "400", description = "빈 파일 업로드 시도")
+    @ApiResponse(responseCode = "500", description = "파일 업로드 중 에러 발생")
+    public ResponseEntity<BaseResponseDto<FileResponseDto>> uploadFile(@ModelAttribute FileRequestDto dto) {
+        String imgPath = fileService.uploadImages(dto);
 
-        return "file";
-    }
-
-    @PostMapping("/file")
-    public String execWrite(FileDto fileDto, MultipartFile file) throws IOException {
-        String imgPath = s3Service.upload(file, "test");
-        fileDto.setUrl(imgPath);
-
-        fileService.saveFile(fileDto);
-
-        return "redirect:/";
+        return ResponseEntity.ok(new BaseResponseDto<>(200, new FileResponseDto(imgPath), "success"));
     }
 }

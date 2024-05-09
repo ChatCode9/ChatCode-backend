@@ -1,6 +1,6 @@
 package com.chatcode.dto.file;
 
-import com.chatcode.domain.entity.FileEntity;
+import com.chatcode.domain.entity.File;
 import lombok.*;
 
 @Getter
@@ -13,21 +13,12 @@ public class FileDto {
 
     private long id;
     private String url;
-    private long targetId;
+    private Long targetId;
 
-    public FileEntity toEntity() {
-        return FileEntity.builder()
+    public File toEntity() {
+        return File.builder()
             .url(url)
             .targetId(targetId)
             .build();
     }
-
-    public static FileDto of(FileEntity fileEntity) {
-        return FileDto.builder()
-            .id(fileEntity.getId())
-            .url(fileEntity.getUrl())
-            .targetId(fileEntity.getTargetId())
-            .build();
-    }
-
 }
