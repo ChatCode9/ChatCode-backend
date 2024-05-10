@@ -38,4 +38,20 @@ public class SwaggerConfig {
                 .pathsToMatch("/articles/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi OpinionOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("opinions")
+                .pathsToMatch("/opinions/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi FileOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("files")
+                .pathsToMatch("/files/**")
+                .build();
+    }
 }
