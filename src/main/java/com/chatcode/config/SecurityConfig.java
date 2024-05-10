@@ -79,7 +79,8 @@ public class SecurityConfig {
 
     private CorsConfigurationSource configurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*"); // TODO: change to specific domain
+        configuration.addAllowedOrigin("http://localhost:3000"); // TODO: change to specific domain
+        configuration.addAllowedOrigin("http://localhost:5173");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
