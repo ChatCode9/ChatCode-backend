@@ -4,8 +4,10 @@ import static com.chatcode.domain.RoleType.USER;
 
 import com.chatcode.config.auth.LoginUser;
 import com.chatcode.config.auth.oauth.dto.OAuth2Response;
+import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.Role;
 import com.chatcode.domain.entity.User;
+import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.role.RoleReadRepository;
 import com.chatcode.repository.role.RoleWriteRepository;
 import com.chatcode.repository.user.UserReadRepository;
@@ -25,10 +27,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class OAuth2LoginUserService extends DefaultOAuth2UserService {
 
+    private static final Integer INITIAL_ACTIVITY_POINT = 0;
+    private static final Integer INITIAL_STATUS = 0;
+
     private final UserReadRepository userReadRepository;
     private final UserWriteRepository userWriteRepository;
     private final RoleReadRepository roleReadRepository;
     private final RoleWriteRepository roleWriteRepository;
+    private final AvatarWriteRepository avatarWriteRepository;
 
     private Role userRoleType;
 
@@ -62,14 +68,18 @@ public class OAuth2LoginUserService extends DefaultOAuth2UserService {
     }
 
     private User signUpUser(OAuth2Response oAuth2Response) {
-        // TODO: Avatar & IP
-        String ip = "127.0.0.1";
+        String ip = "127.0.0.1"; // TODO: IP
+        Avatar avatar = avatarWriteRepository.save(Avatar.builder()
+                .activityPoint(INITIAL_ACTIVITY_POINT)
+                .nickname(oAuth2Response.name())
+                .picture(oAuth2Response.profile())
+                .build());
         User signUpUser = User.builder()
-                .avatarId(1L) // TODO: Avatar
-                .createIp(ip) // TODO: IP
+                .avatar(avatar)
+                .createIp(ip)
                 .lastUpdateIp(ip)
                 .username(oAuth2Response.getUsername())
-                .status(0)
+                .status(INITIAL_STATUS)
                 .withdraw(false)
                 .build();
         signUpUser.addRole(userRoleType);

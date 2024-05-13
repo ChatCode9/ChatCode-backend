@@ -23,7 +23,7 @@ public class LoginUser implements OAuth2User {
 
     public LoginUser(User user, Map<String, Object> attributes, List<String> roles) {
         this.id = user.getId();
-        this.avatarId = user.getAvatarId();
+        this.avatarId = user.getAvatar().getId();
         this.username = user.getUsername();
         this.attributes = attributes;
         this.roles = roles;
