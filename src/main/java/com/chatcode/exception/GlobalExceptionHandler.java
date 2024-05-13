@@ -2,6 +2,8 @@ package com.chatcode.exception;
 
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.exception.common.ResourceNotFoundException;
+import com.chatcode.exception.file.EmptyImageFileException;
+import com.chatcode.exception.file.ImageFileUploadException;
 import com.chatcode.exception.reaction.AlreadyReactException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +22,14 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<BaseResponseDto<Void>> handleResourceNotFoundException(ResourceNotFoundException ex) {
     return ResponseEntity.badRequest().body(new BaseResponseDto<>(HttpStatus.BAD_REQUEST.value(), null ,ex.getMessage()));
+  }
+
+  @ExceptionHandler(EmptyImageFileException.class)
+  public ResponseEntity<BaseResponseDto<Void>> handleEmptyImageFileException(EmptyImageFileException ex) {
+    return ResponseEntity.badRequest().body(new BaseResponseDto<>(HttpStatus.BAD_REQUEST.value(), null ,ex.getMessage()));
+  }
+  @ExceptionHandler(ImageFileUploadException.class)
+  public ResponseEntity<BaseResponseDto<Void>> handleImageFileUploadException(ImageFileUploadException ex) {
+    return ResponseEntity.badRequest().body(new BaseResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null ,ex.getMessage()));
   }
 }

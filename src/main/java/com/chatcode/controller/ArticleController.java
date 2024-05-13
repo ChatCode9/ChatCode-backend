@@ -1,7 +1,6 @@
 package com.chatcode.controller;
 
-import com.chatcode.dto.ArticleRequestDTO;
-import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.ArticleRequestDTO.*;
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.service.ArticleService;
 import jakarta.validation.Valid;
@@ -22,7 +21,7 @@ public class ArticleController {
 
 
     @PostMapping("")
-    public ResponseEntity<BaseResponseDto<Void>> createArticle(@Valid @RequestBody ArticleRequestDTO.ArticleCreateRequestDTO params) {
+    public ResponseEntity<BaseResponseDto<Void>> createArticle(@Valid @RequestBody ArticleCreateRequestDTO params) {
         articleService.articleCreate(params);
         return ResponseEntity.ok(new BaseResponseDto<>(1, null, "성공적으로 게시글이 등록되었습니다."));
     }
