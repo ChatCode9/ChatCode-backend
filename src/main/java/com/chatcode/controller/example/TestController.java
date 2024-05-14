@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "예제 API", description = "Swagger 테스트용 API")
 @RestController
 public class TestController {
+
+    @GetMapping("/docs")
+    public void getDocs(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/swagger-ui/index.html");
+    }
 
     /* 주석하는 기본 방법 */
     @GetMapping("/example/post")
