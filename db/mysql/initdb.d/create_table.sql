@@ -307,11 +307,10 @@ CREATE TABLE `content`
 
 CREATE TABLE `category`
 (
-    `code`       varchar(255) NOT NULL,
+    `id`	     bigint(20)	NOT NULL AUTO_INCREMENT,
     `name`       varchar(255) NOT NULL,
     `sort_order` int(11) NOT NULL,
-    `type`       int(11) NOT NULL,
-    `parent_id`  int(11) NULL
+    CONSTRAINT PK_CATEGORY PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `temp_article`
@@ -410,11 +409,6 @@ ALTER TABLE `activity`
 ALTER TABLE `(optional)notification`
     ADD CONSTRAINT `PK_(OPTIONAL)NOTIFICATION` PRIMARY KEY (
                                                             `id`
-        );
-
-ALTER TABLE `category`
-    ADD CONSTRAINT `PK_CATEGORY` PRIMARY KEY (
-                                              `code`
         );
 
 ALTER TABLE `temp_article`

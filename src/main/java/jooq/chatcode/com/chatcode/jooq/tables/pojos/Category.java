@@ -15,39 +15,31 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String code;
+    private final Long id;
     private final String name;
     private final Integer sortOrder;
-    private final Integer type;
-    private final Integer parentId;
 
     public Category(Category value) {
-        this.code = value.code;
+        this.id = value.id;
         this.name = value.name;
         this.sortOrder = value.sortOrder;
-        this.type = value.type;
-        this.parentId = value.parentId;
     }
 
     public Category(
-        String code,
+        Long id,
         String name,
-        Integer sortOrder,
-        Integer type,
-        Integer parentId
+        Integer sortOrder
     ) {
-        this.code = code;
+        this.id = id;
         this.name = name;
         this.sortOrder = sortOrder;
-        this.type = type;
-        this.parentId = parentId;
     }
 
     /**
-     * Getter for <code>category.code</code>.
+     * Getter for <code>category.id</code>.
      */
-    public String getCode() {
-        return this.code;
+    public Long getId() {
+        return this.id;
     }
 
     /**
@@ -64,20 +56,6 @@ public class Category implements Serializable {
         return this.sortOrder;
     }
 
-    /**
-     * Getter for <code>category.type</code>.
-     */
-    public Integer getType() {
-        return this.type;
-    }
-
-    /**
-     * Getter for <code>category.parent_id</code>.
-     */
-    public Integer getParentId() {
-        return this.parentId;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -87,11 +65,11 @@ public class Category implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final Category other = (Category) obj;
-        if (this.code == null) {
-            if (other.code != null)
+        if (this.id == null) {
+            if (other.id != null)
                 return false;
         }
-        else if (!this.code.equals(other.code))
+        else if (!this.id.equals(other.id))
             return false;
         if (this.name == null) {
             if (other.name != null)
@@ -105,18 +83,6 @@ public class Category implements Serializable {
         }
         else if (!this.sortOrder.equals(other.sortOrder))
             return false;
-        if (this.type == null) {
-            if (other.type != null)
-                return false;
-        }
-        else if (!this.type.equals(other.type))
-            return false;
-        if (this.parentId == null) {
-            if (other.parentId != null)
-                return false;
-        }
-        else if (!this.parentId.equals(other.parentId))
-            return false;
         return true;
     }
 
@@ -124,11 +90,9 @@ public class Category implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.sortOrder == null) ? 0 : this.sortOrder.hashCode());
-        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
-        result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
         return result;
     }
 
@@ -136,11 +100,9 @@ public class Category implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("Category (");
 
-        sb.append(code);
+        sb.append(id);
         sb.append(", ").append(name);
         sb.append(", ").append(sortOrder);
-        sb.append(", ").append(type);
-        sb.append(", ").append(parentId);
 
         sb.append(")");
         return sb.toString();

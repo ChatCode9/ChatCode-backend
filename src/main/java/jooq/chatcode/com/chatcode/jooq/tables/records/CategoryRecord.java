@@ -19,18 +19,18 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>category.code</code>.
+     * Setter for <code>category.id</code>.
      */
-    public CategoryRecord setCode(String value) {
+    public CategoryRecord setId(Long value) {
         set(0, value);
         return this;
     }
 
     /**
-     * Getter for <code>category.code</code>.
+     * Getter for <code>category.id</code>.
      */
-    public String getCode() {
-        return (String) get(0);
+    public Long getId() {
+        return (Long) get(0);
     }
 
     /**
@@ -63,42 +63,12 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> {
         return (Integer) get(2);
     }
 
-    /**
-     * Setter for <code>category.type</code>.
-     */
-    public CategoryRecord setType(Integer value) {
-        set(3, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>category.type</code>.
-     */
-    public Integer getType() {
-        return (Integer) get(3);
-    }
-
-    /**
-     * Setter for <code>category.parent_id</code>.
-     */
-    public CategoryRecord setParentId(Integer value) {
-        set(4, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>category.parent_id</code>.
-     */
-    public Integer getParentId() {
-        return (Integer) get(4);
-    }
-
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<String> key() {
+    public Record1<Long> key() {
         return (Record1) super.key();
     }
 
@@ -116,14 +86,12 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> {
     /**
      * Create a detached, initialised CategoryRecord
      */
-    public CategoryRecord(String code, String name, Integer sortOrder, Integer type, Integer parentId) {
+    public CategoryRecord(Long id, String name, Integer sortOrder) {
         super(Category.CATEGORY);
 
-        setCode(code);
+        setId(id);
         setName(name);
         setSortOrder(sortOrder);
-        setType(type);
-        setParentId(parentId);
         resetChangedOnNotNull();
     }
 
@@ -134,11 +102,9 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> {
         super(Category.CATEGORY);
 
         if (value != null) {
-            setCode(value.getCode());
+            setId(value.getId());
             setName(value.getName());
             setSortOrder(value.getSortOrder());
-            setType(value.getType());
-            setParentId(value.getParentId());
             resetChangedOnNotNull();
         }
     }

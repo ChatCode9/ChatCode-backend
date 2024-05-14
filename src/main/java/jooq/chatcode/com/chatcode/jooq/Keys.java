@@ -86,7 +86,7 @@ public class Keys {
     public static final UniqueKey<AvatarRecord> PK_AVATAR = Internal.createUniqueKey(Avatar.AVATAR, DSL.name("PK_AVATAR"), new TableField[] { Avatar.AVATAR.ID }, true);
     public static final UniqueKey<BannerRecord> PK_BANNER = Internal.createUniqueKey(Banner.BANNER, DSL.name("PK_BANNER"), new TableField[] { Banner.BANNER.ID }, true);
     public static final UniqueKey<BannerClickRecord> PK_BANNER_CLICK = Internal.createUniqueKey(BannerClick.BANNER_CLICK, DSL.name("PK_BANNER_CLICK"), new TableField[] { BannerClick.BANNER_CLICK.ID }, true);
-    public static final UniqueKey<CategoryRecord> PK_CATEGORY = Internal.createUniqueKey(Category.CATEGORY, DSL.name("PK_CATEGORY"), new TableField[] { Category.CATEGORY.CODE }, true);
+    public static final UniqueKey<CategoryRecord> PK_CATEGORY = Internal.createUniqueKey(Category.CATEGORY, DSL.name("PK_CATEGORY"), new TableField[] { Category.CATEGORY.ID }, true);
     public static final UniqueKey<CategoryOldRecord> PK_CATEGORY_OLD = Internal.createUniqueKey(CategoryOld.CATEGORY_OLD, DSL.name("PK_CATEGORY_OLD"), new TableField[] { CategoryOld.CATEGORY_OLD.CODE }, true);
     public static final UniqueKey<ChangeLogRecord> PK_CHANGE_LOG = Internal.createUniqueKey(ChangeLog.CHANGE_LOG, DSL.name("PK_CHANGE_LOG"), new TableField[] { ChangeLog.CHANGE_LOG.ID }, true);
     public static final UniqueKey<ConfirmEmailRecord> PK_CONFIRM_EMAIL = Internal.createUniqueKey(ConfirmEmail.CONFIRM_EMAIL, DSL.name("PK_CONFIRM_EMAIL"), new TableField[] { ConfirmEmail.CONFIRM_EMAIL.ID }, true);
