@@ -20,7 +20,6 @@ public class Avatar implements Serializable {
     private final Integer activityPoint;
     private final String nickname;
     private final String picture;
-    private final Integer pictureType;
 
     public Avatar(Avatar value) {
         this.id = value.id;
@@ -28,7 +27,6 @@ public class Avatar implements Serializable {
         this.activityPoint = value.activityPoint;
         this.nickname = value.nickname;
         this.picture = value.picture;
-        this.pictureType = value.pictureType;
     }
 
     public Avatar(
@@ -36,15 +34,13 @@ public class Avatar implements Serializable {
         Long version,
         Integer activityPoint,
         String nickname,
-        String picture,
-        Integer pictureType
+        String picture
     ) {
         this.id = id;
         this.version = version;
         this.activityPoint = activityPoint;
         this.nickname = nickname;
         this.picture = picture;
-        this.pictureType = pictureType;
     }
 
     /**
@@ -80,13 +76,6 @@ public class Avatar implements Serializable {
      */
     public String getPicture() {
         return this.picture;
-    }
-
-    /**
-     * Getter for <code>avatar.picture_type</code>.
-     */
-    public Integer getPictureType() {
-        return this.pictureType;
     }
 
     @Override
@@ -128,12 +117,6 @@ public class Avatar implements Serializable {
         }
         else if (!this.picture.equals(other.picture))
             return false;
-        if (this.pictureType == null) {
-            if (other.pictureType != null)
-                return false;
-        }
-        else if (!this.pictureType.equals(other.pictureType))
-            return false;
         return true;
     }
 
@@ -146,7 +129,6 @@ public class Avatar implements Serializable {
         result = prime * result + ((this.activityPoint == null) ? 0 : this.activityPoint.hashCode());
         result = prime * result + ((this.nickname == null) ? 0 : this.nickname.hashCode());
         result = prime * result + ((this.picture == null) ? 0 : this.picture.hashCode());
-        result = prime * result + ((this.pictureType == null) ? 0 : this.pictureType.hashCode());
         return result;
     }
 
@@ -159,7 +141,6 @@ public class Avatar implements Serializable {
         sb.append(", ").append(activityPoint);
         sb.append(", ").append(nickname);
         sb.append(", ").append(picture);
-        sb.append(", ").append(pictureType);
 
         sb.append(")");
         return sb.toString();

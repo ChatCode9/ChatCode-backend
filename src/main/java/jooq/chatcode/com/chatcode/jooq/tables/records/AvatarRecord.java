@@ -93,21 +93,6 @@ public class AvatarRecord extends UpdatableRecordImpl<AvatarRecord> {
         return (String) get(4);
     }
 
-    /**
-     * Setter for <code>avatar.picture_type</code>.
-     */
-    public AvatarRecord setPictureType(Integer value) {
-        set(5, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>avatar.picture_type</code>.
-     */
-    public Integer getPictureType() {
-        return (Integer) get(5);
-    }
-
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -131,7 +116,7 @@ public class AvatarRecord extends UpdatableRecordImpl<AvatarRecord> {
     /**
      * Create a detached, initialised AvatarRecord
      */
-    public AvatarRecord(Long id, Long version, Integer activityPoint, String nickname, String picture, Integer pictureType) {
+    public AvatarRecord(Long id, Long version, Integer activityPoint, String nickname, String picture) {
         super(Avatar.AVATAR);
 
         setId(id);
@@ -139,7 +124,6 @@ public class AvatarRecord extends UpdatableRecordImpl<AvatarRecord> {
         setActivityPoint(activityPoint);
         setNickname(nickname);
         setPicture(picture);
-        setPictureType(pictureType);
         resetChangedOnNotNull();
     }
 
@@ -155,7 +139,6 @@ public class AvatarRecord extends UpdatableRecordImpl<AvatarRecord> {
             setActivityPoint(value.getActivityPoint());
             setNickname(value.getNickname());
             setPicture(value.getPicture());
-            setPictureType(value.getPictureType());
             resetChangedOnNotNull();
         }
     }

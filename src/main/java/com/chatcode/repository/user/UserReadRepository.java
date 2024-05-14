@@ -7,6 +7,8 @@ import static com.chatcode.jooq.tables.UserRole.USER_ROLE;
 import com.chatcode.domain.entity.User;
 import com.chatcode.jooq.tables.pojos.Role;
 import com.chatcode.repository.ReadRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,27 +22,29 @@ public class UserReadRepository implements ReadRepository<User> {
 
     private final DSLContext dsl;
 
+    @PersistenceContext
+    private final EntityManager em;
+
     public List<User> findAll() {
-        return dsl.selectFrom(USER).fetchInto(User.class);
+        return nativeQuery(em, dsl.select().from(USER), User.class);
     }
 
     @Override
     public Optional<User> findById(long id) {
-        return Optional.ofNullable(dsl.selectFrom(USER).where(USER.ID.eq(id))
-                .fetchOneInto(User.class));
+        List<User> users = nativeQuery(em, dsl.select().from(USER).where(USER.ID.eq(id)), User.class);
+        return (users.isEmpty()) ? Optional.empty() : Optional.of(users.get(0));
     }
 
     public Optional<User> findByUsername(String username) {
-        return Optional.ofNullable(dsl.selectFrom(USER).where(USER.USERNAME.eq(username))
-                .fetchOneInto(User.class));
+        List<User> users = nativeQuery(em, dsl.select().from(USER).where(USER.USERNAME.eq(username)), User.class);
+        return (users.isEmpty()) ? Optional.empty() : Optional.of(users.get(0));
     }
 
     public List<String> findRolesById(Long userId) {
-        return dsl.select(ROLE.AUTHORITY)
+        return nativeQuery(em, dsl.select(ROLE.AUTHORITY)
                 .from(USER_ROLE)
                 .join(ROLE).on(USER_ROLE.ROLE_ID.eq(ROLE.ID))
-                .where(USER_ROLE.USER_ID.eq(userId))
-                .fetchInto(String.class);
+                .where(USER_ROLE.USER_ID.eq(userId)), String.class);
     }
 
     public Map<User, List<Role>> findByUsernameWithRoles(String username) {

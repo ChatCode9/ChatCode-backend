@@ -12,6 +12,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.time.LocalDateTime;
@@ -41,8 +42,9 @@ public class User extends AuditingFields {
     @Version
     protected Long version;
 
-    @Column(name = "avatar_id", nullable = false)
-    private Long avatarId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "avatar_id", nullable = false)
+    private Avatar avatar;
 
     @Column(name = "create_ip")
     private String createIp;

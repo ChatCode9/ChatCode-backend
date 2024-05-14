@@ -184,7 +184,6 @@ CREATE TABLE `avatar`
     `activity_point` int(11) NOT NULL,
     `nickname`       varchar(20)  NOT NULL,
     `picture`        varchar(255) NOT NULL,
-    `picture_type`   int(11) NOT NULL,
     CONSTRAINT PK_AVATAR PRIMARY KEY (`id`)
 );
 
