@@ -59,7 +59,7 @@ public class CategoryController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
     }
 
-    @PutMapping("/{categoryId}")
+    @PutMapping("/{categoryId}/name")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 이름 수정", description = "특정 카테고리의 이름을 수정하는 API (관리자 권한 필요) <br />")
     @ApiResponse(responseCode = "200", description = "카테고리 이름 수정 성공")
@@ -70,7 +70,7 @@ public class CategoryController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 
-    @PutMapping("")
+    @PutMapping("/order")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 순서 수정", description = "카테고리의 순서를 수정하는 API (관리자 권한 필요) <br />")
     @ApiResponse(responseCode = "200", description = "카테고리 순서 수정 성공")
