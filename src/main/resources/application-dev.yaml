@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/chatcode
+    url: jdbc:mysql://localhost:3306/CHATCODE
     username: root
     password: 1234
   redis:

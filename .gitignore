@@ -43,3 +43,5 @@ out/
 
 ### yaml ###
 /src/main/resources/yaml/application-oauth2.yaml
+/src/main/resources/yaml/application-aws.yaml
+
