@@ -1,14 +1,14 @@
-package com.chatcode.dto.scrap;
+package com.chatcode.dto;
 
+import com.chatcode.domain.entity.Article;
+import com.chatcode.domain.entity.Avatar;
+import com.chatcode.domain.entity.Scrap;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @Builder
@@ -26,4 +26,13 @@ public class ScrapResponseDTO {
 
     @Schema(description = "스크랩한 시간", example = "2024-05-14T18:27:02")
     private LocalDateTime dateCreated;
+
+    public static ScrapResponseDTO of(Scrap scrap, Article article, Avatar avatar) {
+        ScrapResponseDTO response = new ScrapResponseDTO();
+        response.avatarId = avatar.getId();
+        response.articleId = article.getId();
+        response.articleTitle = article.getTitle();
+        response.dateCreated = scrap.getDateCreated();
+        return response;
+    }
 }

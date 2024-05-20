@@ -2,7 +2,7 @@ package com.chatcode.repository.scrap;
 
 import static com.chatcode.jooq.tables.Scrap.SCRAP;
 
-import com.chatcode.domain.entity.scrap.Scrap;
+import com.chatcode.domain.entity.Scrap;
 import com.chatcode.repository.ReadRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
