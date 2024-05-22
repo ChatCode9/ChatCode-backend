@@ -93,7 +93,7 @@ class CategoryControllerTest {
 
         // when
         ResultActions resultActions = mvc.perform(
-                put("/categories/" + category.getId()).content(requestBody).contentType(MediaType.APPLICATION_JSON));
+                put("/categories/" + category.getId() + "/name").content(requestBody).contentType(MediaType.APPLICATION_JSON));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         // then
@@ -114,7 +114,7 @@ class CategoryControllerTest {
 
         // when
         ResultActions resultActions = mvc.perform(
-                put("/categories").content(requestBody).contentType(MediaType.APPLICATION_JSON));
+                put("/categories/order").content(requestBody).contentType(MediaType.APPLICATION_JSON));
 
         // then
         resultActions.andExpect(status().isOk());

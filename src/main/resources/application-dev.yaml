@@ -23,6 +23,12 @@ spring:
       hibernate.default_batch_fetch_size: 100
       hibernate.jdbc.time_zone: Asia/Seoul
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
 external:
   url:
     redirect: http://localhost:8080
