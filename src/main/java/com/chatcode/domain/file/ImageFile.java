@@ -1,51 +1,68 @@
 package com.chatcode.domain.file;
 
-import com.chatcode.exception.file.EmptyImageFileException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.UUID;
 
-import static org.springframework.util.StringUtils.getFilenameExtension;
-
 @Getter
-public class ImageFile {
+@NoArgsConstructor
+@Setter
+public class ImageFile implements MultipartFile {
 
     private static final String EXTENSION_DELIMITER = ".";
 
-    private MultipartFile file;
+    private byte[] bytes;
+    private String contentType;
     private String UUIDFileName;
 
-    public ImageFile(final MultipartFile file) {
-        validateNullImage(file);
+    @JsonCreator
+    public ImageFile(@JsonProperty("base64String") String base64String) {
+        DataUrl dataUrl = new DataUrl(base64String);
 
-        this.file = file;
-        this.UUIDFileName = generateUUIDFileName(file);
+        this.bytes = Base64.getDecoder().decode(dataUrl.getBase64Data());
+        this.contentType = "image/" + dataUrl.getFileExtension();
+        this.UUIDFileName = generateUUIDFileName(dataUrl);
     }
 
-    private void validateNullImage(final MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new EmptyImageFileException();
-        }
-    }
-
-    private String generateUUIDFileName(final MultipartFile file) {
-        final String name = file.getOriginalFilename();
-
-        return UUID.randomUUID() + EXTENSION_DELIMITER + getFilenameExtension(name);
-    }
-
-    public String getContentType() {
-        return this.file.getContentType();
+    private String generateUUIDFileName(final DataUrl dataUrl) {
+        return UUID.randomUUID() + EXTENSION_DELIMITER + dataUrl.getFileExtension();
     }
 
     public long getSize() {
-        return this.file.getSize();
+        return this.bytes.length;
     }
 
     public InputStream getInputStream() throws IOException {
-        return this.file.getInputStream();
+        return new ByteArrayInputStream(this.bytes);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public void transferTo(File dest) throws IOException, IllegalStateException {
+        throw new UnsupportedOperationException("This operation is not supported.");
+    }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
+    public String getOriginalFilename() {
+        return "";
     }
 }
