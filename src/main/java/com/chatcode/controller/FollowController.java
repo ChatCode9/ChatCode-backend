@@ -34,6 +34,8 @@ public class FollowController {
     }
 
     @PostMapping("/avatars/{avatarId}/unfollow")
+    @Operation(summary = "언팔로우", description = "특정 아바타를 언팔로우합니다. (인증된 사용자만 접근 가능)")
+    @ApiResponse(responseCode = "200", description = "언팔로우 성공")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BaseResponseDto<String>> unfollow(@PathVariable Long avatarId,
                                                             @AuthenticationPrincipal LoginUser loginUser) {
@@ -42,24 +44,32 @@ public class FollowController {
     }
 
     @GetMapping("/avatars/{avatarId}/followers")
+    @Operation(summary = "팔로워 수 조회", description = "특정 아바타의 팔로워 수를 조회합니다. (누구나 접근 가능)")
+    @ApiResponse(responseCode = "200", description = "팔로워 수 조회 성공")
     public ResponseEntity<BaseResponseDto<Long>> getNumberOfFollowers(@PathVariable Long avatarId) {
         Long followers = followService.getNumberOfFollowers(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), followers, "success"));
     }
 
     @GetMapping("/avatars/{avatarId}/followings")
+    @Operation(summary = "팔로잉 수 조회", description = "특정 아바타의 팔로잉 수를 조회합니다. (누구나 접근 가능)")
+    @ApiResponse(responseCode = "200", description = "팔로잉 수 조회 성공")
     public ResponseEntity<BaseResponseDto<Long>> getNumberOfFollowings(@PathVariable Long avatarId) {
         Long followings = followService.getNumberOfFollowings(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), followings, "success"));
     }
 
     @GetMapping("/avatars/{avatarId}/followers/profiles")
+    @Operation(summary = "팔로워 프로필 조회", description = "특정 아바타의 팔로워들의 프로필 리스트를 조회합니다. (누구나 접근 가능)")
+    @ApiResponse(responseCode = "200", description = "팔로워 프로필 조회 성공")
     public ResponseEntity<BaseResponseDto<List<AvatarResponse>>> getFollowersProfiles(@PathVariable Long avatarId) {
         List<AvatarResponse> followersProfiles = followService.getFollowersProfiles(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), followersProfiles, "success"));
     }
 
     @GetMapping("/avatars/{avatarId}/followings/profiles")
+    @Operation(summary = "팔로잉 프로필 조회", description = "특정 아바타의 팔로잉들의 프로필 리스트를 조회합니다. (누구나 접근 가능)")
+    @ApiResponse(responseCode = "200", description = "팔로잉 프로필 조회 성공")
     public ResponseEntity<BaseResponseDto<List<AvatarResponse>>> getFollowingsProfiles(@PathVariable Long avatarId) {
         List<AvatarResponse> followingsProfiles = followService.getFollowingsProfiles(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), followingsProfiles, "success"));
