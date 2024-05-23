@@ -2,6 +2,8 @@ package com.chatcode.dto.avatar;
 
 import com.chatcode.domain.entity.Avatar;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +30,11 @@ public class AvatarResponse {
         response.nickname = avatar.getNickname();
         response.picture = avatar.getPicture();
         return response;
+    }
+
+    public static List<AvatarResponse> of(List<Avatar> avatars) {
+        return avatars.stream()
+                .map(AvatarResponse::of)
+                .collect(Collectors.toList());
     }
 }
