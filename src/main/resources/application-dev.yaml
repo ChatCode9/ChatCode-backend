@@ -22,6 +22,8 @@ spring:
     properties:
       hibernate.default_batch_fetch_size: 100
       hibernate.jdbc.time_zone: Asia/Seoul
+      hibernate.format_sql: true
+    show-sql: true
 
 management:
   endpoints:
