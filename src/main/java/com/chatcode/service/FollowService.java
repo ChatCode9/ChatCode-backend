@@ -7,6 +7,7 @@ import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.follow.FollowReadRepository;
 import com.chatcode.repository.follow.FollowWriteRepository;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,13 @@ public class FollowService {
 
     @Transactional
     public void follow(Long followerId, Long followingId) {
-        Avatar follower = avatarWriteRepository.getReferenceById(followerId);
-        Avatar following = avatarWriteRepository.getReferenceById(followingId);
-        followWriteRepository.save(Follow.of(follower, following));
+        try {
+            Avatar follower = avatarWriteRepository.getReferenceById(followerId);
+            Avatar following = avatarWriteRepository.getReferenceById(followingId);
+            followWriteRepository.save(Follow.of(follower, following));
+        } catch (EntityNotFoundException e) {
+            throw new ContentNotFoundException("Follow: Avatar not found");
+        }
     }
 
     @Transactional
