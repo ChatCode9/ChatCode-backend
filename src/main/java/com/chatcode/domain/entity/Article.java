@@ -5,7 +5,9 @@ import com.chatcode.dto.like.Likeable;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "article")
 public class Article implements Likeable {

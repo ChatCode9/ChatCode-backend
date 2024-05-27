@@ -19,10 +19,10 @@ public class FileService {
         fileRepository.save(fileDto.toEntity());
     }
 
-    public String uploadImages(final FileRequestDto dto) {
-        String imgPath = s3Service.uploadImage(new ImageFile(dto.getBase64File()));
+    public String uploadImages(ImageFile imageFile, Long targetId) {
+        String imgPath = s3Service.uploadImage(imageFile);
 
-        saveFile(FileDto.builder().url(imgPath).targetId(dto.getTargetId()).build());
+        saveFile(FileDto.builder().url(imgPath).targetId(targetId).build());
 
         return imgPath;
     }
