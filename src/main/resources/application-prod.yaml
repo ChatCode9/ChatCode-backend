@@ -3,11 +3,11 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:mysql://15.165.30.235:3306/chatcode
+    url: jdbc:mysql://localhost:3306/chatcode
     username: root
     password: 1234
   redis:
-    host: 15.165.30.235
+    host: localhost
     port: 6379
     lettuce:
       pool:
@@ -21,8 +21,3 @@ spring:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
       hibernate.jdbc.time_zone: Asia/Seoul
-
-external:
-  url:
-    home: http://15.165.30.235:8080
-    redirect: http://15.165.30.235:8080
