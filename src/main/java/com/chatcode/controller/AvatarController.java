@@ -53,7 +53,7 @@ public class AvatarController {
     }
 
     @PutMapping("/{avatarId}")
-    @PreAuthorize("isAuthenticated() and #avatarId == principal.id")
+//    @PreAuthorize("isAuthenticated() and #avatarId == principal.id")
     @Operation(summary = "아바타 수정", description = "특정 아바타를 수정합니다. (본인만 접근 가능)")
     public ResponseEntity<BaseResponseDto<AvatarResponse>> update(
             @PathVariable Long avatarId,

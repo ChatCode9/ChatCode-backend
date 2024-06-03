@@ -25,7 +25,7 @@ public class ScrapController {
 
     private final ScrapService scrapService;
 
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @PostMapping("articles/{articleId}/scraps")
     @Operation(summary = "스크랩 추가", description = "게시물을 스크랩합니다.")
     public ResponseEntity<BaseResponseDto<ScrapResponseDto>> scrap(@PathVariable @Valid Long articleId,
@@ -43,7 +43,7 @@ public class ScrapController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PreAuthorize("isAuthenticated() and #loginUser.avatarId == #avatarId")
+//    @PreAuthorize("isAuthenticated() and #loginUser.avatarId == #avatarId")
     @DeleteMapping("avatars/{avatarId}/{articleId}")
     @Operation(summary = "스크랩 삭제", description = "스크랩했던 게시물을 목록에서 지울 수 있습니다.")
     public ResponseEntity<BaseResponseDto<Void>> deleteScrap(@PathVariable @Valid Long articleId,

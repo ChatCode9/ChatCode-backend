@@ -36,6 +36,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         String responseUrl = UriComponentsBuilder.fromUriString(redirectUrl)
                 .queryParam("success", true)
                 .queryParam("profile", user.getStatus())
+                .queryParam("avatar", user.getAvatarId())
                 .build()
                 .toUriString();
 
