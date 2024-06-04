@@ -1,24 +1,26 @@
 package com.chatcode.controller;
 
-import com.chatcode.dto.ArticleRequestDTO.*;
+import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.ArticleResponseDTO;
+import com.chatcode.dto.ArticleRetrieveRequest;
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.service.ArticleService;
 import jakarta.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/articles")
 public class ArticleController {
     private final ArticleService articleService;
-
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
 
     @PostMapping("")
     public ResponseEntity<BaseResponseDto<Void>> createArticle(@Valid @RequestBody ArticleCreateRequestDTO params) {
@@ -33,9 +35,17 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<BaseResponseDto<List<String>>> getArticleList() {
-        List<String> articleList = articleService.readArticleList();
-        return ResponseEntity.ok(new BaseResponseDto<>(1, articleList, "게시글 목록 조회 성공"));
+    public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO.ArticleCreateResponseDTO>>> getArticleList(@ModelAttribute ArticleRetrieveRequest pageRequest) {
+//        List<String> articleList = articleService.readArticleList();
+
+        //TODO
+        PageRequest pr = ArticleRetrieveRequest.from(pageRequest);
+
+        List<ArticleResponseDTO.ArticleCreateResponseDTO> all = articleService.findAll(pr).stream()
+                .map(ArticleResponseDTO::of)
+                .toList();
+
+        return ResponseEntity.ok(new BaseResponseDto<>(1, all, "게시글 목록 조회 성공"));
     }
 
     @GetMapping("/{articleId}")

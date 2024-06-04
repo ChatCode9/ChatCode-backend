@@ -1,23 +1,32 @@
 package com.chatcode.service;
 
+import com.chatcode.domain.entity.Article;
 import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
+import com.chatcode.repository.article.ArticleWriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final ArticleWriteRepository articleWriteRepository;
 
     @Autowired
-    public ArticleService(ArticleRepository articleRepository) {
+    public ArticleService(ArticleRepository articleRepository, ArticleWriteRepository articleWriteRepository) {
         this.articleRepository = articleRepository;
+        this.articleWriteRepository = articleWriteRepository;
     }
 
     public void articleCreate(ArticleCreateRequestDTO params) {
@@ -47,4 +56,13 @@ public class ArticleService {
         articleRepository.deleteArticle(articleId);
     }
 
+    public List<Article> findAll(PageRequest pageRequest) {
+        return articleWriteRepository.findAllBy(pageRequest);
+    }
+
+    public List<Article> findArticlesOrderByCreateDt(int pageNum, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNum, pageSize, Sort.by("dateCreated").descending());
+
+        return articleWriteRepository.findAllBy(pageRequest);
+    }
 }
