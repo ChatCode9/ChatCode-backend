@@ -171,7 +171,7 @@ CREATE TABLE `file`
 (
     `id`           bigint                                  NOT NULL AUTO_INCREMENT,
     `url`          varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `target_id`    bigint                                  NULL,
+    `target_id`    bigint NULL,
     `date_created` datetime DEFAULT NULL,
     `last_updated` datetime DEFAULT NULL,
     CONSTRAINT PK_FILE PRIMARY KEY (`id`)
@@ -307,10 +307,10 @@ CREATE TABLE `content`
 
 CREATE TABLE `category`
 (
-    `id`	     bigint(20)	NOT NULL AUTO_INCREMENT,
+    `id`         bigint(20) NOT NULL AUTO_INCREMENT,
     `name`       varchar(255) NOT NULL,
     `sort_order` int(11) NOT NULL,
-    CONSTRAINT PK_CATEGORY PRIMARY KEY(`id`)
+    CONSTRAINT PK_CATEGORY PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `temp_article`
@@ -321,6 +321,16 @@ CREATE TABLE `temp_article`
     `content`         longtext NULL,
     `date_last_saved` datetime NULL,
     `status`          int(11) NULL
+);
+
+CREATE TABLE `blog_post`
+(
+    `id`        bigint(20) NOT NULL AUTO_INCREMENT,
+    `title`    varchar(255) NOT NULL,
+    `link`      varchar(255) NOT NULL,
+    `thumbnail` varchar(255) NULL,
+    `desc`      TEXT     NOT NULL,
+    CONSTRAINT PK_BLOG_POST PRIMARY KEY (`id`)
 );
 
 ALTER TABLE `user_role`
