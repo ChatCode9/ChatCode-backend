@@ -1,12 +1,13 @@
-package com.chatcode.repository;
+package com.chatcode.repository.article;
 
 import static com.chatcode.jooq.Tables.ARTICLE;
 import static com.chatcode.jooq.Tables.CONTENT;
 import static org.jooq.impl.DSL.currentLocalDateTime;
 
+import com.chatcode.domain.entity.ArticleTag;
+import com.chatcode.domain.entity.Tag;
 import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
-import com.chatcode.dto.ArticleResponseDTO.ArticleCreateResponseDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
@@ -24,6 +25,9 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ArticleRepository {
     private final DSLContext dslContext;
+    private final TagRepository tagRepository;
+    private final ArticleTagRepository articleTagRepository;
+    private final ArticleWriteRepository articleWriteRepository;
 
     public void createArticle(ArticleCreateRequestDTO articleDTO) {
 
@@ -46,7 +50,7 @@ public class ArticleRepository {
                 .set(ARTICLE.CONTENT_ID, contentRecord.getId())
                 .set(ARTICLE.TITLE, articleDTO.getTitle())
                 .set(ARTICLE.NOTE_COUNT, 0)
-                .set(ARTICLE.SCRAP_COUNT, 0)
+                .set(ARTICLE.SCRAP_COUNT, 1)
                 .set(ARTICLE.VIEW_COUNT, 0)
                 .set(ARTICLE.CATEGORY_ID, UUID.randomUUID().toString())
                 .set(ARTICLE.VERSION, 1L)
@@ -55,6 +59,7 @@ public class ArticleRepository {
                 .set(ARTICLE.DATE_CREATED, currentLocalDateTime())
                 .set(ARTICLE.LAST_UPDATED, currentLocalDateTime())
                 .set(ARTICLE.ENABLED, true)
+                .set(ARTICLE.TAG_STRING, articleDTO.getTag())
                 .returning()
                 .fetchOne();
 
@@ -62,8 +67,42 @@ public class ArticleRepository {
                 .set(CONTENT.ARTICLE_ID, articleRecord.getId())
                 .where(CONTENT.ID.eq(contentRecord.getId()))
                 .execute();
+
+        if (articleDTO.getTag() != null && !articleDTO.getTag().isEmpty()) {
+            tagToArticle(articleRecord.getId(), articleDTO.getTag());
+
+        }
     }
 
+    private void tagToArticle(Long articleId, String tagString) {
+        String[] tags = tagString.split(" ");
+        com.chatcode.domain.entity.Article article = articleWriteRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        for(String tagName : tags) {
+            Tag tag = findOrCreateTag(tagName);
+            tagCount(tag);
+
+            ArticleTag articleTag = new ArticleTag();
+            articleTag.setArticle(article);
+            articleTag.setTag(tag);
+            articleTagRepository.save(articleTag);
+        }
+    }
+
+    private Tag findOrCreateTag(String tagName) {
+        return tagRepository.findByName(tagName).orElseGet(() -> {
+            Tag newTag = new Tag();
+            newTag.setName(tagName);
+            newTag.setTagCount(0);
+            return tagRepository.save(newTag);
+        });
+    }
+
+    private void tagCount(Tag tag) {
+        tag.setTagCount(tag.getTagCount()+1);
+        tagRepository.save(tag);
+    }
 
     public Long findContentIdByArticleId(Long articleId) {
         Long contentId = dslContext.select(Content.CONTENT.ID)

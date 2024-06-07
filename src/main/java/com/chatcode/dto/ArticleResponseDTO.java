@@ -2,9 +2,6 @@ package com.chatcode.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 public class ArticleResponseDTO {
 
@@ -15,6 +12,7 @@ public class ArticleResponseDTO {
         private Long id;
         private String contentText;
         private String title;
+        private String tag;
         private Long version;
     }
 }
