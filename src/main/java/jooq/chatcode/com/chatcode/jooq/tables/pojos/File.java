@@ -5,6 +5,7 @@ package com.chatcode.jooq.tables.pojos;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 /**
@@ -16,47 +17,31 @@ public class File implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Long id;
-    private final Long version;
-    private final String attachType;
-    private final Integer byteSize;
-    private final Integer height;
-    private final Integer width;
-    private final String name;
-    private final String orgName;
-    private final String type;
+    private final String url;
+    private final Long targetId;
+    private final LocalDateTime dateCreated;
+    private final LocalDateTime lastUpdated;
 
     public File(File value) {
         this.id = value.id;
-        this.version = value.version;
-        this.attachType = value.attachType;
-        this.byteSize = value.byteSize;
-        this.height = value.height;
-        this.width = value.width;
-        this.name = value.name;
-        this.orgName = value.orgName;
-        this.type = value.type;
+        this.url = value.url;
+        this.targetId = value.targetId;
+        this.dateCreated = value.dateCreated;
+        this.lastUpdated = value.lastUpdated;
     }
 
     public File(
         Long id,
-        Long version,
-        String attachType,
-        Integer byteSize,
-        Integer height,
-        Integer width,
-        String name,
-        String orgName,
-        String type
+        String url,
+        Long targetId,
+        LocalDateTime dateCreated,
+        LocalDateTime lastUpdated
     ) {
         this.id = id;
-        this.version = version;
-        this.attachType = attachType;
-        this.byteSize = byteSize;
-        this.height = height;
-        this.width = width;
-        this.name = name;
-        this.orgName = orgName;
-        this.type = type;
+        this.url = url;
+        this.targetId = targetId;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
     }
 
     /**
@@ -67,59 +52,31 @@ public class File implements Serializable {
     }
 
     /**
-     * Getter for <code>file.version</code>.
+     * Getter for <code>file.url</code>.
      */
-    public Long getVersion() {
-        return this.version;
+    public String getUrl() {
+        return this.url;
     }
 
     /**
-     * Getter for <code>file.attach_type</code>.
+     * Getter for <code>file.target_id</code>.
      */
-    public String getAttachType() {
-        return this.attachType;
+    public Long getTargetId() {
+        return this.targetId;
     }
 
     /**
-     * Getter for <code>file.byte_size</code>.
+     * Getter for <code>file.date_created</code>.
      */
-    public Integer getByteSize() {
-        return this.byteSize;
+    public LocalDateTime getDateCreated() {
+        return this.dateCreated;
     }
 
     /**
-     * Getter for <code>file.height</code>.
+     * Getter for <code>file.last_updated</code>.
      */
-    public Integer getHeight() {
-        return this.height;
-    }
-
-    /**
-     * Getter for <code>file.width</code>.
-     */
-    public Integer getWidth() {
-        return this.width;
-    }
-
-    /**
-     * Getter for <code>file.name</code>.
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Getter for <code>file.org_name</code>.
-     */
-    public String getOrgName() {
-        return this.orgName;
-    }
-
-    /**
-     * Getter for <code>file.type</code>.
-     */
-    public String getType() {
-        return this.type;
+    public LocalDateTime getLastUpdated() {
+        return this.lastUpdated;
     }
 
     @Override
@@ -137,53 +94,29 @@ public class File implements Serializable {
         }
         else if (!this.id.equals(other.id))
             return false;
-        if (this.version == null) {
-            if (other.version != null)
+        if (this.url == null) {
+            if (other.url != null)
                 return false;
         }
-        else if (!this.version.equals(other.version))
+        else if (!this.url.equals(other.url))
             return false;
-        if (this.attachType == null) {
-            if (other.attachType != null)
+        if (this.targetId == null) {
+            if (other.targetId != null)
                 return false;
         }
-        else if (!this.attachType.equals(other.attachType))
+        else if (!this.targetId.equals(other.targetId))
             return false;
-        if (this.byteSize == null) {
-            if (other.byteSize != null)
+        if (this.dateCreated == null) {
+            if (other.dateCreated != null)
                 return false;
         }
-        else if (!this.byteSize.equals(other.byteSize))
+        else if (!this.dateCreated.equals(other.dateCreated))
             return false;
-        if (this.height == null) {
-            if (other.height != null)
+        if (this.lastUpdated == null) {
+            if (other.lastUpdated != null)
                 return false;
         }
-        else if (!this.height.equals(other.height))
-            return false;
-        if (this.width == null) {
-            if (other.width != null)
-                return false;
-        }
-        else if (!this.width.equals(other.width))
-            return false;
-        if (this.name == null) {
-            if (other.name != null)
-                return false;
-        }
-        else if (!this.name.equals(other.name))
-            return false;
-        if (this.orgName == null) {
-            if (other.orgName != null)
-                return false;
-        }
-        else if (!this.orgName.equals(other.orgName))
-            return false;
-        if (this.type == null) {
-            if (other.type != null)
-                return false;
-        }
-        else if (!this.type.equals(other.type))
+        else if (!this.lastUpdated.equals(other.lastUpdated))
             return false;
         return true;
     }
@@ -193,14 +126,10 @@ public class File implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.version == null) ? 0 : this.version.hashCode());
-        result = prime * result + ((this.attachType == null) ? 0 : this.attachType.hashCode());
-        result = prime * result + ((this.byteSize == null) ? 0 : this.byteSize.hashCode());
-        result = prime * result + ((this.height == null) ? 0 : this.height.hashCode());
-        result = prime * result + ((this.width == null) ? 0 : this.width.hashCode());
-        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
-        result = prime * result + ((this.orgName == null) ? 0 : this.orgName.hashCode());
-        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + ((this.url == null) ? 0 : this.url.hashCode());
+        result = prime * result + ((this.targetId == null) ? 0 : this.targetId.hashCode());
+        result = prime * result + ((this.dateCreated == null) ? 0 : this.dateCreated.hashCode());
+        result = prime * result + ((this.lastUpdated == null) ? 0 : this.lastUpdated.hashCode());
         return result;
     }
 
@@ -209,14 +138,10 @@ public class File implements Serializable {
         StringBuilder sb = new StringBuilder("File (");
 
         sb.append(id);
-        sb.append(", ").append(version);
-        sb.append(", ").append(attachType);
-        sb.append(", ").append(byteSize);
-        sb.append(", ").append(height);
-        sb.append(", ").append(width);
-        sb.append(", ").append(name);
-        sb.append(", ").append(orgName);
-        sb.append(", ").append(type);
+        sb.append(", ").append(url);
+        sb.append(", ").append(targetId);
+        sb.append(", ").append(dateCreated);
+        sb.append(", ").append(lastUpdated);
 
         sb.append(")");
         return sb.toString();

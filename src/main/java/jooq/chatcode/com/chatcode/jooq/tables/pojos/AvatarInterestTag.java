@@ -15,34 +15,34 @@ public class AvatarInterestTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long avtarId;
-    private final String name;
+    private final Long avatarId;
+    private final Long interestTagId;
 
     public AvatarInterestTag(AvatarInterestTag value) {
-        this.avtarId = value.avtarId;
-        this.name = value.name;
+        this.avatarId = value.avatarId;
+        this.interestTagId = value.interestTagId;
     }
 
     public AvatarInterestTag(
-        Long avtarId,
-        String name
+        Long avatarId,
+        Long interestTagId
     ) {
-        this.avtarId = avtarId;
-        this.name = name;
+        this.avatarId = avatarId;
+        this.interestTagId = interestTagId;
     }
 
     /**
-     * Getter for <code>avatar_interest_tag.avtar_id</code>.
+     * Getter for <code>avatar_interest_tag.avatar_id</code>.
      */
-    public Long getAvtarId() {
-        return this.avtarId;
+    public Long getAvatarId() {
+        return this.avatarId;
     }
 
     /**
-     * Getter for <code>avatar_interest_tag.name</code>.
+     * Getter for <code>avatar_interest_tag.interest_tag_id</code>.
      */
-    public String getName() {
-        return this.name;
+    public Long getInterestTagId() {
+        return this.interestTagId;
     }
 
     @Override
@@ -54,17 +54,17 @@ public class AvatarInterestTag implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final AvatarInterestTag other = (AvatarInterestTag) obj;
-        if (this.avtarId == null) {
-            if (other.avtarId != null)
+        if (this.avatarId == null) {
+            if (other.avatarId != null)
                 return false;
         }
-        else if (!this.avtarId.equals(other.avtarId))
+        else if (!this.avatarId.equals(other.avatarId))
             return false;
-        if (this.name == null) {
-            if (other.name != null)
+        if (this.interestTagId == null) {
+            if (other.interestTagId != null)
                 return false;
         }
-        else if (!this.name.equals(other.name))
+        else if (!this.interestTagId.equals(other.interestTagId))
             return false;
         return true;
     }
@@ -73,8 +73,8 @@ public class AvatarInterestTag implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.avtarId == null) ? 0 : this.avtarId.hashCode());
-        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.avatarId == null) ? 0 : this.avatarId.hashCode());
+        result = prime * result + ((this.interestTagId == null) ? 0 : this.interestTagId.hashCode());
         return result;
     }
 
@@ -82,8 +82,8 @@ public class AvatarInterestTag implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("AvatarInterestTag (");
 
-        sb.append(avtarId);
-        sb.append(", ").append(name);
+        sb.append(avatarId);
+        sb.append(", ").append(interestTagId);
 
         sb.append(")");
         return sb.toString();
