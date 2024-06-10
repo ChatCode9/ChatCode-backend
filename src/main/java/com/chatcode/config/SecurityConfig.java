@@ -55,7 +55,6 @@ public class SecurityConfig {
         http.logout(logout -> logout.disable());
 
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll());
 
         http.oauth2Login(oauth2 -> oauth2

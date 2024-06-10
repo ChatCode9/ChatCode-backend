@@ -56,4 +56,10 @@ public class Avatar {
         }
         interestTags.add(interestTag);
     }
+
+    public void removeInterestTag(InterestTag interestTag) {
+        if (interestTags != null) {
+            interestTags.remove(interestTag);
+        }
+    }
 }

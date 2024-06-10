@@ -4,9 +4,11 @@ import com.chatcode.domain.entity.Avatar;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarCreateRequest;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarUpdateRequest;
 import com.chatcode.dto.avatar.AvatarResponse;
+import com.chatcode.dto.tag.InterestTagRequest.InterestTagIdRequest;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
+import com.chatcode.repository.tag.InterestTagWriteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class AvatarService {
 
     private final AvatarReadRepository avatarReadRepository;
     private final AvatarWriteRepository avatarWriteRepository;
+    private final InterestTagWriteRepository interestTagWriteRepository;
 
     @Transactional
     public AvatarResponse createNewAvatar(AvatarCreateRequest params) {
@@ -69,5 +72,25 @@ public class AvatarService {
         Avatar avatar = avatarReadRepository.findById(id)
                 .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
         return AvatarResponse.of(avatar);
+    }
+
+    @Transactional(readOnly = true)
+    public void addInterestTags(List<InterestTagIdRequest> params, Long id) {
+        Avatar avatar = avatarReadRepository.findById(id)
+                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+        params.stream()
+                .map(InterestTagIdRequest::getId)
+                .map(interestTagWriteRepository::getReferenceById)
+                .forEach(avatar::addInterestTag);
+    }
+
+    @Transactional
+    public void deleteInterestTags(List<InterestTagIdRequest> params, Long id) {
+        Avatar avatar = avatarReadRepository.findById(id)
+                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+        params.stream()
+                .map(InterestTagIdRequest::getId)
+                .map(interestTagWriteRepository::getReferenceById)
+                .forEach(avatar::removeInterestTag);
     }
 }
