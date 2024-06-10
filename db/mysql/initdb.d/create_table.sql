@@ -44,7 +44,7 @@ CREATE TABLE `article`
 
 CREATE TABLE `interest_tag`
 (
-    `id` bigint(20) NOT NULL,
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `name`     varchar(255) NOT NULL,
     CONSTRAINT INTEREST_TAG PRIMARY KEY (`id`)
 );
