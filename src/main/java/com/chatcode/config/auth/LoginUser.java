@@ -1,5 +1,6 @@
 package com.chatcode.config.auth;
 
+import com.chatcode.config.auth.enums.Status;
 import com.chatcode.domain.entity.User;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +21,7 @@ public class LoginUser implements OAuth2User {
     private final String username;
     private final Map<String, Object> attributes;
     private final List<String> roles;
-    private final Integer status;
+    private final Status status;
 
     public LoginUser(User user, Map<String, Object> attributes, List<String> roles) {
         this.id = user.getId();
@@ -40,7 +41,7 @@ public class LoginUser implements OAuth2User {
     }
 
     public Integer getStatus() {
-        return status;
+        return status.getValue();
     }
 
     @Override
