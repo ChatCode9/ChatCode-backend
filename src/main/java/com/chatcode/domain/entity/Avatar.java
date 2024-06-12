@@ -5,9 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.util.ArrayList;
@@ -42,12 +40,7 @@ public class Avatar {
     @Column(nullable = false)
     private String picture;
 
-    @ManyToMany(fetch = jakarta.persistence.FetchType.LAZY)
-    @JoinTable(
-            name = "avatar_interest_tag",
-            joinColumns = @JoinColumn(name = "avatar_id"),
-            inverseJoinColumns = @JoinColumn(name = "interest_tag_id")
-    )
+    @OneToMany(mappedBy = "avatar", fetch = jakarta.persistence.FetchType.LAZY)
     private List<InterestTag> interestTags;
 
     public void addInterestTag(InterestTag interestTag) {
