@@ -1,9 +1,9 @@
 package com.chatcode.controller;
 
-import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
-import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
-import com.chatcode.dto.ArticleResponseDTO;
-import com.chatcode.dto.ArticleRetrieveRequest;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.article.ArticleResponseDTO;
+import com.chatcode.dto.article.ArticleRetrieveRequest;
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.service.ArticleService;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO.ArticleCreateResponseDTO>>> getArticleList(@ModelAttribute ArticleRetrieveRequest pageRequest) {
+    public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO.ArticleCreateResponseDTO>>> getArticleList(@RequestBody ArticleRetrieveRequest pageRequest) {
 //        List<String> articleList = articleService.readArticleList();
 
         //TODO

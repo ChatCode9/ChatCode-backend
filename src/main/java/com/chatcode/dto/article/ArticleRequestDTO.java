@@ -1,4 +1,4 @@
-package com.chatcode.dto;
+package com.chatcode.dto.article;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

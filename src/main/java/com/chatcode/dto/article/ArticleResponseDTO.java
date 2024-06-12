@@ -1,11 +1,8 @@
-package com.chatcode.dto;
+package com.chatcode.dto.article;
 
 import com.chatcode.domain.entity.Article;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 public class ArticleResponseDTO {
 
