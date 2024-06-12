@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +41,14 @@ public class InterestTagController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 
+    @GetMapping("/avatars/{avatarId}/interest-tags")
+    @Operation(summary = "USER의 관심 태그 목록 조회", description = "USER의 관심 태그 목록을 조회합니다. (누구나 접근 가능)")
+    @ApiResponse(responseCode = "200", description = "USER의 관심 태그 목록 조회 성공")
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> get(@PathVariable Long avatarId) {
+        List<InterestTagResponse> responseBody = avatarService.getInterestTags(avatarId);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
+    }
+
     @PostMapping("/avatars/interest-tags")
     @Operation(summary = "USER의 관심 태그 추가", description = "USER의 관심 태그를 추가합니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "USER의 관심 태그 추가 성공")
@@ -53,10 +62,11 @@ public class InterestTagController {
     @DeleteMapping("/avatars/interest-tags")
     @Operation(summary = "USER의 관심 태그 삭제", description = "USER의 관심 태그를 삭제합니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "204", description = "USER의 관심 태그 삭제 성공")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@RequestBody List<InterestTagIdRequest> params,
                                                                        @AuthenticationPrincipal LoginUser loginUser) {
         avatarService.deleteInterestTags(params, loginUser.getId());
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new BaseResponseDto<>(HttpStatus.NO_CONTENT.value(), null, "success"));
+        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));
     }
 
     @PostMapping("/admin/interest-tags")
@@ -72,7 +82,7 @@ public class InterestTagController {
     @ApiResponse(responseCode = "204", description = "관심 태그 삭제 성공")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@RequestBody List<InterestTagIdRequest> params) {
         interestTagService.deleteInterestTags(params);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new BaseResponseDto<>(HttpStatus.NO_CONTENT.value(), null, "success"));
+        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));
     }
 
     @PutMapping("/admin/interest-tags")

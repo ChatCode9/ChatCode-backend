@@ -23,6 +23,10 @@ public class InterestTagResponse {
         return response;
     }
 
+    public static InterestTagResponse of(InterestTag interestTag) {
+        return InterestTagResponse.of(interestTag.getId(), interestTag.getName());
+    }
+
     public static List<InterestTagResponse> of(List<InterestTag> tags) {
         return tags.stream()
                 .map(tag -> InterestTagResponse.of(tag.getId(), tag.getName()))

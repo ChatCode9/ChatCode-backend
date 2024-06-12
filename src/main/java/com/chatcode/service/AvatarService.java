@@ -5,9 +5,11 @@ import com.chatcode.dto.avatar.AvatarRequest.AvatarCreateRequest;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarUpdateRequest;
 import com.chatcode.dto.avatar.AvatarResponse;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagIdRequest;
+import com.chatcode.dto.tag.InterestTagResponse;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
+import com.chatcode.repository.tag.AvatarInterestTagReadRepository;
 import com.chatcode.repository.tag.InterestTagWriteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -22,6 +24,7 @@ public class AvatarService {
     private final AvatarReadRepository avatarReadRepository;
     private final AvatarWriteRepository avatarWriteRepository;
     private final InterestTagWriteRepository interestTagWriteRepository;
+    private final AvatarInterestTagReadRepository avatarInterestTagReadRepository;
 
     @Transactional
     public AvatarResponse createNewAvatar(AvatarCreateRequest params) {
@@ -92,5 +95,14 @@ public class AvatarService {
                 .map(InterestTagIdRequest::getId)
                 .map(interestTagWriteRepository::getReferenceById)
                 .forEach(avatar::removeInterestTag);
+    }
+
+    @Transactional(readOnly = true)
+    public List<InterestTagResponse> getInterestTags(Long avatarId) {
+        Avatar avatar = avatarReadRepository.findById(avatarId)
+                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+        return avatar.getInterestTags().stream()
+                .map(InterestTagResponse::of)
+                .toList();
     }
 }
