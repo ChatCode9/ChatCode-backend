@@ -15,20 +15,31 @@ public class AvatarInterestTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private final Long id;
     private final Long avatarId;
     private final Long interestTagId;
 
     public AvatarInterestTag(AvatarInterestTag value) {
+        this.id = value.id;
         this.avatarId = value.avatarId;
         this.interestTagId = value.interestTagId;
     }
 
     public AvatarInterestTag(
+        Long id,
         Long avatarId,
         Long interestTagId
     ) {
+        this.id = id;
         this.avatarId = avatarId;
         this.interestTagId = interestTagId;
+    }
+
+    /**
+     * Getter for <code>avatar_interest_tag.id</code>.
+     */
+    public Long getId() {
+        return this.id;
     }
 
     /**
@@ -54,6 +65,12 @@ public class AvatarInterestTag implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final AvatarInterestTag other = (AvatarInterestTag) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
         if (this.avatarId == null) {
             if (other.avatarId != null)
                 return false;
@@ -73,6 +90,7 @@ public class AvatarInterestTag implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.avatarId == null) ? 0 : this.avatarId.hashCode());
         result = prime * result + ((this.interestTagId == null) ? 0 : this.interestTagId.hashCode());
         return result;
@@ -82,7 +100,8 @@ public class AvatarInterestTag implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("AvatarInterestTag (");
 
-        sb.append(avatarId);
+        sb.append(id);
+        sb.append(", ").append(avatarId);
         sb.append(", ").append(interestTagId);
 
         sb.append(")");

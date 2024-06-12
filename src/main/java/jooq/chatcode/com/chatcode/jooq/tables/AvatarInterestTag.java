@@ -17,6 +17,7 @@ import java.util.List;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.InverseForeignKey;
 import org.jooq.Name;
 import org.jooq.Path;
@@ -56,6 +57,11 @@ public class AvatarInterestTag extends TableImpl<AvatarInterestTagRecord> {
     public Class<AvatarInterestTagRecord> getRecordType() {
         return AvatarInterestTagRecord.class;
     }
+
+    /**
+     * The column <code>avatar_interest_tag.id</code>.
+     */
+    public final TableField<AvatarInterestTagRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>avatar_interest_tag.avatar_id</code>.
@@ -130,6 +136,11 @@ public class AvatarInterestTag extends TableImpl<AvatarInterestTagRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<AvatarInterestTagRecord, Long> getIdentity() {
+        return (Identity<AvatarInterestTagRecord, Long>) super.getIdentity();
     }
 
     @Override

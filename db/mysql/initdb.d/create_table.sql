@@ -6,8 +6,10 @@ CREATE TABLE `user_role`
 
 CREATE TABLE `avatar_interest_tag`
 (
-    `avatar_id` bigint(20) NOT NULL,
-    `interest_tag_id`    bigint(20) NOT NULL
+    `id`                bigint(20) NOT NULL AUTO_INCREMENT,
+    `avatar_id`         bigint(20) NOT NULL,
+    `interest_tag_id`   bigint(20) NOT NULL,
+    CONSTRAINT PK_AVATAR_INTEREST_TAG PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `area_district_code`
@@ -46,7 +48,7 @@ CREATE TABLE `interest_tag`
 (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `name`     varchar(255) NOT NULL,
-    CONSTRAINT INTEREST_TAG PRIMARY KEY (`id`)
+    CONSTRAINT PK_INTEREST_TAG PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `(optional)notification_read`
@@ -334,12 +336,6 @@ ALTER TABLE `user_role`
     ADD CONSTRAINT `PK_USER_ROLE` PRIMARY KEY (
                                                `user_id`,
                                                `role_id`
-        );
-
-ALTER TABLE `avatar_interest_tag`
-    ADD CONSTRAINT `PK_AVATAR_INTEREST_TAG` PRIMARY KEY (
-                                               `avatar_id`,
-                                               `interest_tag_id`
         );
 
 ALTER TABLE `area_district_code`

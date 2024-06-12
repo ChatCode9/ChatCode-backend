@@ -6,7 +6,7 @@ package com.chatcode.jooq.tables.records;
 
 import com.chatcode.jooq.tables.AvatarInterestTag;
 
-import org.jooq.Record2;
+import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -19,10 +19,25 @@ public class AvatarInterestTagRecord extends UpdatableRecordImpl<AvatarInterestT
     private static final long serialVersionUID = 1L;
 
     /**
+     * Setter for <code>avatar_interest_tag.id</code>.
+     */
+    public AvatarInterestTagRecord setId(Long value) {
+        set(0, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>avatar_interest_tag.id</code>.
+     */
+    public Long getId() {
+        return (Long) get(0);
+    }
+
+    /**
      * Setter for <code>avatar_interest_tag.avatar_id</code>.
      */
     public AvatarInterestTagRecord setAvatarId(Long value) {
-        set(0, value);
+        set(1, value);
         return this;
     }
 
@@ -30,14 +45,14 @@ public class AvatarInterestTagRecord extends UpdatableRecordImpl<AvatarInterestT
      * Getter for <code>avatar_interest_tag.avatar_id</code>.
      */
     public Long getAvatarId() {
-        return (Long) get(0);
+        return (Long) get(1);
     }
 
     /**
      * Setter for <code>avatar_interest_tag.interest_tag_id</code>.
      */
     public AvatarInterestTagRecord setInterestTagId(Long value) {
-        set(1, value);
+        set(2, value);
         return this;
     }
 
@@ -45,7 +60,7 @@ public class AvatarInterestTagRecord extends UpdatableRecordImpl<AvatarInterestT
      * Getter for <code>avatar_interest_tag.interest_tag_id</code>.
      */
     public Long getInterestTagId() {
-        return (Long) get(1);
+        return (Long) get(2);
     }
 
     // -------------------------------------------------------------------------
@@ -53,8 +68,8 @@ public class AvatarInterestTagRecord extends UpdatableRecordImpl<AvatarInterestT
     // -------------------------------------------------------------------------
 
     @Override
-    public Record2<Long, Long> key() {
-        return (Record2) super.key();
+    public Record1<Long> key() {
+        return (Record1) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -71,9 +86,10 @@ public class AvatarInterestTagRecord extends UpdatableRecordImpl<AvatarInterestT
     /**
      * Create a detached, initialised AvatarInterestTagRecord
      */
-    public AvatarInterestTagRecord(Long avatarId, Long interestTagId) {
+    public AvatarInterestTagRecord(Long id, Long avatarId, Long interestTagId) {
         super(AvatarInterestTag.AVATAR_INTEREST_TAG);
 
+        setId(id);
         setAvatarId(avatarId);
         setInterestTagId(interestTagId);
         resetChangedOnNotNull();
@@ -86,6 +102,7 @@ public class AvatarInterestTagRecord extends UpdatableRecordImpl<AvatarInterestT
         super(AvatarInterestTag.AVATAR_INTEREST_TAG);
 
         if (value != null) {
+            setId(value.getId());
             setAvatarId(value.getAvatarId());
             setInterestTagId(value.getInterestTagId());
             resetChangedOnNotNull();

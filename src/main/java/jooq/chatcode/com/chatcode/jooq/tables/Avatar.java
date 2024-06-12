@@ -9,7 +9,6 @@ import com.chatcode.jooq.Keys;
 import com.chatcode.jooq.tables.Article.ArticlePath;
 import com.chatcode.jooq.tables.AvatarInterestTag.AvatarInterestTagPath;
 import com.chatcode.jooq.tables.Follow.FollowPath;
-import com.chatcode.jooq.tables.InterestTag.InterestTagPath;
 import com.chatcode.jooq.tables.Scrap.ScrapPath;
 import com.chatcode.jooq.tables.records.AvatarRecord;
 
@@ -208,14 +207,6 @@ public class Avatar extends TableImpl<AvatarRecord> {
             _scrap = new ScrapPath(this, null, Keys.FK_AVATAR_TO_SCRAP_1.getInverseKey());
 
         return _scrap;
-    }
-
-    /**
-     * Get the implicit many-to-many join path to the
-     * <code>PUBLIC.interest_tag</code> table
-     */
-    public InterestTagPath interestTag() {
-        return avatarInterestTag().interestTag();
     }
 
     /**
