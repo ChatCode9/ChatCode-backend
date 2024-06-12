@@ -234,7 +234,6 @@ CREATE TABLE `tag`
 (
     `id`           bigint(20) NOT NULL AUTO_INCREMENT,
     `date_created` datetime     NOT NULL,
-    `description`  varchar(255) NULL,
     `name`         varchar(255) NOT NULL,
     `tagged_count` int(11) NOT NULL,
     CONSTRAINT PK_TAG PRIMARY KEY (`id`)

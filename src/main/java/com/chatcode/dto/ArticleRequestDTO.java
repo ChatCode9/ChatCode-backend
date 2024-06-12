@@ -3,11 +3,12 @@ package com.chatcode.dto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.Data;
 
 public class ArticleRequestDTO {
 
-@Data
+    @Data
     public static class ArticleCreateRequestDTO {
         //content
         @NotNull
@@ -21,10 +22,10 @@ public class ArticleRequestDTO {
         @NotEmpty
         private String title;
 
-        private String tag;
+        private List<String> tags;
     }
 
-@Data
+    @Data
     public static class ArticleUpdateRequestDTO {
         //content
         @NotNull
@@ -39,6 +40,6 @@ public class ArticleRequestDTO {
         @NotEmpty
         private String title;
 
+        private List<String> tags;
     }
-
 }
