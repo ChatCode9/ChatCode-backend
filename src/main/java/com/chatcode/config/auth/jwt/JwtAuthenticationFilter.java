@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (accessToken != null && accessToken.startsWith(jwtSettings.getTokenPrefix())) {
             return accessToken.replace(jwtSettings.getTokenPrefix(), "");
         }
-        return null;
+        return request.getHeader(jwtSettings.getAccessKey());
     }
 
     private void setAuthentication(String accessToken) {
