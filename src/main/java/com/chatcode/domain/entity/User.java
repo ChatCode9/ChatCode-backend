@@ -1,7 +1,10 @@
 package com.chatcode.domain.entity;
 
+import com.chatcode.config.auth.enums.Status;
+import com.chatcode.config.auth.enums.StatusConverter;
 import com.chatcode.domain.AuditingFields;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -62,7 +65,8 @@ public class User extends AuditingFields {
     private Boolean withdraw;
 
     @Column(nullable = false)
-    private Integer status;
+    @Convert(converter = StatusConverter.class)
+    private Status status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

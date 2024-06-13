@@ -2,6 +2,7 @@ package com.chatcode.config;
 
 import com.chatcode.config.auth.jwt.JwtAuthenticationFilter;
 import com.chatcode.config.auth.jwt.JwtExceptionFilter;
+import com.chatcode.config.auth.oauth.OAuth2LoginFilter;
 import com.chatcode.config.auth.oauth.OAuth2LoginUserService;
 import com.chatcode.config.auth.oauth.OAuth2SuccessHandler;
 import com.chatcode.dto.BaseResponseDto;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -33,12 +35,21 @@ public class SecurityConfig {
     private final OAuth2LoginUserService oAuth2LoginUserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2LoginFilter oAuth2LoginFilter;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**")
                 .requestMatchers("/favicon.ico", "/error");
+    }
+
+    @Bean
+    public FilterRegistrationBean<OAuth2LoginFilter> oauth2LoginFilter() {
+        FilterRegistrationBean<OAuth2LoginFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(oAuth2LoginFilter);
+        registrationBean.addUrlPatterns("/login/oauth2/*");
+        return registrationBean;
     }
 
     @Bean

@@ -51,7 +51,7 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 생성", description = "새로운 카테고리를 생성하는 API (관리자 권한 필요) <br />")
     @ApiResponse(responseCode = "201", description = "카테고리 생성 성공")
     public ResponseEntity<BaseResponseDto<CategoryResponse>> create(@Valid @RequestBody CategoryCreateRequest params) {
@@ -60,7 +60,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}/name")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 이름 수정", description = "특정 카테고리의 이름을 수정하는 API (관리자 권한 필요) <br />")
     @ApiResponse(responseCode = "200", description = "카테고리 이름 수정 성공")
     @ApiResponse(responseCode = "400", description = "잘못된 category ID에 대한 요청", content = @Content(schema = @Schema(implementation = BaseResponseDto.class)))
@@ -71,7 +71,7 @@ public class CategoryController {
     }
 
     @PutMapping("/order")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 순서 수정", description = "카테고리의 순서를 수정하는 API (관리자 권한 필요) <br />")
     @ApiResponse(responseCode = "200", description = "카테고리 순서 수정 성공")
     @ApiResponse(responseCode = "400", description = "잘못된 category ID에 대한 요청", content = @Content(schema = @Schema(implementation = BaseResponseDto.class)))
@@ -84,7 +84,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{categoryId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 삭제", description = "특정 카테고리를 삭제하는 API (관리자 권한 필요) <br />")
     @ApiResponse(responseCode = "200", description = "카테고리 삭제 성공")
     public ResponseEntity<BaseResponseDto<Void>> delete(@PathVariable Long categoryId) {

@@ -42,7 +42,6 @@ class JwtProviderTest {
         String accessToken = createAccessToken();
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         if (jwtProvider.validateToken(accessToken) == false) {
             throw new RuntimeException("토큰이 유효하지 않습니다.");
         }
@@ -61,7 +60,6 @@ class JwtProviderTest {
         accessToken = accessToken + "a";
 
         // when
-        JwtProvider jwtProvider = new JwtProvider(jwtSettings);
         boolean result = jwtProvider.validateToken(accessToken);
 
         // then

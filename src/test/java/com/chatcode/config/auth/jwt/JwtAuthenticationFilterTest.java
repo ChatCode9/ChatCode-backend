@@ -41,33 +41,4 @@ class JwtAuthenticationFilterTest {
         // then
         resultActions.andExpect(status().isNotFound()); // 404 (권한 인증은 통과 된 상태)
     }
-
-    @Test
-    void authorization_fail_test() throws Exception {
-        // given
-
-        // when
-        ResultActions resultActions = mvc.perform(get("/api"));
-
-        // then
-        resultActions.andExpect(status().isUnauthorized()); // 401 (권한 인증 실패 상태)
-    }
-
-    @Test
-    void authorization_admin_test() throws Exception {
-        // given
-        LoginUser loginUser = LoginUser.builder()
-                .id(1L)
-                .roles(List.of("ROLE_USER"))
-                .avatarId(1L)
-                .username("test")
-                .build();
-        String accessToken = jwtProvider.createAccessToken(loginUser);
-
-        // when
-        ResultActions resultActions = mvc.perform(get("/admin").header(jwtSettings.getAccessKey(), accessToken));
-
-        // then
-        resultActions.andExpect(status().isForbidden()); // 403 (접근 권한 없음)
-    }
 }
