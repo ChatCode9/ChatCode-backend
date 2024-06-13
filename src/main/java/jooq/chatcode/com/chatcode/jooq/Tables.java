@@ -22,6 +22,7 @@ import com.chatcode.jooq.tables.ContentFile;
 import com.chatcode.jooq.tables.ContentVote;
 import com.chatcode.jooq.tables.File;
 import com.chatcode.jooq.tables.Follow;
+import com.chatcode.jooq.tables.InterestTag;
 import com.chatcode.jooq.tables.LoggedIn;
 import com.chatcode.jooq.tables.Oauthid;
 import com.chatcode.jooq.tables.Opinion;
@@ -141,6 +142,11 @@ public class Tables {
      * The table <code>follow</code>.
      */
     public static final Follow FOLLOW = Follow.FOLLOW;
+
+    /**
+     * The table <code>interest_tag</code>.
+     */
+    public static final InterestTag INTEREST_TAG = InterestTag.INTEREST_TAG;
 
     /**
      * The table <code>logged_in</code>.

@@ -4,6 +4,14 @@ CREATE TABLE `user_role`
     `role_id` bigint(20) NOT NULL
 );
 
+CREATE TABLE `avatar_interest_tag`
+(
+    `id`                bigint(20) NOT NULL AUTO_INCREMENT,
+    `avatar_id`         bigint(20) NOT NULL,
+    `interest_tag_id`   bigint(20) NOT NULL,
+    CONSTRAINT PK_AVATAR_INTEREST_TAG PRIMARY KEY (`id`)
+);
+
 CREATE TABLE `area_district_code`
 (
     `id`                varchar(255) NOT NULL,
@@ -36,10 +44,11 @@ CREATE TABLE `article`
     CONSTRAINT PK_ARTICLE PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `avatar_interest_tag`
+CREATE TABLE `interest_tag`
 (
-    `avtar_id` bigint(20) NOT NULL,
-    `name`     varchar(255) NOT NULL
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name`     varchar(255) NOT NULL,
+    CONSTRAINT PK_INTEREST_TAG PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `(optional)notification_read`
@@ -429,6 +438,22 @@ ALTER TABLE `user_role`
                                                          `role_id`
         )
         REFERENCES `role` (
+                           `id`
+            );
+
+ALTER TABLE `avatar_interest_tag`
+    ADD CONSTRAINT `FK_avatar_TO_avatar_interest_tag_1` FOREIGN KEY (
+                                                         `avatar_id`
+        )
+        REFERENCES `avatar` (
+                           `id`
+            );
+
+ALTER TABLE `avatar_interest_tag`
+    ADD CONSTRAINT `FK_tag_TO_avatar_interest_tag_1` FOREIGN KEY (
+                                                         `interest_tag_id`
+        )
+        REFERENCES `interest_tag` (
                            `id`
             );
 
