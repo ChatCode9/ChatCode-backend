@@ -7,6 +7,7 @@ package com.chatcode.jooq.tables;
 import com.chatcode.jooq.DefaultSchema;
 import com.chatcode.jooq.Keys;
 import com.chatcode.jooq.tables.Article.ArticlePath;
+import com.chatcode.jooq.tables.AvatarInterestTag.AvatarInterestTagPath;
 import com.chatcode.jooq.tables.Follow.FollowPath;
 import com.chatcode.jooq.tables.Scrap.ScrapPath;
 import com.chatcode.jooq.tables.records.AvatarRecord;
@@ -155,6 +156,19 @@ public class Avatar extends TableImpl<AvatarRecord> {
     @Override
     public UniqueKey<AvatarRecord> getPrimaryKey() {
         return Keys.PK_AVATAR;
+    }
+
+    private transient AvatarInterestTagPath _avatarInterestTag;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>PUBLIC.avatar_interest_tag</code> table
+     */
+    public AvatarInterestTagPath avatarInterestTag() {
+        if (_avatarInterestTag == null)
+            _avatarInterestTag = new AvatarInterestTagPath(this, null, Keys.FK_AVATAR_TO_AVATAR_INTEREST_TAG_1.getInverseKey());
+
+        return _avatarInterestTag;
     }
 
     private transient FollowPath _fkAvatarToFollow_1;

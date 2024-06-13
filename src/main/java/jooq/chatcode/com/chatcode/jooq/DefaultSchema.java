@@ -22,6 +22,7 @@ import com.chatcode.jooq.tables.ContentFile;
 import com.chatcode.jooq.tables.ContentVote;
 import com.chatcode.jooq.tables.File;
 import com.chatcode.jooq.tables.Follow;
+import com.chatcode.jooq.tables.InterestTag;
 import com.chatcode.jooq.tables.LoggedIn;
 import com.chatcode.jooq.tables.Oauthid;
 import com.chatcode.jooq.tables.Opinion;
@@ -157,6 +158,11 @@ public class DefaultSchema extends SchemaImpl {
     public final Follow FOLLOW = Follow.FOLLOW;
 
     /**
+     * The table <code>interest_tag</code>.
+     */
+    public final InterestTag INTEREST_TAG = InterestTag.INTEREST_TAG;
+
+    /**
      * The table <code>logged_in</code>.
      */
     public final LoggedIn LOGGED_IN = LoggedIn.LOGGED_IN;
@@ -242,6 +248,7 @@ public class DefaultSchema extends SchemaImpl {
             ContentVote.CONTENT_VOTE,
             File.FILE,
             Follow.FOLLOW,
+            InterestTag.INTEREST_TAG,
             LoggedIn.LOGGED_IN,
             Oauthid.OAUTHID,
             Opinion.OPINION,

@@ -9,6 +9,7 @@ import com.chatcode.jooq.tables.AreaCityCode;
 import com.chatcode.jooq.tables.AreaDistrictCode;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Avatar;
+import com.chatcode.jooq.tables.AvatarInterestTag;
 import com.chatcode.jooq.tables.Banner;
 import com.chatcode.jooq.tables.BannerClick;
 import com.chatcode.jooq.tables.Category;
@@ -19,6 +20,7 @@ import com.chatcode.jooq.tables.Content;
 import com.chatcode.jooq.tables.ContentVote;
 import com.chatcode.jooq.tables.File;
 import com.chatcode.jooq.tables.Follow;
+import com.chatcode.jooq.tables.InterestTag;
 import com.chatcode.jooq.tables.LoggedIn;
 import com.chatcode.jooq.tables.Oauthid;
 import com.chatcode.jooq.tables.Opinion;
@@ -35,6 +37,7 @@ import com.chatcode.jooq.tables.records.ActivityRecord;
 import com.chatcode.jooq.tables.records.AreaCityCodeRecord;
 import com.chatcode.jooq.tables.records.AreaDistrictCodeRecord;
 import com.chatcode.jooq.tables.records.ArticleRecord;
+import com.chatcode.jooq.tables.records.AvatarInterestTagRecord;
 import com.chatcode.jooq.tables.records.AvatarRecord;
 import com.chatcode.jooq.tables.records.BannerClickRecord;
 import com.chatcode.jooq.tables.records.BannerRecord;
@@ -46,6 +49,7 @@ import com.chatcode.jooq.tables.records.ContentRecord;
 import com.chatcode.jooq.tables.records.ContentVoteRecord;
 import com.chatcode.jooq.tables.records.FileRecord;
 import com.chatcode.jooq.tables.records.FollowRecord;
+import com.chatcode.jooq.tables.records.InterestTagRecord;
 import com.chatcode.jooq.tables.records.LoggedInRecord;
 import com.chatcode.jooq.tables.records.OauthidRecord;
 import com.chatcode.jooq.tables.records.OpinionRecord;
@@ -84,6 +88,7 @@ public class Keys {
     public static final UniqueKey<AreaDistrictCodeRecord> PK_AREA_DISTRICT_CODE = Internal.createUniqueKey(AreaDistrictCode.AREA_DISTRICT_CODE, DSL.name("PK_AREA_DISTRICT_CODE"), new TableField[] { AreaDistrictCode.AREA_DISTRICT_CODE.ID }, true);
     public static final UniqueKey<ArticleRecord> PK_ARTICLE = Internal.createUniqueKey(Article.ARTICLE, DSL.name("PK_ARTICLE"), new TableField[] { Article.ARTICLE.ID }, true);
     public static final UniqueKey<AvatarRecord> PK_AVATAR = Internal.createUniqueKey(Avatar.AVATAR, DSL.name("PK_AVATAR"), new TableField[] { Avatar.AVATAR.ID }, true);
+    public static final UniqueKey<AvatarInterestTagRecord> PK_AVATAR_INTEREST_TAG = Internal.createUniqueKey(AvatarInterestTag.AVATAR_INTEREST_TAG, DSL.name("PK_AVATAR_INTEREST_TAG"), new TableField[] { AvatarInterestTag.AVATAR_INTEREST_TAG.ID }, true);
     public static final UniqueKey<BannerRecord> PK_BANNER = Internal.createUniqueKey(Banner.BANNER, DSL.name("PK_BANNER"), new TableField[] { Banner.BANNER.ID }, true);
     public static final UniqueKey<BannerClickRecord> PK_BANNER_CLICK = Internal.createUniqueKey(BannerClick.BANNER_CLICK, DSL.name("PK_BANNER_CLICK"), new TableField[] { BannerClick.BANNER_CLICK.ID }, true);
     public static final UniqueKey<CategoryRecord> PK_CATEGORY = Internal.createUniqueKey(Category.CATEGORY, DSL.name("PK_CATEGORY"), new TableField[] { Category.CATEGORY.ID }, true);
@@ -94,6 +99,7 @@ public class Keys {
     public static final UniqueKey<ContentVoteRecord> PK_CONTENT_VOTE = Internal.createUniqueKey(ContentVote.CONTENT_VOTE, DSL.name("PK_CONTENT_VOTE"), new TableField[] { ContentVote.CONTENT_VOTE.ID }, true);
     public static final UniqueKey<FileRecord> PK_FILE = Internal.createUniqueKey(File.FILE, DSL.name("PK_FILE"), new TableField[] { File.FILE.ID }, true);
     public static final UniqueKey<FollowRecord> PK_FOLLOW = Internal.createUniqueKey(Follow.FOLLOW, DSL.name("PK_FOLLOW"), new TableField[] { Follow.FOLLOW.FOLLOWER_ID, Follow.FOLLOW.FOLLOWING_ID }, true);
+    public static final UniqueKey<InterestTagRecord> PK_INTEREST_TAG = Internal.createUniqueKey(InterestTag.INTEREST_TAG, DSL.name("PK_INTEREST_TAG"), new TableField[] { InterestTag.INTEREST_TAG.ID }, true);
     public static final UniqueKey<LoggedInRecord> PK_LOGGED_IN = Internal.createUniqueKey(LoggedIn.LOGGED_IN, DSL.name("PK_LOGGED_IN"), new TableField[] { LoggedIn.LOGGED_IN.ID }, true);
     public static final UniqueKey<OauthidRecord> PK_OAUTHID = Internal.createUniqueKey(Oauthid.OAUTHID, DSL.name("PK_OAUTHID"), new TableField[] { Oauthid.OAUTHID.ID }, true);
     public static final UniqueKey<OpinionRecord> PK_OPINION = Internal.createUniqueKey(Opinion.OPINION, DSL.name("PK_OPINION"), new TableField[] { Opinion.OPINION.ID }, true);
@@ -110,6 +116,8 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<AvatarInterestTagRecord, AvatarRecord> FK_AVATAR_TO_AVATAR_INTEREST_TAG_1 = Internal.createForeignKey(AvatarInterestTag.AVATAR_INTEREST_TAG, DSL.name("FK_avatar_TO_avatar_interest_tag_1"), new TableField[] { AvatarInterestTag.AVATAR_INTEREST_TAG.AVATAR_ID }, Keys.PK_AVATAR, new TableField[] { Avatar.AVATAR.ID }, true);
+    public static final ForeignKey<AvatarInterestTagRecord, InterestTagRecord> FK_TAG_TO_AVATAR_INTEREST_TAG_1 = Internal.createForeignKey(AvatarInterestTag.AVATAR_INTEREST_TAG, DSL.name("FK_tag_TO_avatar_interest_tag_1"), new TableField[] { AvatarInterestTag.AVATAR_INTEREST_TAG.INTEREST_TAG_ID }, Keys.PK_INTEREST_TAG, new TableField[] { InterestTag.INTEREST_TAG.ID }, true);
     public static final ForeignKey<FollowRecord, AvatarRecord> FK_AVATAR_TO_FOLLOW_1 = Internal.createForeignKey(Follow.FOLLOW, DSL.name("FK_avatar_TO_follow_1"), new TableField[] { Follow.FOLLOW.FOLLOWER_ID }, Keys.PK_AVATAR, new TableField[] { Avatar.AVATAR.ID }, true);
     public static final ForeignKey<FollowRecord, AvatarRecord> FK_AVATAR_TO_FOLLOW_2 = Internal.createForeignKey(Follow.FOLLOW, DSL.name("FK_avatar_TO_follow_2"), new TableField[] { Follow.FOLLOW.FOLLOWING_ID }, Keys.PK_AVATAR, new TableField[] { Avatar.AVATAR.ID }, true);
     public static final ForeignKey<ScrapRecord, ArticleRecord> FK_ARTICLE_TO_SCRAP_1 = Internal.createForeignKey(Scrap.SCRAP, DSL.name("FK_article_TO_scrap_1"), new TableField[] { Scrap.SCRAP.ARTICLE_ID }, Keys.PK_ARTICLE, new TableField[] { Article.ARTICLE.ID }, true);

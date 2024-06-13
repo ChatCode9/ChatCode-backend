@@ -78,8 +78,8 @@ public class SecurityConfig {
         http.formLogin(form -> form.disable());
         http.logout(logout -> logout.disable());
 
+        // TODO: add security rules on admin page
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll());
 
         http.oauth2Login(oauth2 -> oauth2
