@@ -1,14 +1,14 @@
 package com.chatcode.controller;
 
+import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveRequest;
-import com.chatcode.dto.BaseResponseDto;
+import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.service.ArticleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,15 +35,10 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO.ArticleCreateResponseDTO>>> getArticleList(@RequestBody ArticleRetrieveRequest pageRequest) {
-//        List<String> articleList = articleService.readArticleList();
+    public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO>>> getArticleList(@RequestBody ArticleRetrieveRequest requestDto) {
+        ArticleRetrieveServiceDto serviceDto = ArticleRetrieveRequest.fromRequestDto(requestDto);
 
-        //TODO
-        PageRequest pr = ArticleRetrieveRequest.from(pageRequest);
-
-        List<ArticleResponseDTO.ArticleCreateResponseDTO> all = articleService.findAll(pr).stream()
-                .map(ArticleResponseDTO::of)
-                .toList();
+        List<ArticleResponseDTO> all = articleService.findAll(serviceDto);
 
         return ResponseEntity.ok(new BaseResponseDto<>(1, all, "게시글 목록 조회 성공"));
     }

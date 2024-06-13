@@ -4,20 +4,23 @@ import com.chatcode.domain.common.type.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.domain.Sort;
+import org.jooq.SortField;
+
+import java.time.LocalDateTime;
+
+import static com.chatcode.jooq.tables.Article.ARTICLE;
 
 @AllArgsConstructor
 @Getter
 public enum SortType implements BaseEnum<SortType> {
-    LATEST("dateCreated", Sort.Direction.DESC),
-    EARLIEST("dateCreated", Sort.Direction.ASC),
-    POPULARITY("likeCount", Sort.Direction.DESC);
+    LATEST("dateCreated", ARTICLE.DATE_CREATED.desc()),
+    EARLIEST("dateCreated", ARTICLE.DATE_CREATED.asc());
 
     private final String field;
-    private final Sort.Direction direction;
+    private final SortField<LocalDateTime> direction;
 
     @JsonCreator
-    public static SortType fromName(String value) {
+    public static SortType of(String value) {
         return BaseEnum.getEnum(SortType.class, value);
     }
 }
