@@ -3,8 +3,8 @@ package com.chatcode.repository.article;
 import static com.chatcode.jooq.Tables.ARTICLE;
 import static com.chatcode.jooq.Tables.CONTENT;
 import static org.jooq.impl.DSL.currentLocalDateTime;
-import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
-import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDto.ArticleCreateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDto.ArticleUpdateRequestDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ArticleRepository {
     private final DSLContext dslContext;
+    public static final String tagSplit = " ";
 
     public Long createArticle(ArticleCreateRequestDTO articleDTO) {
 
@@ -52,7 +53,7 @@ public class ArticleRepository {
                 .set(ARTICLE.DATE_CREATED, currentLocalDateTime())
                 .set(ARTICLE.LAST_UPDATED, currentLocalDateTime())
                 .set(ARTICLE.ENABLED, true)
-                .set(ARTICLE.TAG_STRING, String.join(" ", articleDTO.getTags()))
+                .set(ARTICLE.TAG_STRING, String.join(tagSplit, articleDTO.getTags()))
                 .returning()
                 .fetchOne();
 
@@ -85,7 +86,7 @@ public class ArticleRepository {
 
         dslContext.update(ARTICLE)
                 .set(ARTICLE.TITLE, updateDTO.getTitle())
-                .set(ARTICLE.TAG_STRING, String.join(" ", updateDTO.getTags()))
+                .set(ARTICLE.TAG_STRING, String.join(tagSplit , updateDTO.getTags()))
                 .where(ARTICLE.ID.eq(articleId))
                 .execute();
     }

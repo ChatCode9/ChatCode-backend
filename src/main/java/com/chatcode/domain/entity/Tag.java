@@ -44,4 +44,11 @@ public class Tag {
     @Column(name = "tagged_count", nullable = false)
     private int tagCount;
 
+    public void incrementCount() {
+        this.tagCount++;
+    }
+
+    public void decrementCount() {
+        this.tagCount--;
+    }
 }
