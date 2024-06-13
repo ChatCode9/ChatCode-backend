@@ -1,7 +1,9 @@
 package com.chatcode.domain.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,19 +42,18 @@ public class Avatar {
     @Column(nullable = false)
     private String picture;
 
-    @OneToMany(mappedBy = "avatar", fetch = jakarta.persistence.FetchType.LAZY)
-    private List<InterestTag> interestTags;
+    @OneToMany(mappedBy = "avatar", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AvatarInterestTag> avatarInterestTags = new ArrayList<>();
 
     public void addInterestTag(InterestTag interestTag) {
-        if (interestTags == null) {
-            interestTags = new ArrayList<>();
+        if (avatarInterestTags.stream().noneMatch(
+                avatarInterestTag -> interestTag.getId().equals(avatarInterestTag.getInterestTag().getId()))) {
+            avatarInterestTags.add(AvatarInterestTag.of(this, interestTag));
         }
-        interestTags.add(interestTag);
     }
 
     public void removeInterestTag(InterestTag interestTag) {
-        if (interestTags != null) {
-            interestTags.remove(interestTag);
-        }
+        avatarInterestTags.removeIf(
+                avatarInterestTag -> interestTag.getId().equals(avatarInterestTag.getInterestTag().getId()));
     }
 }

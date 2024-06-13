@@ -6,7 +6,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@Data
 @Entity
 public class AvatarInterestTag {
 
@@ -21,4 +25,11 @@ public class AvatarInterestTag {
     @ManyToOne
     @JoinColumn(name = "interest_tag_id")
     private InterestTag interestTag;
+
+    public static AvatarInterestTag of(Avatar avatar, InterestTag interestTag) {
+        AvatarInterestTag avatarInterestTag = new AvatarInterestTag();
+        avatarInterestTag.avatar = avatar;
+        avatarInterestTag.interestTag = interestTag;
+        return avatarInterestTag;
+    }
 }

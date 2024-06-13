@@ -77,32 +77,37 @@ public class AvatarService {
         return AvatarResponse.of(avatar);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void addInterestTags(List<InterestTagIdRequest> params, Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
                 .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+
         params.stream()
                 .map(InterestTagIdRequest::getId)
                 .map(interestTagWriteRepository::getReferenceById)
                 .forEach(avatar::addInterestTag);
+        avatarWriteRepository.save(avatar);
     }
 
     @Transactional
     public void deleteInterestTags(List<InterestTagIdRequest> params, Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
                 .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+
         params.stream()
                 .map(InterestTagIdRequest::getId)
                 .map(interestTagWriteRepository::getReferenceById)
                 .forEach(avatar::removeInterestTag);
+        avatarWriteRepository.save(avatar);
     }
 
     @Transactional(readOnly = true)
     public List<InterestTagResponse> getInterestTags(Long avatarId) {
         Avatar avatar = avatarReadRepository.findById(avatarId)
                 .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
-        return avatar.getInterestTags().stream()
-                .map(InterestTagResponse::of)
+
+        return avatar.getAvatarInterestTags().stream()
+                .map(avatarInterestTag -> InterestTagResponse.of(avatarInterestTag.getInterestTag()))
                 .toList();
     }
 }
