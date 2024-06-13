@@ -12,5 +12,3 @@ logging:
   level:
     org.hibernate.orm.jdbc.bind: TRACE
     com.chatcode: DEBUG
-#    org.jooq.tools.LoggerListener: DEBUG
-

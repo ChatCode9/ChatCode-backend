@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -76,10 +75,5 @@ public class LikeControllerTest {
                 .andExpect(jsonPath("$.message").value("success"));
 
         then(likeService).should().like(LikeableContentType.OPINION, opinionId, 1, likeRequest);
-    }
-
-    @Test
-    public void test() {
-        System.out.println(Integer.MAX_VALUE);
     }
 }

@@ -9,6 +9,7 @@ import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,17 +20,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleWriteRepository articleWriteRepository;
     private final ArticleReadRepository articleReadRepository;
-
-    @Autowired
-    public ArticleService(ArticleRepository articleRepository, ArticleWriteRepository articleWriteRepository, ArticleReadRepository articleReadRepository) {
-        this.articleRepository = articleRepository;
-        this.articleWriteRepository = articleWriteRepository;
-        this.articleReadRepository = articleReadRepository;
-    }
 
     public void articleCreate(ArticleCreateRequestDTO params) {
         articleRepository.createArticle(params);
@@ -44,10 +39,6 @@ public class ArticleService {
         articleRepository.updateArticle(articleId, contentId, updateDTO);
     }
 
-    public List<String> readArticleList() {
-        return articleRepository.readArticleList();
-    }
-
     public Optional<String> readArticleById(Long articleId) {
         return articleRepository.readArticleById(articleId);
     }
@@ -60,11 +51,5 @@ public class ArticleService {
 
     public List<ArticleResponseDTO> findAll(ArticleRetrieveServiceDto serviceDto) {
         return articleReadRepository.retrieve(serviceDto);
-    }
-
-    public List<Article> findArticlesOrderByCreateDt(int pageNum, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNum, pageSize, Sort.by("dateCreated").descending());
-
-        return articleWriteRepository.findAllBy(pageRequest);
     }
 }
