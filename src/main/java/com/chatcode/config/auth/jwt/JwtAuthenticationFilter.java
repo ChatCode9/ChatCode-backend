@@ -39,10 +39,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getAccessToken(HttpServletRequest request) {
         String accessToken = fetchCookie(request, jwtSettings.getAccessKey());
+        if (accessToken == null) {
+            accessToken = request.getHeader(jwtSettings.getAccessKey());
+        }
         if (accessToken != null && accessToken.startsWith(jwtSettings.getTokenPrefix())) {
             return accessToken.replace(jwtSettings.getTokenPrefix(), "");
         }
-        return request.getHeader(jwtSettings.getAccessKey());
+        return null;
     }
 
     private void setAuthentication(String accessToken) {
