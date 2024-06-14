@@ -24,19 +24,16 @@ public class ArticleService {
     public void articleCreate(ArticleCreateRequestDTO params) {
         Long articleId = articleRepository.createArticle(params);
 
-        if (params.getTags() != null && !params.getTags().isEmpty()) {
-            Article article = articleWriteRepository.findById(articleId)
-                    .orElseThrow(() -> new ContentNotFoundException("Article not found"));
-            articleTagService.tagToArticle(article, params.getTags());
-        }
-    }
+        Article article = articleWriteRepository.findById(articleId)
+                .orElseThrow(() -> new ContentNotFoundException("Article not found"));
 
+        articleTagService.createTagToArticle(article, params.getTags());
+    }
     @Transactional
     public void articleUpdate(Long articleId, ArticleUpdateRequestDTO updateDTO) {
-        Long contentId = articleRepository.findContentIdByArticleId(articleId);
-        if (contentId == null) {
-            throw new ContentNotFoundException("해당 아티클에 대한 콘텐츠가 없습니다.");
-        }
+        Long contentId = Optional.ofNullable(articleRepository.findContentIdByArticleId(articleId))
+                .orElseThrow(() -> new ContentNotFoundException("해당 아티클에 대한 콘텐츠가 없습니다."));
+
         articleRepository.updateArticle(articleId, contentId, updateDTO);
 
         Article article = articleWriteRepository.findById(articleId)

@@ -6,6 +6,8 @@ import com.chatcode.domain.entity.Tag;
 import com.chatcode.repository.article.ArticleTagRepository;
 import com.chatcode.repository.article.TagRepository;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,44 +18,56 @@ public class ArticleTagService {
     private final TagRepository tagRepository;
     private final ArticleTagRepository articleTagRepository;
 
-    @Transactional
-    public void tagToArticle(Article article, List<String> tags) {
-        for (String tagName : tags) {
-            Tag tag = findOrCreateTag(tagName);
-            tag.incrementCount();
-            tagRepository.save(tag);
+    private boolean tagsExist(List<String> tags) {
+        return tags != null && !tags.isEmpty();
+    }
 
-            ArticleTag articleTag = new ArticleTag();
-            articleTag.setArticle(article);
-            articleTag.setTag(tag);
-            articleTagRepository.save(articleTag);
+    @Transactional
+    public void createTagToArticle(Article article, List<String> tags) {
+        if (!tagsExist(tags)) {
+            return;
         }
+        tags.stream()
+                .map(this::findOrCreateTag)
+                .forEach(tag -> {
+                    tag.incrementCount();
+                    tagRepository.save(tag);
+
+                    ArticleTag articleTag = new ArticleTag();
+                    articleTag.setArticle(article);
+                    articleTag.setTag(tag);
+                    articleTagRepository.save(articleTag);
+                });
     }
 
     @Transactional
     public void updateArticleTags(Article article, List<String> tags) {
+        if (!tagsExist(tags)) {
+            return;
+        }
+        Set<String> newTagSet = tags.stream().collect(Collectors.toSet());
         List<ArticleTag> existingTags = articleTagRepository.findByArticleId(article.getId());
 
-        for (ArticleTag articleTag : existingTags) {
-            if (!tags.contains(articleTag.getTag().getName())) {
-                articleTagRepository.delete(articleTag);
-                Tag tag = articleTag.getTag();
-                tag.setTagCount(tag.getTagCount() - 1);
-                tagRepository.save(tag);
-            }
-        }
+        existingTags.stream()
+                .filter(articleTag -> !newTagSet.contains(articleTag.getTag().getName()))
+                .forEach(articleTag -> {
+                    articleTagRepository.delete(articleTag);
+                    Tag tag = articleTag.getTag();
+                    tag.decrementCount();
+                    tagRepository.save(tag);
+                });
 
-        for (String tagName : tags) {
-            Tag tag = findOrCreateTag(tagName);
-            if (existingTags.stream().noneMatch(at -> at.getTag().getName().equals(tagName))) {
-                ArticleTag articleTag = new ArticleTag();
-                articleTag.setArticle(article);
-                articleTag.setTag(tag);
-                articleTagRepository.save(articleTag);
-                tag.incrementCount();
-                tagRepository.save(tag);
-            }
-        }
+        newTagSet.stream()
+                .filter(tagName -> existingTags.stream().noneMatch(articleTag -> articleTag.getTag().getName().equals(tagName)))
+                .forEach(tagName -> {
+                    Tag tag = findOrCreateTag(tagName);
+                    ArticleTag articleTag = new ArticleTag();
+                    articleTag.setArticle(article);
+                    articleTag.setTag(tag);
+                    articleTagRepository.save(articleTag);
+                    tag.incrementCount();
+                    tagRepository.save(tag);
+                });
     }
 
     @Transactional
