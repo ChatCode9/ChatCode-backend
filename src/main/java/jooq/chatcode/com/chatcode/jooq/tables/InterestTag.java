@@ -9,7 +9,9 @@ import com.chatcode.jooq.Keys;
 import com.chatcode.jooq.tables.AvatarInterestTag.AvatarInterestTagPath;
 import com.chatcode.jooq.tables.records.InterestTagRecord;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -138,6 +140,11 @@ public class InterestTag extends TableImpl<InterestTagRecord> {
     @Override
     public UniqueKey<InterestTagRecord> getPrimaryKey() {
         return Keys.PK_INTEREST_TAG;
+    }
+
+    @Override
+    public List<UniqueKey<InterestTagRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.CONSTRAINT_3);
     }
 
     private transient AvatarInterestTagPath _avatarInterestTag;
