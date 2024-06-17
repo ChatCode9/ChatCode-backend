@@ -72,9 +72,9 @@ public class InterestTagController {
     @PostMapping("/admin/interest-tags")
     @Operation(summary = "관심 태그 추가", description = "관심 태그를 추가합니다. (관리자만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "관심 태그 추가 성공")
-    public ResponseEntity<BaseResponseDto<Void>> add(@RequestBody List<InterestTagNameRequest> params) {
-        interestTagService.addInterestTags(params);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), null, "success"));
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> add(@RequestBody List<InterestTagNameRequest> params) {
+        List<InterestTagResponse> responseBody = interestTagService.addInterestTags(params);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
     }
 
     @DeleteMapping("/admin/interest-tags")

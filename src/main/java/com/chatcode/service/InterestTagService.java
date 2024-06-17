@@ -9,6 +9,7 @@ import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.tag.InterestTagReadRepository;
 import com.chatcode.repository.tag.InterestTagWriteRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,14 @@ public class InterestTagService {
     }
 
     @Transactional
-    public void addInterestTags(List<InterestTagNameRequest> params) {
+    public List<InterestTagResponse> addInterestTags(List<InterestTagNameRequest> params) {
         List<InterestTag> tags = params.stream()
-                        .map(InterestTagNameRequest::toEntity)
-                        .toList();
+                        .map(tag -> interestTagReadRepository.findByName(tag.getName())
+                                .orElse(InterestTagNameRequest.toEntity(tag)))
+                        .collect(Collectors.toList());
+
         interestTagWriteRepository.saveAll(tags);
+        return InterestTagResponse.of(tags);
     }
 
     @Transactional

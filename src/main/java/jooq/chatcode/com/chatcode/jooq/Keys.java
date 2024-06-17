@@ -99,6 +99,7 @@ public class Keys {
     public static final UniqueKey<ContentVoteRecord> PK_CONTENT_VOTE = Internal.createUniqueKey(ContentVote.CONTENT_VOTE, DSL.name("PK_CONTENT_VOTE"), new TableField[] { ContentVote.CONTENT_VOTE.ID }, true);
     public static final UniqueKey<FileRecord> PK_FILE = Internal.createUniqueKey(File.FILE, DSL.name("PK_FILE"), new TableField[] { File.FILE.ID }, true);
     public static final UniqueKey<FollowRecord> PK_FOLLOW = Internal.createUniqueKey(Follow.FOLLOW, DSL.name("PK_FOLLOW"), new TableField[] { Follow.FOLLOW.FOLLOWER_ID, Follow.FOLLOW.FOLLOWING_ID }, true);
+    public static final UniqueKey<InterestTagRecord> CONSTRAINT_3 = Internal.createUniqueKey(InterestTag.INTEREST_TAG, DSL.name("CONSTRAINT_3"), new TableField[] { InterestTag.INTEREST_TAG.NAME }, true);
     public static final UniqueKey<InterestTagRecord> PK_INTEREST_TAG = Internal.createUniqueKey(InterestTag.INTEREST_TAG, DSL.name("PK_INTEREST_TAG"), new TableField[] { InterestTag.INTEREST_TAG.ID }, true);
     public static final UniqueKey<LoggedInRecord> PK_LOGGED_IN = Internal.createUniqueKey(LoggedIn.LOGGED_IN, DSL.name("PK_LOGGED_IN"), new TableField[] { LoggedIn.LOGGED_IN.ID }, true);
     public static final UniqueKey<OauthidRecord> PK_OAUTHID = Internal.createUniqueKey(Oauthid.OAUTHID, DSL.name("PK_OAUTHID"), new TableField[] { Oauthid.OAUTHID.ID }, true);
@@ -108,7 +109,7 @@ public class Keys {
     public static final UniqueKey<SpamWordRecord> PK_SPAM_WORD = Internal.createUniqueKey(SpamWord.SPAM_WORD, DSL.name("PK_SPAM_WORD"), new TableField[] { SpamWord.SPAM_WORD.ID }, true);
     public static final UniqueKey<TagRecord> PK_TAG = Internal.createUniqueKey(Tag.TAG, DSL.name("PK_TAG"), new TableField[] { Tag.TAG.ID }, true);
     public static final UniqueKey<TempArticleRecord> PK_TEMP_ARTICLE = Internal.createUniqueKey(TempArticle.TEMP_ARTICLE, DSL.name("PK_TEMP_ARTICLE"), new TableField[] { TempArticle.TEMP_ARTICLE.ID }, true);
-    public static final UniqueKey<UserRecord> CONSTRAINT_3 = Internal.createUniqueKey(User.USER, DSL.name("CONSTRAINT_3"), new TableField[] { User.USER.USERNAME }, true);
+    public static final UniqueKey<UserRecord> CONSTRAINT_36 = Internal.createUniqueKey(User.USER, DSL.name("CONSTRAINT_36"), new TableField[] { User.USER.USERNAME }, true);
     public static final UniqueKey<UserRecord> PK_USER = Internal.createUniqueKey(User.USER, DSL.name("PK_USER"), new TableField[] { User.USER.ID }, true);
     public static final UniqueKey<UserRoleRecord> PK_USER_ROLE = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("PK_USER_ROLE"), new TableField[] { UserRole.USER_ROLE.USER_ID, UserRole.USER_ROLE.ROLE_ID }, true);
 

@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -40,6 +41,6 @@ public class InterestTagReadRepository implements ReadRepository<InterestTag> {
 
     public List<InterestTag> findAll() {
         return nativeQuery(em, dsl.select()
-                .from(INTEREST_TAG), InterestTag.class);
+                .from(INTEREST_TAG).orderBy(INTEREST_TAG.ID), InterestTag.class);
     }
 }
