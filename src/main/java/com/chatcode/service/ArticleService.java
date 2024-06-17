@@ -1,24 +1,30 @@
 package com.chatcode.service;
 
-import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
-import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.domain.entity.Article;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.article.ArticleResponseDTO;
+import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
+import com.chatcode.repository.article.ArticleReadRepository;
+import com.chatcode.repository.article.ArticleWriteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
-
-    @Autowired
-    public ArticleService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
+    private final ArticleWriteRepository articleWriteRepository;
+    private final ArticleReadRepository articleReadRepository;
 
     public void articleCreate(ArticleCreateRequestDTO params) {
         articleRepository.createArticle(params);
@@ -33,10 +39,6 @@ public class ArticleService {
         articleRepository.updateArticle(articleId, contentId, updateDTO);
     }
 
-    public List<String> readArticleList() {
-        return articleRepository.readArticleList();
-    }
-
     public Optional<String> readArticleById(Long articleId) {
         return articleRepository.readArticleById(articleId);
     }
@@ -47,4 +49,7 @@ public class ArticleService {
         articleRepository.deleteArticle(articleId);
     }
 
+    public List<ArticleResponseDTO> findAll(ArticleRetrieveServiceDto serviceDto) {
+        return articleReadRepository.retrieve(serviceDto);
+    }
 }

@@ -3,12 +3,14 @@ package com.chatcode.domain.entity;
 import com.chatcode.dto.like.LikeRequest;
 import com.chatcode.dto.like.Likeable;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
 @Entity
+@Getter
 @Table(name = "article")
 public class Article implements Likeable {
 //TODO Entity 체크

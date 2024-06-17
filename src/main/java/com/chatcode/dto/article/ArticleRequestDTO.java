@@ -1,17 +1,13 @@
-package com.chatcode.dto;
+package com.chatcode.dto.article;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 public class ArticleRequestDTO {
 
-@Data
+    @Data
     public static class ArticleCreateRequestDTO {
         //content
         @NotNull
@@ -26,7 +22,7 @@ public class ArticleRequestDTO {
         private String title;
     }
 
-@Data
+    @Data
     public static class ArticleUpdateRequestDTO {
         //content
         @NotNull
@@ -42,5 +38,4 @@ public class ArticleRequestDTO {
         private String title;
 
     }
-
 }

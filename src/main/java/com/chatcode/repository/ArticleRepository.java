@@ -4,9 +4,8 @@ import static com.chatcode.jooq.Tables.ARTICLE;
 import static com.chatcode.jooq.Tables.CONTENT;
 import static org.jooq.impl.DSL.currentLocalDateTime;
 
-import com.chatcode.dto.ArticleRequestDTO.ArticleCreateRequestDTO;
-import com.chatcode.dto.ArticleRequestDTO.ArticleUpdateRequestDTO;
-import com.chatcode.dto.ArticleResponseDTO.ArticleCreateResponseDTO;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
