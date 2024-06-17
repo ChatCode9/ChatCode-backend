@@ -27,11 +27,12 @@ public class InterestTagService {
     }
 
     @Transactional
-    public void addInterestTags(List<InterestTagNameRequest> params) {
+    public List<InterestTagResponse> addInterestTags(List<InterestTagNameRequest> params) {
         List<InterestTag> tags = params.stream()
                         .map(InterestTagNameRequest::toEntity)
                         .toList();
         interestTagWriteRepository.saveAll(tags);
+        return InterestTagResponse.of(tags);
     }
 
     @Transactional
