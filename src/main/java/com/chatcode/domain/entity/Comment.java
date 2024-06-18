@@ -7,8 +7,10 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "opinion")
-public class Opinion implements Likeable {
+@Table(name = "comment")
+public class Comment implements Likeable {
+
+    public static final Long ROOT_PARENT_ID = null;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

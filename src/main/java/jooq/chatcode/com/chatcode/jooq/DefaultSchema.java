@@ -16,6 +16,7 @@ import com.chatcode.jooq.tables.BannerClick;
 import com.chatcode.jooq.tables.Category;
 import com.chatcode.jooq.tables.CategoryOld;
 import com.chatcode.jooq.tables.ChangeLog;
+import com.chatcode.jooq.tables.Comment;
 import com.chatcode.jooq.tables.ConfirmEmail;
 import com.chatcode.jooq.tables.Content;
 import com.chatcode.jooq.tables.ContentFile;
@@ -25,7 +26,6 @@ import com.chatcode.jooq.tables.Follow;
 import com.chatcode.jooq.tables.InterestTag;
 import com.chatcode.jooq.tables.LoggedIn;
 import com.chatcode.jooq.tables.Oauthid;
-import com.chatcode.jooq.tables.Opinion;
 import com.chatcode.jooq.tables.Role;
 import com.chatcode.jooq.tables.Scrap;
 import com.chatcode.jooq.tables.SpamWord;
@@ -128,6 +128,11 @@ public class DefaultSchema extends SchemaImpl {
     public final ChangeLog CHANGE_LOG = ChangeLog.CHANGE_LOG;
 
     /**
+     * The table <code>comment</code>.
+     */
+    public final Comment COMMENT = Comment.COMMENT;
+
+    /**
      * The table <code>confirm_email</code>.
      */
     public final ConfirmEmail CONFIRM_EMAIL = ConfirmEmail.CONFIRM_EMAIL;
@@ -171,11 +176,6 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>oauthid</code>.
      */
     public final Oauthid OAUTHID = Oauthid.OAUTHID;
-
-    /**
-     * The table <code>opinion</code>.
-     */
-    public final Opinion OPINION = Opinion.OPINION;
 
     /**
      * The table <code>role</code>.
@@ -242,6 +242,7 @@ public class DefaultSchema extends SchemaImpl {
             Category.CATEGORY,
             CategoryOld.CATEGORY_OLD,
             ChangeLog.CHANGE_LOG,
+            Comment.COMMENT,
             ConfirmEmail.CONFIRM_EMAIL,
             Content.CONTENT,
             ContentFile.CONTENT_FILE,
@@ -251,7 +252,6 @@ public class DefaultSchema extends SchemaImpl {
             InterestTag.INTEREST_TAG,
             LoggedIn.LOGGED_IN,
             Oauthid.OAUTHID,
-            Opinion.OPINION,
             Role.ROLE,
             Scrap.SCRAP,
             SpamWord.SPAM_WORD,

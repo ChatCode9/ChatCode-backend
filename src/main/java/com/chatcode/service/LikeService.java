@@ -2,7 +2,7 @@ package com.chatcode.service;
 
 import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.entity.Article;
-import com.chatcode.domain.entity.Opinion;
+import com.chatcode.domain.entity.Comment;
 import com.chatcode.dto.like.LikeRequest;
 import com.chatcode.dto.like.Likeable;
 import com.chatcode.exception.common.ResourceNotFoundException;
@@ -21,8 +21,8 @@ public class LikeService {
 
   private final ReadRepository<Article> articleReadRepository;
   private final WriteRepository<Article> articleWriteRepository;
-  private final ReadRepository<Opinion> opinionReadRepository;
-  private final WriteRepository<Opinion> opinionWriteRepository;
+  private final ReadRepository<Comment> opinionReadRepository;
+  private final WriteRepository<Comment> opinionWriteRepository;
   private final RedisReactionRepository redisReactionRepository;
 
   @Transactional
@@ -30,7 +30,7 @@ public class LikeService {
       LikeRequest likeRequest) {
     Likeable content = getContent(contentType, contentId);
     checkAlreadyLiked(contentType, contentId, userId);
-    redisReactionRepository.addValue(contentType, contentId, 1);
+    redisReactionRepository.addValue(contentType, contentId, 1, likeRequest.getIsLike());
     updateLikeCount(contentType, content, likeRequest);
   }
 
@@ -56,7 +56,7 @@ public class LikeService {
         articleWriteRepository.save(a);
         break;
       case OPINION:
-        Opinion op = (Opinion) content;
+        Comment op = (Comment) content;
         op.updateLikeCount(likeRequest);
         opinionWriteRepository.save(op);
         break;
@@ -64,7 +64,7 @@ public class LikeService {
   }
 
   private void checkAlreadyLiked(LikeableContentType contentType, int contentId, long userId) {
-    Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyLiked(contentType,
+    Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyReacted(contentType,
         contentId, userId);
     alreadyLiked.filter(liked -> !liked)
         .orElseThrow(() -> new AlreadyReactException(
