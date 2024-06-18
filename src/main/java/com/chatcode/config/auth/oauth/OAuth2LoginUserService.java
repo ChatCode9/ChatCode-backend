@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 public class OAuth2LoginUserService extends DefaultOAuth2UserService {
 
     private static final Integer INITIAL_ACTIVITY_POINT = 0;
-    private static final Integer INITIAL_STATUS = 0;
 
     private final UserReadRepository userReadRepository;
     private final UserWriteRepository userWriteRepository;

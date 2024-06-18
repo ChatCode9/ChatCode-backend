@@ -10,11 +10,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Builder
 @AllArgsConstructor
-public class LoginUser implements OAuth2User {
+public class LoginUser implements OAuth2User, UserDetails {
 
     private final Long id;
     private final Long avatarId;
@@ -44,6 +46,7 @@ public class LoginUser implements OAuth2User {
         return status.getValue();
     }
 
+    // OAuth2User
     @Override
     public String getName() {
         return username;
@@ -59,5 +62,37 @@ public class LoginUser implements OAuth2User {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role))
                 .collect(Collectors.toList());
+    }
+    // UserDetails
+    @Override
+    public String getPassword() {
+        // TODO: remove this password after deployment
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode("1234");
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

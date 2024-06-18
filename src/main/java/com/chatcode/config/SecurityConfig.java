@@ -2,6 +2,8 @@ package com.chatcode.config;
 
 import com.chatcode.config.auth.jwt.JwtAuthenticationFilter;
 import com.chatcode.config.auth.jwt.JwtExceptionFilter;
+import com.chatcode.config.auth.jwt.JwtProvider;
+import com.chatcode.config.auth.jwt.LoginUserAuthentication;
 import com.chatcode.config.auth.oauth.OAuth2LoginFilter;
 import com.chatcode.config.auth.oauth.OAuth2LoginUserService;
 import com.chatcode.config.auth.oauth.OAuth2SuccessHandler;
@@ -14,11 +16,14 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -36,12 +41,18 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final OAuth2LoginFilter oAuth2LoginFilter;
+    private final JwtProvider jwtProvider; // TODO: remove this when deploying
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**")
                 .requestMatchers("/favicon.ico", "/error");
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -53,7 +64,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        // TODO: remove this when deploying
+        AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
 
         http.csrf(csrf -> csrf.disable());
         http.cors(cors -> cors.configurationSource(configurationSource()));
@@ -73,6 +86,8 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2LoginUserService))
                 .successHandler(oAuth2SuccessHandler));
 
+        // TODO: remove this when deploying
+        http.addFilter(new LoginUserAuthentication(authenticationManager, jwtProvider));
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
 
