@@ -1,11 +1,8 @@
 package com.chatcode.config.dummy;
 
 import com.chatcode.config.auth.enums.Status;
-import com.chatcode.domain.RoleType;
-import com.chatcode.domain.entity.Avatar;
-import com.chatcode.domain.entity.InterestTag;
-import com.chatcode.domain.entity.Role;
-import com.chatcode.domain.entity.User;
+import com.chatcode.domain.entity.*;
+
 import java.util.List;
 
 public class DummyObject {
@@ -34,5 +31,9 @@ public class DummyObject {
         return InterestTag.builder()
                 .name(name)
                 .build();
+    }
+
+    protected Content newContent(String text){
+        return Content.builder().text(text).build();
     }
 }

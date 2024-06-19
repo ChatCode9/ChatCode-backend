@@ -1,19 +1,20 @@
 package com.chatcode.domain.entity;
 
+import com.chatcode.domain.AuditingFields;
 import com.chatcode.dto.like.LikeRequest;
 import com.chatcode.dto.like.Likeable;
 import jakarta.persistence.*;
-import lombok.Getter;
-
-import java.time.LocalDateTime;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "article")
-public class Article implements Likeable {
-//TODO Entity 체크
+public class Article extends AuditingFields implements Likeable {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -33,17 +34,11 @@ public class Article implements Likeable {
   @Column(name = "create_ip")
   private String createIp;
 
-  @Column(name = "date_created", nullable = false)
-  private LocalDateTime dateCreated;
-
   @Column(nullable = false)
   private Boolean enabled;
 
   @Column(name = "last_editor_id")
   private Long lastEditorId;
-
-  @Column(name = "last_updated", nullable = false)
-  private LocalDateTime lastUpdated;
 
   @Column(name = "note_count", nullable = false)
   private Integer noteCount;
