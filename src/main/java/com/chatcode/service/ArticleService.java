@@ -1,6 +1,7 @@
 package com.chatcode.service;
 
-import com.chatcode.domain.entity.Article;
+import com.chatcode.domain.common.PageInfo;
+import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
@@ -10,9 +11,6 @@ import com.chatcode.repository.ArticleRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +47,10 @@ public class ArticleService {
         articleRepository.deleteArticle(articleId);
     }
 
-    public List<ArticleResponseDTO> findAll(ArticleRetrieveServiceDto serviceDto) {
-        return articleReadRepository.retrieve(serviceDto);
+    public BaseResponseDto<List<ArticleResponseDTO>> findAll(ArticleRetrieveServiceDto serviceDto) {
+        List<ArticleResponseDTO> list = articleReadRepository.retrieve(serviceDto).stream().map(ArticleResponseDTO::of).toList();
+        Long totalElements = articleReadRepository.getTotalElements(serviceDto);
+
+        return new BaseResponseDto<>(200, list, "", PageInfo.of(serviceDto.getPageInfo(), totalElements));
     }
 }

@@ -2,6 +2,7 @@ package com.chatcode.domain.common;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,20 +10,16 @@ import lombok.NoArgsConstructor;
 @Schema
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageInfo {
+@Builder
+public class PageInfoResponseDto {
     @Schema(description = "페이지 번호", example = "0", defaultValue = "0")
     private int page;
     @Schema(description = "페이지 사이즈", example = "10", defaultValue = "10")
     private int size;
+    private long totalElements;
+    private long totalPages;
 
-    public long getOffset() {
-        return (long) page * size;
-    }
-
-    public static PageInfoResponseDto of(PageInfo pageInfo, long totalElements) {
-        return PageInfoResponseDto.builder()
-                .page(pageInfo.getPage())
-                .size(pageInfo.getSize())
-                .totalElements(totalElements).build();
+    public long getTotalPages(){
+        return totalElements / size;
     }
 }
