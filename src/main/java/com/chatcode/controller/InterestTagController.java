@@ -52,20 +52,20 @@ public class InterestTagController {
     @PostMapping("/avatars/interest-tags")
     @Operation(summary = "USER의 관심 태그 추가", description = "USER의 관심 태그를 추가합니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "USER의 관심 태그 추가 성공")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(@RequestBody List<InterestTagIdRequest> params,
                                                                     @AuthenticationPrincipal LoginUser loginUser) {
         avatarService.addInterestTags(params, loginUser.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), null, "success"));
     }
 
-    @DeleteMapping("/avatars/interest-tags")
+    @DeleteMapping("/avatars/interest-tags/{interestTagId}")
     @Operation(summary = "USER의 관심 태그 삭제", description = "USER의 관심 태그를 삭제합니다. (본인만 접근 가능)")
-    @ApiResponse(responseCode = "204", description = "USER의 관심 태그 삭제 성공")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@RequestBody List<InterestTagIdRequest> params,
+    @ApiResponse(responseCode = "200", description = "USER의 관심 태그 삭제 성공")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@PathVariable Long interestTagId,
                                                                        @AuthenticationPrincipal LoginUser loginUser) {
-        avatarService.deleteInterestTags(params, loginUser.getId());
+        avatarService.deleteInterestTags(interestTagId, loginUser.getId());
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));
     }
 
@@ -77,11 +77,11 @@ public class InterestTagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
     }
 
-    @DeleteMapping("/admin/interest-tags")
+    @DeleteMapping("/admin/interest-tags/{interestTagId}")
     @Operation(summary = "관심 태그 삭제", description = "관심 태그를 삭제합니다. (관리자만 접근 가능)")
-    @ApiResponse(responseCode = "204", description = "관심 태그 삭제 성공")
-    public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@RequestBody List<InterestTagIdRequest> params) {
-        interestTagService.deleteInterestTags(params);
+    @ApiResponse(responseCode = "200", description = "관심 태그 삭제 성공")
+    public ResponseEntity<BaseResponseDto<Void>> delete(@PathVariable Long interestTagId) {
+        interestTagService.deleteInterestTags(interestTagId);
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));
     }
 
