@@ -108,7 +108,7 @@ CREATE TABLE `scrap`
     `date_created` datetime NOT NULL
 );
 
-CREATE TABLE `comment`
+CREATE TABLE `opinion`
 (
     `id`            bigint(20) NOT NULL AUTO_INCREMENT,
     `article_id`    bigint(20) NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE `comment`
     `parent_id`     bigint(20) NULL,
     `ancestor_id`   bigint(20) NULL,
     `depth`         int(11) NULL,
-    CONSTRAINT PK_COMMENTID PRIMARY KEY (`id`)
+    CONSTRAINT PK_OPINIONID PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `oauthid`

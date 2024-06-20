@@ -1,7 +1,7 @@
 package com.chatcode.repository.opinion;
 
-import com.chatcode.domain.entity.Comment;
-import com.chatcode.dto.comment.CommentVo;
+import com.chatcode.domain.entity.Opinion;
+import com.chatcode.dto.comment.OpinionVo;
 import com.chatcode.repository.ReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
@@ -12,45 +12,45 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.chatcode.jooq.Tables.AVATAR;
-import static com.chatcode.jooq.Tables.COMMENT;
+import static com.chatcode.jooq.Tables.OPINION;
 import static org.jooq.impl.DSL.and;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentReadRepository implements ReadRepository<Comment> {
+public class CommentReadRepository implements ReadRepository<Opinion> {
     private final DSLContext dsl;
 
-    public Optional<Comment> findById(long id) {
-        return Optional.ofNullable(dsl.selectFrom(COMMENT).where(COMMENT.ID.eq(id))
-                .fetchOneInto(Comment.class));
+    public Optional<Opinion> findById(long id) {
+        return Optional.ofNullable(dsl.selectFrom(OPINION).where(OPINION.ID.eq(id))
+                .fetchOneInto(Opinion.class));
     }
 
-    public List<CommentVo> retrieve(long articleId) {
+    public List<OpinionVo> retrieve(long articleId) {
         return dsl.select(
-                        COMMENT.ID,
-                        COMMENT.ARTICLE_ID,
-                        COMMENT.AUTHOR_ID,
+                        OPINION.ID,
+                        OPINION.ARTICLE_ID,
+                        OPINION.AUTHOR_ID,
                         AVATAR.NICKNAME,
                         AVATAR.PICTURE,
-                        COMMENT.DATE_CREATED,
-                        COMMENT.PARENT_ID,
-                        COMMENT.LIKE_COUNT,
-                        COMMENT.DISLIKE_COUNT,
-                        COMMENT.DEPTH,
-                        COMMENT.ANCESTOR_ID
-                ).from(COMMENT)
-                .join(AVATAR).on(COMMENT.AUTHOR_ID.eq(AVATAR.ID))
-                .where(COMMENT.ARTICLE_ID.eq(articleId))
-                .fetchInto(CommentVo.class);
+                        OPINION.DATE_CREATED,
+                        OPINION.PARENT_ID,
+                        OPINION.LIKE_COUNT,
+                        OPINION.DISLIKE_COUNT,
+                        OPINION.DEPTH,
+                        OPINION.ANCESTOR_ID
+                ).from(OPINION)
+                .join(AVATAR).on(OPINION.AUTHOR_ID.eq(AVATAR.ID))
+                .where(OPINION.ARTICLE_ID.eq(articleId))
+                .fetchInto(OpinionVo.class);
     }
 
     private Condition getArticleRetrieveCondition(long articleId, Long parentId) {
-        Condition result = and(COMMENT.ARTICLE_ID.eq(articleId));
+        Condition result = and(OPINION.ARTICLE_ID.eq(articleId));
 
         if (parentId == null) {
-            return result.and(COMMENT.PARENT_ID.isNull());
+            return result.and(OPINION.PARENT_ID.isNull());
         }
 
-        return result.and(COMMENT.PARENT_ID.eq(parentId));
+        return result.and(OPINION.PARENT_ID.eq(parentId));
     }
 }

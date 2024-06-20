@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "comment")
-public class Comment implements Likeable {
+@Table(name = "opinion")
+public class Opinion implements Likeable {
 
     public static final Long ROOT_PARENT_ID = null;
 
@@ -16,8 +16,8 @@ public class Comment implements Likeable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content_id", nullable = false)
-    private Long contentId;
+    @Column(name = "article_id", nullable = false)
+    private Long articleId;
 
     @Column(name = "author_id", nullable = false)
     private Long authorId;

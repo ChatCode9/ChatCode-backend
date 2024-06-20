@@ -3,7 +3,7 @@ package com.chatcode.dto.comment;
 import lombok.Data;
 
 @Data
-public class CommentVo {
+public class OpinionVo {
     private long commentId;
     private long postId;
     private long userId;

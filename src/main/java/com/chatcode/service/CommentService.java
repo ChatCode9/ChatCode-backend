@@ -38,7 +38,7 @@ public class CommentService {
         return userId == authorId;
     }
 
-    public Void comment(long avatarId, long articleId {
-
-    }
+//    public Void comment(long avatarId, long articleId {
+//
+//    }
 }
