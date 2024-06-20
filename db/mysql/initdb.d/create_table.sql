@@ -108,17 +108,18 @@ CREATE TABLE `scrap`
     `date_created` datetime NOT NULL
 );
 
-CREATE TABLE `opinion`
+CREATE TABLE `comment`
 (
-    `id`            bigint(20) NOT NULL,
-    `content_id`    bigint(20) NOT NULL,
+    `id`            bigint(20) NOT NULL AUTO_INCREMENT,
+    `article_id`    bigint(20) NOT NULL,
     `author_id`     bigint(20) NOT NULL,
     `version`       bigint(20) NOT NULL,
     `comment`       longtext NOT NULL,
     `date_created`  datetime NOT NULL,
     `last_updated`  datetime NOT NULL,
     `like_count`    int(11) NOT NULL,
-    `dislike_count` int(11) NOT NULL
+    `dislike_count` int(11) NOT NULL,
+    CONSTRAINT PK_COMMENTID PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `oauthid`
@@ -300,17 +301,7 @@ CREATE TABLE `(optional)notification`
 CREATE TABLE `content`
 (
     `id`             bigint(20) NOT NULL AUTO_INCREMENT,
-    `version`        bigint(20) NOT NULL,
-    `article_id`     bigint(20) NULL,
-    `author_id`      bigint(20) NULL,
-    `create_ip`      varchar(255) NULL,
-    `date_created`   datetime NOT NULL,
-    `last_editor_id` bigint(20) NULL,
-    `last_updated`   datetime NOT NULL,
     `text`           longtext NOT NULL,
-    `type`           int(11) NOT NULL,
-    `like_count`     int(11) NOT NULL,
-    `dislike_count`  int(11) NOT NULL,
     CONSTRAINT PK_CONTENT PRIMARY KEY (`id`)
 );
 

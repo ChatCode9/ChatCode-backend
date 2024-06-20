@@ -59,6 +59,10 @@ dependencies {
     // actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    //javafaker
+    implementation 'net.datafaker:datafaker:2.2.2'
+
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
@@ -74,23 +78,6 @@ jooq {
             generateSchemaSourceOnCompilation = false
 
             generationTool {
-//                jdbc {
-//                    driver = 'com.mysql.cj.jdbc.Driver'
-//                    url = 'jdbc:mysql://localhost:3306'
-//                    user = 'root'
-//                    password = '1234'
-//                    properties {
-//                        property {
-//                            key = 'ssl'
-//                            value = 'false'
-//                        }
-//                    }
-//                }
-//                jdbc {
-//                    // DDLDatabase는 JDBC 연결을 사용하지 않음
-//                    driver = 'org.jooq.meta.extensions.ddl.DDLDatabase'
-//                    url = 'jdbc:jooq-meta-extensions:ddl:ignore' // JDBC URL은 사용되지 않지만, 유효해야 함
-//                }
                 generator {
                     name = 'org.jooq.codegen.DefaultGenerator'
                     database {
@@ -121,10 +108,3 @@ jooq {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-
-//tasks.named('generateJooq').configure {
-//    launcher = javaToolchains.launcherFor {
-//        languageVersion = JavaLanguageVersion.of(17)
-//    }
-//}

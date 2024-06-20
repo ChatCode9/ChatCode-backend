@@ -1,11 +1,11 @@
 package com.chatcode.config.dummy;
 
 import com.chatcode.domain.RoleType;
-import com.chatcode.domain.entity.Avatar;
-import com.chatcode.domain.entity.InterestTag;
-import com.chatcode.domain.entity.Role;
-import com.chatcode.domain.entity.User;
+import com.chatcode.domain.entity.*;
+import com.chatcode.repository.article.ArticleWriteRepository;
+import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
+import com.chatcode.repository.content.ContentWriteRepository;
 import com.chatcode.repository.role.RoleReadRepository;
 import com.chatcode.repository.role.RoleWriteRepository;
 import com.chatcode.repository.tag.InterestTagReadRepository;
@@ -13,17 +13,21 @@ import com.chatcode.repository.tag.InterestTagWriteRepository;
 import com.chatcode.repository.user.UserReadRepository;
 import com.chatcode.repository.user.UserWriteRepository;
 import jakarta.persistence.EntityManager;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
 public class DummyDevInit extends DummyObject {
 
     private final EntityManager em;
+
+    private static final Faker faker = new Faker();
 
     @Bean
     CommandLineRunner dummyUsers(
@@ -103,9 +107,54 @@ public class DummyDevInit extends DummyObject {
 
 
     @Bean
-    CommandLineRunner dummyArticles() {
+    CommandLineRunner dummyArticles(ArticleWriteRepository articleWriteRepository,
+                            AvatarWriteRepository avatarWriteRepository,
+                            ContentWriteRepository contentWriteRepository, AvatarReadRepository avatarReadRepository) {
+
+        String newAvatarName = faker.name().name();
+        avatarWriteRepository.save(newAvatar(newAvatarName));
+
+        Avatar newAvatar = avatarReadRepository.findByName(newAvatarName);
+
+        List<Content> contents = List.of(newContent(faker.text().text(100)),
+                newContent(faker.text().text(100)),
+                newContent(faker.text().text(100)));
+
+        contents.forEach(content -> contentWriteRepository.save(content));
+
+        List<Article> articles = contents.stream().map(
+                content ->
+                        newArticle(newAvatar.getId(), content.getId())
+        ).toList();
+
         return (args -> {
+            articles.forEach(article ->
+                    articleWriteRepository.save(article)
+            );
+            em.clear();
         });
     }
+
+    public Article newArticle(Long authorId, Long contentId) {
+        return Article.builder()
+                .version(0L)
+                .authorId(authorId)
+                .completed(faker.bool().bool())
+                .contentId(contentId)
+                .createIp(faker.internet().ipV4Address())
+                .enabled(faker.bool().bool())
+                .lastEditorId(authorId)
+                .noteCount(faker.random().nextInt())
+                .scrapCount(faker.random().nextInt())
+                .selectedNoteId(null)
+                .tagString(faker.expression("#{regexify '(a|b){2,3}'}"))
+                .title(faker.book().title())
+                .viewCount(faker.random().nextInt())
+                .likeCount(faker.random().nextInt())
+                .dislikeCount(faker.random().nextInt())
+                .categoryId("question")
+                .build();
+    }
+
 }
 

@@ -3,10 +3,14 @@ package com.chatcode.dto.article;
 import com.chatcode.domain.entity.Article;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
+@RequiredArgsConstructor
 public class ArticleResponseDTO {
     private Long id;
     private LocalDateTime dateCreated;
