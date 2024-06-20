@@ -360,11 +360,6 @@ ALTER TABLE `scrap`
                                            `article_id`
         );
 
-ALTER TABLE `opinion`
-    ADD CONSTRAINT `PK_OPINION` PRIMARY KEY (
-                                             `id`
-        );
-
 ALTER TABLE `category_old`
     ADD CONSTRAINT `PK_CATEGORY_OLD` PRIMARY KEY (
                                                   `code`

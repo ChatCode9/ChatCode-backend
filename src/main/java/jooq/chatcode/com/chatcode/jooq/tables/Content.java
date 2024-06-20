@@ -8,7 +8,6 @@ import com.chatcode.jooq.DefaultSchema;
 import com.chatcode.jooq.Keys;
 import com.chatcode.jooq.tables.records.ContentRecord;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.jooq.Condition;
@@ -57,59 +56,9 @@ public class Content extends TableImpl<ContentRecord> {
     public final TableField<ContentRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>content.version</code>.
-     */
-    public final TableField<ContentRecord, Long> VERSION = createField(DSL.name("version"), SQLDataType.BIGINT.nullable(false), this, "");
-
-    /**
-     * The column <code>content.article_id</code>.
-     */
-    public final TableField<ContentRecord, Long> ARTICLE_ID = createField(DSL.name("article_id"), SQLDataType.BIGINT, this, "");
-
-    /**
-     * The column <code>content.author_id</code>.
-     */
-    public final TableField<ContentRecord, Long> AUTHOR_ID = createField(DSL.name("author_id"), SQLDataType.BIGINT, this, "");
-
-    /**
-     * The column <code>content.create_ip</code>.
-     */
-    public final TableField<ContentRecord, String> CREATE_IP = createField(DSL.name("create_ip"), SQLDataType.VARCHAR(255), this, "");
-
-    /**
-     * The column <code>content.date_created</code>.
-     */
-    public final TableField<ContentRecord, LocalDateTime> DATE_CREATED = createField(DSL.name("date_created"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
-
-    /**
-     * The column <code>content.last_editor_id</code>.
-     */
-    public final TableField<ContentRecord, Long> LAST_EDITOR_ID = createField(DSL.name("last_editor_id"), SQLDataType.BIGINT, this, "");
-
-    /**
-     * The column <code>content.last_updated</code>.
-     */
-    public final TableField<ContentRecord, LocalDateTime> LAST_UPDATED = createField(DSL.name("last_updated"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
-
-    /**
      * The column <code>content.text</code>.
      */
     public final TableField<ContentRecord, String> TEXT = createField(DSL.name("text"), SQLDataType.CLOB.nullable(false), this, "");
-
-    /**
-     * The column <code>content.type</code>.
-     */
-    public final TableField<ContentRecord, Integer> TYPE = createField(DSL.name("type"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>content.like_count</code>.
-     */
-    public final TableField<ContentRecord, Integer> LIKE_COUNT = createField(DSL.name("like_count"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>content.dislike_count</code>.
-     */
-    public final TableField<ContentRecord, Integer> DISLIKE_COUNT = createField(DSL.name("dislike_count"), SQLDataType.INTEGER.nullable(false), this, "");
 
     private Content(Name alias, Table<ContentRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
