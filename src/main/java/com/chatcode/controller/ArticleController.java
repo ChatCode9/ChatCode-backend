@@ -38,9 +38,7 @@ public class ArticleController {
     public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO>>> getArticleList(@RequestBody ArticleRetrieveRequest requestDto) {
         ArticleRetrieveServiceDto serviceDto = ArticleRetrieveRequest.fromRequestDto(requestDto);
 
-        List<ArticleResponseDTO> all = articleService.findAll(serviceDto);
-
-        return ResponseEntity.ok(new BaseResponseDto<>(1, all, "게시글 목록 조회 성공"));
+        return ResponseEntity.ok(articleService.findAll(serviceDto));
     }
 
     @GetMapping("/{articleId}")

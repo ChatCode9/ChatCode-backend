@@ -1,7 +1,7 @@
 package com.chatcode.repository.article;
 
+import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.entity.Article;
-import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.repository.ReadRepository;
 import jakarta.persistence.EntityManager;
@@ -34,7 +34,7 @@ public class ArticleReadRepository implements ReadRepository<Article> {
                 Article.class).get(0));
     }
 
-    public List<ArticleResponseDTO> retrieve(ArticleRetrieveServiceDto query) {
+    public List<ArticleVo> retrieve(ArticleRetrieveServiceDto query) {
         return dsl.select(
                         ARTICLE.ID,
                         ARTICLE.DATE_CREATED,
@@ -54,7 +54,17 @@ public class ArticleReadRepository implements ReadRepository<Article> {
                 .orderBy(query.getSortBy().getDirection())
                 .limit(query.getPageInfo().getSize())
                 .offset(query.getPageInfo().getOffset())
-                .fetchInto(ArticleResponseDTO.class);
+                .fetchInto(ArticleVo.class);
+    }
+
+    public Long getTotalElements(ArticleRetrieveServiceDto query) {
+        return dsl.selectCount(
+                )
+                .from(ARTICLE)
+                .join(AVATAR).on(ARTICLE.AUTHOR_ID.eq(AVATAR.ID))
+                .join(CONTENT).on(ARTICLE.CONTENT_ID.eq(CONTENT.ID))
+                .where(condition(query))
+                .fetchOneInto(Long.class);
     }
 
     public Condition condition(ArticleRetrieveServiceDto request) {
