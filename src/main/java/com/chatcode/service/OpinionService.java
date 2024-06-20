@@ -1,9 +1,9 @@
 package com.chatcode.service;
 
 import com.chatcode.domain.LikeableContentType;
-import com.chatcode.dto.comment.response.CommentResponseDto;
+import com.chatcode.dto.opinion.response.OpinionResponseDto;
 import com.chatcode.repository.RedisReactionRepository;
-import com.chatcode.repository.opinion.CommentReadRepository;
+import com.chatcode.repository.opinion.OpinionReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +11,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CommentService {
-    private final CommentReadRepository repository;
+public class OpinionService {
+    private final OpinionReadRepository repository;
     private final RedisReactionRepository redisReactionRepository;
 
-    public List<CommentResponseDto> getComments(long articleId, long avatarId) {
-        return repository.retrieve(articleId).stream().map(comment ->
-                CommentResponseDto.of(comment, getIsLiked(comment.getCommentId(), avatarId),
-                        getIsRole(avatarId, comment.getUserId()))
+    public List<OpinionResponseDto> getOpinions(long articleId, long avatarId) {
+        return repository.retrieve(articleId).stream().map(opinion ->
+                OpinionResponseDto.of(opinion, getIsLiked(opinion.getId(), avatarId),
+                        getIsRole(avatarId, opinion.getUserId()))
         ).toList();
     }
 

@@ -1,12 +1,12 @@
-package com.chatcode.dto.comment.response;
+package com.chatcode.dto.opinion.response;
 
-import com.chatcode.dto.comment.OpinionVo;
+import com.chatcode.dto.opinion.OpinionVo;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class CommentResponseDto {
+public class OpinionResponseDto {
     private long commentId;
     private long postId;
     private long userId;
@@ -23,8 +23,8 @@ public class CommentResponseDto {
     private Boolean isLiked;
     private boolean isRole;
 
-    public static CommentResponseDto of(OpinionVo vo, Boolean isLiked, boolean isRole) {
-        return CommentResponseDto.builder().commentId(vo.getCommentId())
+    public static OpinionResponseDto of(OpinionVo vo, Boolean isLiked, boolean isRole) {
+        return OpinionResponseDto.builder().commentId(vo.getId())
                 .postId(vo.getPostId())
                 .userId(vo.getUserId())
                 .userName(vo.getUserName())

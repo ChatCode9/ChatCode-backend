@@ -1,10 +1,10 @@
-package com.chatcode.dto.comment;
+package com.chatcode.dto.opinion;
 
 import lombok.Data;
 
 @Data
 public class OpinionVo {
-    private long commentId;
+    private long id;
     private long postId;
     private long userId;
     private String userName;

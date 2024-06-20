@@ -2,8 +2,8 @@ package com.chatcode.controller;
 
 import com.chatcode.config.auth.LoginUser;
 import com.chatcode.dto.BaseResponseDto;
-import com.chatcode.dto.comment.response.CommentResponseDto;
-import com.chatcode.service.CommentService;
+import com.chatcode.dto.opinion.response.OpinionResponseDto;
+import com.chatcode.service.OpinionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("comments")
+@RestController("opinions")
 @RequiredArgsConstructor
-public class CommentController {
-    private final CommentService commentService;
+public class OpinionController {
+    private final OpinionService opinionService;
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<BaseResponseDto<List<CommentResponseDto>>> getComments(@PathVariable Long articleId,
+    public ResponseEntity<BaseResponseDto<List<OpinionResponseDto>>> getOpinions(@PathVariable Long articleId,
                                                                                  @AuthenticationPrincipal LoginUser loginUser) {
-        List<CommentResponseDto> results = commentService.getComments(articleId, loginUser.getAvatarId());
+        List<OpinionResponseDto> results = opinionService.getOpinions(articleId, loginUser.getAvatarId());
 
         return ResponseEntity.ok(new BaseResponseDto<>(200, results, ""));
     }
 
     @PostMapping("/{articleId}")
-    public ResponseEntity<BaseResponseDto<Void>> comment(@PathVariable Long articleId,
+    public ResponseEntity<BaseResponseDto<Void>> createOpinion(@PathVariable Long articleId,
                                                          @AuthenticationPrincipal LoginUser loginUser) {
         return ResponseEntity.ok(new BaseResponseDto<>(200, null, ""));
     }

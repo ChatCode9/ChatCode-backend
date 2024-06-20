@@ -1,7 +1,7 @@
 package com.chatcode.repository.opinion;
 
 import com.chatcode.domain.entity.Opinion;
-import com.chatcode.dto.comment.OpinionVo;
+import com.chatcode.dto.opinion.OpinionVo;
 import com.chatcode.repository.ReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
@@ -17,7 +17,7 @@ import static org.jooq.impl.DSL.and;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentReadRepository implements ReadRepository<Opinion> {
+public class OpinionReadRepository implements ReadRepository<Opinion> {
     private final DSLContext dsl;
 
     public Optional<Opinion> findById(long id) {
