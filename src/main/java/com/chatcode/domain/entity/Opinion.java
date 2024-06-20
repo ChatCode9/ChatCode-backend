@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "opinion")
 public class Opinion implements Likeable {
 
     @Id

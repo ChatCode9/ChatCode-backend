@@ -16,7 +16,6 @@ import com.chatcode.jooq.tables.BannerClick;
 import com.chatcode.jooq.tables.Category;
 import com.chatcode.jooq.tables.CategoryOld;
 import com.chatcode.jooq.tables.ChangeLog;
-import com.chatcode.jooq.tables.Comment;
 import com.chatcode.jooq.tables.ConfirmEmail;
 import com.chatcode.jooq.tables.Content;
 import com.chatcode.jooq.tables.ContentFile;
@@ -26,6 +25,7 @@ import com.chatcode.jooq.tables.Follow;
 import com.chatcode.jooq.tables.InterestTag;
 import com.chatcode.jooq.tables.LoggedIn;
 import com.chatcode.jooq.tables.Oauthid;
+import com.chatcode.jooq.tables.Opinion;
 import com.chatcode.jooq.tables.Role;
 import com.chatcode.jooq.tables.Scrap;
 import com.chatcode.jooq.tables.SpamWord;
@@ -114,11 +114,6 @@ public class Tables {
     public static final ChangeLog CHANGE_LOG = ChangeLog.CHANGE_LOG;
 
     /**
-     * The table <code>comment</code>.
-     */
-    public static final Comment COMMENT = Comment.COMMENT;
-
-    /**
      * The table <code>confirm_email</code>.
      */
     public static final ConfirmEmail CONFIRM_EMAIL = ConfirmEmail.CONFIRM_EMAIL;
@@ -162,6 +157,11 @@ public class Tables {
      * The table <code>oauthid</code>.
      */
     public static final Oauthid OAUTHID = Oauthid.OAUTHID;
+
+    /**
+     * The table <code>opinion</code>.
+     */
+    public static final Opinion OPINION = Opinion.OPINION;
 
     /**
      * The table <code>role</code>.
