@@ -6,7 +6,6 @@ import com.chatcode.dto.like.Likeable;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
 @Entity
 @Getter
 @Builder
