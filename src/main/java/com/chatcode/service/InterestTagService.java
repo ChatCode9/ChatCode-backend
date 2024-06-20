@@ -1,7 +1,6 @@
 package com.chatcode.service;
 
 import com.chatcode.domain.entity.InterestTag;
-import com.chatcode.dto.tag.InterestTagRequest.InterestTagIdRequest;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagNameRequest;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagRenameRequest;
 import com.chatcode.dto.tag.InterestTagResponse;
@@ -39,11 +38,8 @@ public class InterestTagService {
     }
 
     @Transactional
-    public void deleteInterestTags(List<InterestTagIdRequest> params) {
-        List<InterestTag> tags = params.stream()
-                        .map(tag -> interestTagWriteRepository.getReferenceById(tag.getId()))
-                        .toList();
-        interestTagWriteRepository.deleteAll(tags);
+    public void deleteInterestTags(Long params) {
+        interestTagWriteRepository.deleteById(params);
     }
 
     @Transactional

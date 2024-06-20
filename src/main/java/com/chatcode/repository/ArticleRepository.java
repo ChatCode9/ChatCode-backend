@@ -1,23 +1,21 @@
 package com.chatcode.repository;
 
-import static com.chatcode.jooq.Tables.ARTICLE;
-import static com.chatcode.jooq.Tables.CONTENT;
-import static org.jooq.impl.DSL.currentLocalDateTime;
-
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
-
-import com.chatcode.jooq.tables.records.ArticleRecord;
-import com.chatcode.jooq.tables.records.ContentRecord;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static com.chatcode.jooq.Tables.ARTICLE;
+import static com.chatcode.jooq.Tables.CONTENT;
+import static org.jooq.impl.DSL.currentLocalDateTime;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,23 +24,15 @@ public class ArticleRepository {
 
     public void createArticle(ArticleCreateRequestDTO articleDTO) {
 
-        ContentRecord contentRecord;
-        contentRecord = dslContext
+        Long contentId = dslContext
                 .insertInto(CONTENT)
                 .set(CONTENT.TEXT, articleDTO.getContentText())
-                .set(CONTENT.TYPE, 1)
-                .set(CONTENT.VERSION, 1L)
-                .set(CONTENT.LIKE_COUNT, 0)
-                .set(CONTENT.DISLIKE_COUNT, 0)
-                .set(CONTENT.DATE_CREATED, currentLocalDateTime())
-                .set(CONTENT.LAST_UPDATED, currentLocalDateTime())
-                .returning()
-                .fetchOne();
+                .returningResult(CONTENT.ID)
+                .fetchOneInto(Long.class);
 
-        ArticleRecord articleRecord;
-        articleRecord = (ArticleRecord) dslContext
+        dslContext
                 .insertInto(ARTICLE)
-                .set(ARTICLE.CONTENT_ID, contentRecord.getId())
+                .set(ARTICLE.CONTENT_ID, contentId)
                 .set(ARTICLE.TITLE, articleDTO.getTitle())
                 .set(ARTICLE.NOTE_COUNT, 0)
                 .set(ARTICLE.SCRAP_COUNT, 0)
@@ -56,11 +46,6 @@ public class ArticleRepository {
                 .set(ARTICLE.ENABLED, true)
                 .returning()
                 .fetchOne();
-
-        dslContext.update(CONTENT)
-                .set(CONTENT.ARTICLE_ID, articleRecord.getId())
-                .where(CONTENT.ID.eq(contentRecord.getId()))
-                .execute();
     }
 
 

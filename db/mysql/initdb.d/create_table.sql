@@ -6,9 +6,9 @@ CREATE TABLE `user_role`
 
 CREATE TABLE `avatar_interest_tag`
 (
-    `id`              bigint(20) NOT NULL AUTO_INCREMENT,
-    `avatar_id`       bigint(20) NOT NULL,
-    `interest_tag_id` bigint(20) NOT NULL,
+    `id`                bigint(20) NOT NULL AUTO_INCREMENT,
+    `avatar_id`         bigint(20) NOT NULL,
+    `interest_tag_id`   bigint(20) NOT NULL,
     CONSTRAINT PK_AVATAR_INTEREST_TAG PRIMARY KEY (`id`)
 );
 
@@ -46,8 +46,8 @@ CREATE TABLE `article`
 
 CREATE TABLE `interest_tag`
 (
-    `id`   bigint(20) NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) UNIQUE NOT NULL,
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name`     varchar(255) UNIQUE NOT NULL,
     CONSTRAINT PK_INTEREST_TAG PRIMARY KEY (`id`)
 );
 
@@ -184,7 +184,7 @@ CREATE TABLE `file`
 (
     `id`           bigint                                  NOT NULL AUTO_INCREMENT,
     `url`          varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `target_id`    bigint NULL,
+    `target_id`    bigint                                  NULL,
     `date_created` datetime DEFAULT NULL,
     `last_updated` datetime DEFAULT NULL,
     CONSTRAINT PK_FILE PRIMARY KEY (`id`)
@@ -304,26 +304,16 @@ CREATE TABLE `(optional)notification`
 CREATE TABLE `content`
 (
     `id`             bigint(20) NOT NULL AUTO_INCREMENT,
-    `version`        bigint(20) NOT NULL,
-    `article_id`     bigint(20) NULL,
-    `author_id`      bigint(20) NULL,
-    `create_ip`      varchar(255) NULL,
-    `date_created`   datetime NOT NULL,
-    `last_editor_id` bigint(20) NULL,
-    `last_updated`   datetime NOT NULL,
     `text`           longtext NOT NULL,
-    `type`           int(11) NOT NULL,
-    `like_count`     int(11) NOT NULL,
-    `dislike_count`  int(11) NOT NULL,
     CONSTRAINT PK_CONTENT PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `category`
 (
-    `id`         bigint(20)	NOT NULL AUTO_INCREMENT,
+    `id`	     bigint(20)	NOT NULL AUTO_INCREMENT,
     `name`       varchar(255) NOT NULL,
     `sort_order` int(11) NOT NULL,
-    CONSTRAINT PK_CATEGORY PRIMARY KEY (`id`)
+    CONSTRAINT PK_CATEGORY PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `temp_article`
@@ -442,18 +432,18 @@ ALTER TABLE `user_role`
 
 ALTER TABLE `avatar_interest_tag`
     ADD CONSTRAINT `FK_avatar_TO_avatar_interest_tag_1` FOREIGN KEY (
-                                                                     `avatar_id`
+                                                         `avatar_id`
         )
         REFERENCES `avatar` (
-                             `id`
+                           `id`
             );
 
 ALTER TABLE `avatar_interest_tag`
     ADD CONSTRAINT `FK_tag_TO_avatar_interest_tag_1` FOREIGN KEY (
-                                                                  `interest_tag_id`
+                                                         `interest_tag_id`
         )
         REFERENCES `interest_tag` (
-                                   `id`
+                           `id`
             );
 
 ALTER TABLE `scrap`

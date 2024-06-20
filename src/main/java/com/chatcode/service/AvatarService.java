@@ -1,6 +1,7 @@
 package com.chatcode.service;
 
 import com.chatcode.domain.entity.Avatar;
+import com.chatcode.domain.entity.InterestTag;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarCreateRequest;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarUpdateRequest;
 import com.chatcode.dto.avatar.AvatarResponse;
@@ -90,15 +91,12 @@ public class AvatarService {
     }
 
     @Transactional
-    public void deleteInterestTags(List<InterestTagIdRequest> params, Long id) {
+    public void deleteInterestTags(Long interestTagId, Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
                 .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
 
-        params.stream()
-                .map(InterestTagIdRequest::getId)
-                .map(interestTagWriteRepository::getReferenceById)
-                .forEach(avatar::removeInterestTag);
-        avatarWriteRepository.save(avatar);
+        InterestTag interestTag = interestTagWriteRepository.getReferenceById(interestTagId);
+        avatar.removeInterestTag(interestTag);
     }
 
     @Transactional(readOnly = true)
