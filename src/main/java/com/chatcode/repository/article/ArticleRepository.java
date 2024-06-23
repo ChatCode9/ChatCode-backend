@@ -1,10 +1,11 @@
-package com.chatcode.repository;
+package com.chatcode.repository.article;
 
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
+import com.chatcode.jooq.tables.records.ArticleRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -21,8 +22,8 @@ import static org.jooq.impl.DSL.currentLocalDateTime;
 @RequiredArgsConstructor
 public class ArticleRepository {
     private final DSLContext dslContext;
-
-    public void createArticle(ArticleCreateRequestDTO articleDTO) {
+    public static final String tagSplit = " ";
+    public Long createArticle(ArticleCreateRequestDTO articleDTO) {
 
         Long contentId = dslContext
                 .insertInto(CONTENT)
@@ -30,7 +31,8 @@ public class ArticleRepository {
                 .returningResult(CONTENT.ID)
                 .fetchOneInto(Long.class);
 
-        dslContext
+        ArticleRecord articleRecord;
+        articleRecord = (ArticleRecord) dslContext
                 .insertInto(ARTICLE)
                 .set(ARTICLE.CONTENT_ID, contentId)
                 .set(ARTICLE.TITLE, articleDTO.getTitle())
@@ -44,8 +46,11 @@ public class ArticleRepository {
                 .set(ARTICLE.DATE_CREATED, currentLocalDateTime())
                 .set(ARTICLE.LAST_UPDATED, currentLocalDateTime())
                 .set(ARTICLE.ENABLED, true)
+                .set(ARTICLE.TAG_STRING, String.join(tagSplit, articleDTO.getTags()))
                 .returning()
                 .fetchOne();
+
+        return  articleRecord.getId();
     }
 
 
@@ -70,6 +75,7 @@ public class ArticleRepository {
 
         dslContext.update(ARTICLE)
                 .set(ARTICLE.TITLE, updateDTO.getTitle())
+                .set(ARTICLE.TAG_STRING, String.join(tagSplit , updateDTO.getTags()))
                 .where(ARTICLE.ID.eq(articleId))
                 .execute();
     }
