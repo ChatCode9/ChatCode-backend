@@ -1,7 +1,7 @@
 package com.chatcode.controller;
 
+import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.dto.article.ArticleRequestDto.*;
-import com.chatcode.dto.scrap.BaseResponseDto;
 import com.chatcode.service.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
