@@ -22,6 +22,10 @@ public class AvatarRequest {
         @Schema(description = "프로필 사진 URL", example = "http://example.com/avatar.jpg")
         @NotNull
         private String picture;
+
+        @Schema(description = "자기소개", example = "안녕하세요")
+        @Size(max = 1000)
+        private String content;
     }
 
     @Data
@@ -33,5 +37,9 @@ public class AvatarRequest {
 
         @Schema(description = "프로필 사진 URL", example = "http://example.com/avatar.jpg")
         private String picture;
+
+        @Schema(description = "자기소개", example = "안녕하세요")
+        @Size(max = 1000)
+        private String content;
     }
 }
