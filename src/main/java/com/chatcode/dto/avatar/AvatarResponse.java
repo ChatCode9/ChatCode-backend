@@ -23,12 +23,16 @@ public class AvatarResponse {
     @Schema(description = "프로필 사진 URL", example = "http://example.com/avatar.jpg")
     private String picture;
 
+    @Schema(description = "자기소개", example = "안녕하세요")
+    private String content;
+
     public static AvatarResponse of(Avatar avatar) {
         AvatarResponse response = new AvatarResponse();
         response.id = avatar.getId();
         response.activityPoint = avatar.getActivityPoint();
         response.nickname = avatar.getNickname();
         response.picture = avatar.getPicture();
+        response.content = avatar.getContent();
         return response;
     }
 
