@@ -20,6 +20,7 @@ public class Avatar implements Serializable {
     private final Integer activityPoint;
     private final String nickname;
     private final String picture;
+    private final String content;
 
     public Avatar(Avatar value) {
         this.id = value.id;
@@ -27,6 +28,7 @@ public class Avatar implements Serializable {
         this.activityPoint = value.activityPoint;
         this.nickname = value.nickname;
         this.picture = value.picture;
+        this.content = value.content;
     }
 
     public Avatar(
@@ -34,13 +36,15 @@ public class Avatar implements Serializable {
         Long version,
         Integer activityPoint,
         String nickname,
-        String picture
+        String picture,
+        String content
     ) {
         this.id = id;
         this.version = version;
         this.activityPoint = activityPoint;
         this.nickname = nickname;
         this.picture = picture;
+        this.content = content;
     }
 
     /**
@@ -76,6 +80,13 @@ public class Avatar implements Serializable {
      */
     public String getPicture() {
         return this.picture;
+    }
+
+    /**
+     * Getter for <code>avatar.content</code>.
+     */
+    public String getContent() {
+        return this.content;
     }
 
     @Override
@@ -117,6 +128,12 @@ public class Avatar implements Serializable {
         }
         else if (!this.picture.equals(other.picture))
             return false;
+        if (this.content == null) {
+            if (other.content != null)
+                return false;
+        }
+        else if (!this.content.equals(other.content))
+            return false;
         return true;
     }
 
@@ -129,6 +146,7 @@ public class Avatar implements Serializable {
         result = prime * result + ((this.activityPoint == null) ? 0 : this.activityPoint.hashCode());
         result = prime * result + ((this.nickname == null) ? 0 : this.nickname.hashCode());
         result = prime * result + ((this.picture == null) ? 0 : this.picture.hashCode());
+        result = prime * result + ((this.content == null) ? 0 : this.content.hashCode());
         return result;
     }
 
@@ -141,6 +159,7 @@ public class Avatar implements Serializable {
         sb.append(", ").append(activityPoint);
         sb.append(", ").append(nickname);
         sb.append(", ").append(picture);
+        sb.append(", ").append(content);
 
         sb.append(")");
         return sb.toString();

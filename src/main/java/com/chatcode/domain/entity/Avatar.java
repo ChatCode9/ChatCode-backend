@@ -34,6 +34,9 @@ public class Avatar {
     @Column(nullable = false)
     private String picture;
 
+    @Column(nullable = true)
+    private String content;
+
     @OneToMany(mappedBy = "avatar", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private final List<AvatarInterestTag> avatarInterestTags = new ArrayList<>();
 
