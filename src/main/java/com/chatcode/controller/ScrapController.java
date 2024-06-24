@@ -25,7 +25,7 @@ public class ScrapController {
 
     private final ScrapService scrapService;
 
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("articles/{articleId}/scraps")
     @Operation(summary = "스크랩 추가", description = "게시물을 스크랩합니다.")
     public ResponseEntity<BaseResponseDto<ScrapResponseDto>> scrap(@PathVariable @Valid Long articleId,

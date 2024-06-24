@@ -1,4 +1,4 @@
-package com.chatcode.exception.common;
+package com.chatcode.handler.exception.common;
 
 public class ResourceNotFoundException extends RuntimeException {
   public ResourceNotFoundException() {

@@ -6,7 +6,7 @@ import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
-import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;

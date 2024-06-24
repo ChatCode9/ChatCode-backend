@@ -1,4 +1,4 @@
-package com.chatcode.exception.file;
+package com.chatcode.handler.exception.file;
 
 public class EmptyImageFileException extends RuntimeException{
     public EmptyImageFileException(){

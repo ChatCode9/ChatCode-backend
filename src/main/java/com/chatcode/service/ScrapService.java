@@ -4,7 +4,7 @@ import com.chatcode.domain.entity.Article;
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.Scrap;
 import com.chatcode.dto.ScrapResponseDto;
-import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.article.ArticleWriteRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.scrap.ScrapReadRepository;

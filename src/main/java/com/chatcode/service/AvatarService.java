@@ -7,7 +7,7 @@ import com.chatcode.dto.avatar.AvatarRequest.AvatarUpdateRequest;
 import com.chatcode.dto.avatar.AvatarResponse;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagIdRequest;
 import com.chatcode.dto.tag.InterestTagResponse;
-import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.tag.AvatarInterestTagReadRepository;

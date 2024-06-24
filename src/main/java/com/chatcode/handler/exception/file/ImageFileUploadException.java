@@ -1,4 +1,4 @@
-package com.chatcode.exception.file;
+package com.chatcode.handler.exception.file;
 
 public class ImageFileUploadException extends RuntimeException{
     public ImageFileUploadException(){

@@ -1,4 +1,4 @@
-package com.chatcode.exception.reaction;
+package com.chatcode.handler.exception.reaction;
 
 public class AlreadyReactException extends RuntimeException{
   public AlreadyReactException(){

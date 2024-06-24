@@ -1,11 +1,13 @@
-package com.chatcode.exception;
+package com.chatcode.handler.exception;
 
 import com.chatcode.dto.BaseResponseDto;
-import com.chatcode.exception.common.ContentNotFoundException;
-import com.chatcode.exception.common.ResourceNotFoundException;
-import com.chatcode.exception.file.EmptyImageFileException;
-import com.chatcode.exception.file.ImageFileUploadException;
-import com.chatcode.exception.reaction.AlreadyReactException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ResourceNotFoundException;
+import com.chatcode.handler.exception.dto.DtoValidationException;
+import com.chatcode.handler.exception.file.EmptyImageFileException;
+import com.chatcode.handler.exception.file.ImageFileUploadException;
+import com.chatcode.handler.exception.reaction.AlreadyReactException;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,5 +45,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BaseResponseDto<Void>> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.badRequest()
                 .body(new BaseResponseDto<>(HttpStatus.BAD_REQUEST.value(), null, ex.getMessage()));
+    }
+
+    @ExceptionHandler(DtoValidationException.class)
+    public ResponseEntity<BaseResponseDto<Map<String, String>>> handleDtoValidationException(DtoValidationException ex) {
+        return ResponseEntity.badRequest()
+                .body(new BaseResponseDto<>(HttpStatus.BAD_REQUEST.value(), ex.getErrorMap(), ex.getMessage()));
     }
 }
