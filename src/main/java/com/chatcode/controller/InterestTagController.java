@@ -11,12 +11,14 @@ import com.chatcode.service.InterestTagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +52,7 @@ public class InterestTagController {
     }
 
     @PostMapping("/avatars/interest-tags")
-    @Operation(summary = "USER의 관심 태그 추가", description = "USER의 관심 태그를 추가합니다. (본인만 접근 가능)")
+    @Operation(summary = "USER의 관심 태그 추가", description = "현재 로그인한 유저가 본인의 관심 태그를 추가합니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "USER의 관심 태그 추가 성공")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(@RequestBody List<InterestTagIdRequest> params,
@@ -60,7 +62,7 @@ public class InterestTagController {
     }
 
     @DeleteMapping("/avatars/interest-tags/{interestTagId}")
-    @Operation(summary = "USER의 관심 태그 삭제", description = "USER의 관심 태그를 삭제합니다. (본인만 접근 가능)")
+    @Operation(summary = "USER의 관심 태그 삭제", description = "현재 로그인한 유저가 본인의 관심 태그를 삭제합니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "200", description = "USER의 관심 태그 삭제 성공")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@PathVariable Long interestTagId,
@@ -72,7 +74,8 @@ public class InterestTagController {
     @PostMapping("/admin/interest-tags")
     @Operation(summary = "관심 태그 추가", description = "관심 태그를 추가합니다. (관리자만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "관심 태그 추가 성공")
-    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> add(@RequestBody List<InterestTagNameRequest> params) {
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> add(@Valid @RequestBody List<InterestTagNameRequest> params,
+                                                                          BindingResult bindingResult) {
         List<InterestTagResponse> responseBody = interestTagService.addInterestTags(params);
         return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
     }
@@ -88,7 +91,8 @@ public class InterestTagController {
     @PutMapping("/admin/interest-tags")
     @Operation(summary = "관심 태그 수정", description = "관심 태그를 수정합니다. (관리자만 접근 가능)")
     @ApiResponse(responseCode = "200", description = "관심 태그 수정 성공")
-    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> update(@RequestBody List<InterestTagRenameRequest> params) {
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> update(@Valid @RequestBody List<InterestTagRenameRequest> params,
+                                                                             BindingResult bindingResult) {
         List<InterestTagResponse> responseBody = interestTagService.updateInterestTags(params);
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
