@@ -4,7 +4,7 @@ import com.chatcode.domain.entity.InterestTag;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagNameRequest;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagRenameRequest;
 import com.chatcode.dto.tag.InterestTagResponse;
-import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.tag.InterestTagReadRepository;
 import com.chatcode.repository.tag.InterestTagWriteRepository;
 import java.util.List;

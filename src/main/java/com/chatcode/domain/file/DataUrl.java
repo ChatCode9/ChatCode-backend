@@ -1,6 +1,6 @@
 package com.chatcode.domain.file;
 
-import com.chatcode.exception.file.EmptyImageFileException;
+import com.chatcode.handler.exception.file.EmptyImageFileException;
 import lombok.Getter;
 
 

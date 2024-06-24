@@ -3,7 +3,7 @@ package com.chatcode.service;
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.Follow;
 import com.chatcode.dto.avatar.AvatarResponse;
-import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.follow.FollowReadRepository;
 import com.chatcode.repository.follow.FollowWriteRepository;
