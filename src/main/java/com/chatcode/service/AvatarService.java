@@ -25,7 +25,6 @@ public class AvatarService {
     private final AvatarReadRepository avatarReadRepository;
     private final AvatarWriteRepository avatarWriteRepository;
     private final InterestTagWriteRepository interestTagWriteRepository;
-    private final AvatarInterestTagReadRepository avatarInterestTagReadRepository;
 
     @Transactional
     public AvatarResponse createNewAvatar(AvatarCreateRequest params) {
@@ -33,6 +32,7 @@ public class AvatarService {
                 .activityPoint(params.getActivityPoint())
                 .nickname(params.getNickname())
                 .picture(params.getPicture())
+                .content(params.getContent())
                 .build();
         avatarWriteRepository.save(avatar);
         return AvatarResponse.of(avatar);
@@ -48,6 +48,9 @@ public class AvatarService {
         }
         if (params.getPicture() != null) {
             avatar.setPicture(params.getPicture());
+        }
+        if (params.getContent() != null) {
+            avatar.setContent(params.getContent());
         }
 
         avatarWriteRepository.save(avatar);

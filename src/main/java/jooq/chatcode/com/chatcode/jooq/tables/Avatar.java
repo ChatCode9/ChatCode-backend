@@ -83,6 +83,11 @@ public class Avatar extends TableImpl<AvatarRecord> {
      */
     public final TableField<AvatarRecord, String> PICTURE = createField(DSL.name("picture"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
+    /**
+     * The column <code>avatar.content</code>.
+     */
+    public final TableField<AvatarRecord, String> CONTENT = createField(DSL.name("content"), SQLDataType.CLOB, this, "");
+
     private Avatar(Name alias, Table<AvatarRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }
