@@ -1,7 +1,10 @@
 package com.chatcode.domain.entity;
 
+import com.chatcode.config.auth.enums.Status;
+import com.chatcode.config.auth.enums.StatusConverter;
 import com.chatcode.domain.AuditingFields;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -18,17 +21,15 @@ import jakarta.persistence.Version;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
 @Table(name = "user", indexes = {
         @Index(name = "IDX_user_username", columnList = "username")
 })
@@ -62,7 +63,8 @@ public class User extends AuditingFields {
     private Boolean withdraw;
 
     @Column(nullable = false)
-    private Integer status;
+    @Convert(converter = StatusConverter.class)
+    private Status status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

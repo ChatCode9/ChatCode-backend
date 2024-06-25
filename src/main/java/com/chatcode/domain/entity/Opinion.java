@@ -14,8 +14,8 @@ public class Opinion implements Likeable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content_id", nullable = false)
-    private Long contentId;
+    @Column(name = "article_id", nullable = false)
+    private Long articleId;
 
     @Column(name = "author_id", nullable = false)
     private Long authorId;

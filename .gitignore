@@ -44,3 +44,6 @@ out/
 ### yaml ###
 /src/main/resources/yaml/application-oauth2.yaml
 /src/main/resources/yaml/application-aws.yaml
+
+### Mac ###
+.DS_store

@@ -8,10 +8,12 @@ import com.chatcode.jooq.DefaultSchema;
 import com.chatcode.jooq.Keys;
 import com.chatcode.jooq.tables.records.FileRecord;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -52,47 +54,27 @@ public class File extends TableImpl<FileRecord> {
     /**
      * The column <code>file.id</code>.
      */
-    public final TableField<FileRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<FileRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>file.version</code>.
+     * The column <code>file.url</code>.
      */
-    public final TableField<FileRecord, Long> VERSION = createField(DSL.name("version"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<FileRecord, String> URL = createField(DSL.name("url"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>file.attach_type</code>.
+     * The column <code>file.target_id</code>.
      */
-    public final TableField<FileRecord, String> ATTACH_TYPE = createField(DSL.name("attach_type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<FileRecord, Long> TARGET_ID = createField(DSL.name("target_id"), SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>file.byte_size</code>.
+     * The column <code>file.date_created</code>.
      */
-    public final TableField<FileRecord, Integer> BYTE_SIZE = createField(DSL.name("byte_size"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<FileRecord, LocalDateTime> DATE_CREATED = createField(DSL.name("date_created"), SQLDataType.LOCALDATETIME(6).defaultValue(DSL.field(DSL.raw("NULL"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>file.height</code>.
+     * The column <code>file.last_updated</code>.
      */
-    public final TableField<FileRecord, Integer> HEIGHT = createField(DSL.name("height"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>file.width</code>.
-     */
-    public final TableField<FileRecord, Integer> WIDTH = createField(DSL.name("width"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>file.name</code>.
-     */
-    public final TableField<FileRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
-
-    /**
-     * The column <code>file.org_name</code>.
-     */
-    public final TableField<FileRecord, String> ORG_NAME = createField(DSL.name("org_name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
-
-    /**
-     * The column <code>file.type</code>.
-     */
-    public final TableField<FileRecord, String> TYPE = createField(DSL.name("type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<FileRecord, LocalDateTime> LAST_UPDATED = createField(DSL.name("last_updated"), SQLDataType.LOCALDATETIME(6).defaultValue(DSL.field(DSL.raw("NULL"), SQLDataType.LOCALDATETIME)), this, "");
 
     private File(Name alias, Table<FileRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -126,6 +108,11 @@ public class File extends TableImpl<FileRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<FileRecord, Long> getIdentity() {
+        return (Identity<FileRecord, Long>) super.getIdentity();
     }
 
     @Override

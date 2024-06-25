@@ -6,8 +6,6 @@ package com.chatcode.jooq.tables.records;
 
 import com.chatcode.jooq.tables.Content;
 
-import java.time.LocalDateTime;
-
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
 
@@ -36,115 +34,10 @@ public class ContentRecord extends UpdatableRecordImpl<ContentRecord> {
     }
 
     /**
-     * Setter for <code>content.version</code>.
-     */
-    public ContentRecord setVersion(Long value) {
-        set(1, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.version</code>.
-     */
-    public Long getVersion() {
-        return (Long) get(1);
-    }
-
-    /**
-     * Setter for <code>content.article_id</code>.
-     */
-    public ContentRecord setArticleId(Long value) {
-        set(2, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.article_id</code>.
-     */
-    public Long getArticleId() {
-        return (Long) get(2);
-    }
-
-    /**
-     * Setter for <code>content.author_id</code>.
-     */
-    public ContentRecord setAuthorId(Long value) {
-        set(3, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.author_id</code>.
-     */
-    public Long getAuthorId() {
-        return (Long) get(3);
-    }
-
-    /**
-     * Setter for <code>content.create_ip</code>.
-     */
-    public ContentRecord setCreateIp(String value) {
-        set(4, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.create_ip</code>.
-     */
-    public String getCreateIp() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>content.date_created</code>.
-     */
-    public ContentRecord setDateCreated(LocalDateTime value) {
-        set(5, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.date_created</code>.
-     */
-    public LocalDateTime getDateCreated() {
-        return (LocalDateTime) get(5);
-    }
-
-    /**
-     * Setter for <code>content.last_editor_id</code>.
-     */
-    public ContentRecord setLastEditorId(Long value) {
-        set(6, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.last_editor_id</code>.
-     */
-    public Long getLastEditorId() {
-        return (Long) get(6);
-    }
-
-    /**
-     * Setter for <code>content.last_updated</code>.
-     */
-    public ContentRecord setLastUpdated(LocalDateTime value) {
-        set(7, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.last_updated</code>.
-     */
-    public LocalDateTime getLastUpdated() {
-        return (LocalDateTime) get(7);
-    }
-
-    /**
      * Setter for <code>content.text</code>.
      */
     public ContentRecord setText(String value) {
-        set(8, value);
+        set(1, value);
         return this;
     }
 
@@ -152,52 +45,7 @@ public class ContentRecord extends UpdatableRecordImpl<ContentRecord> {
      * Getter for <code>content.text</code>.
      */
     public String getText() {
-        return (String) get(8);
-    }
-
-    /**
-     * Setter for <code>content.type</code>.
-     */
-    public ContentRecord setType(Integer value) {
-        set(9, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.type</code>.
-     */
-    public Integer getType() {
-        return (Integer) get(9);
-    }
-
-    /**
-     * Setter for <code>content.like_count</code>.
-     */
-    public ContentRecord setLikeCount(Integer value) {
-        set(10, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.like_count</code>.
-     */
-    public Integer getLikeCount() {
-        return (Integer) get(10);
-    }
-
-    /**
-     * Setter for <code>content.dislike_count</code>.
-     */
-    public ContentRecord setDislikeCount(Integer value) {
-        set(11, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>content.dislike_count</code>.
-     */
-    public Integer getDislikeCount() {
-        return (Integer) get(11);
+        return (String) get(1);
     }
 
     // -------------------------------------------------------------------------
@@ -223,21 +71,11 @@ public class ContentRecord extends UpdatableRecordImpl<ContentRecord> {
     /**
      * Create a detached, initialised ContentRecord
      */
-    public ContentRecord(Long id, Long version, Long articleId, Long authorId, String createIp, LocalDateTime dateCreated, Long lastEditorId, LocalDateTime lastUpdated, String text, Integer type, Integer likeCount, Integer dislikeCount) {
+    public ContentRecord(Long id, String text) {
         super(Content.CONTENT);
 
         setId(id);
-        setVersion(version);
-        setArticleId(articleId);
-        setAuthorId(authorId);
-        setCreateIp(createIp);
-        setDateCreated(dateCreated);
-        setLastEditorId(lastEditorId);
-        setLastUpdated(lastUpdated);
         setText(text);
-        setType(type);
-        setLikeCount(likeCount);
-        setDislikeCount(dislikeCount);
         resetChangedOnNotNull();
     }
 
@@ -249,17 +87,7 @@ public class ContentRecord extends UpdatableRecordImpl<ContentRecord> {
 
         if (value != null) {
             setId(value.getId());
-            setVersion(value.getVersion());
-            setArticleId(value.getArticleId());
-            setAuthorId(value.getAuthorId());
-            setCreateIp(value.getCreateIp());
-            setDateCreated(value.getDateCreated());
-            setLastEditorId(value.getLastEditorId());
-            setLastUpdated(value.getLastUpdated());
             setText(value.getText());
-            setType(value.getType());
-            setLikeCount(value.getLikeCount());
-            setDislikeCount(value.getDislikeCount());
             resetChangedOnNotNull();
         }
     }

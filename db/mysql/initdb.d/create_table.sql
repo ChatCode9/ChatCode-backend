@@ -4,6 +4,14 @@ CREATE TABLE `user_role`
     `role_id` bigint(20) NOT NULL
 );
 
+CREATE TABLE `avatar_interest_tag`
+(
+    `id`                bigint(20) NOT NULL AUTO_INCREMENT,
+    `avatar_id`         bigint(20) NOT NULL,
+    `interest_tag_id`   bigint(20) NOT NULL,
+    CONSTRAINT PK_AVATAR_INTEREST_TAG PRIMARY KEY (`id`)
+);
+
 CREATE TABLE `area_district_code`
 (
     `id`                varchar(255) NOT NULL,
@@ -36,10 +44,11 @@ CREATE TABLE `article`
     CONSTRAINT PK_ARTICLE PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `avatar_interest_tag`
+CREATE TABLE `interest_tag`
 (
-    `avtar_id` bigint(20) NOT NULL,
-    `name`     varchar(255) NOT NULL
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `name`     varchar(255) UNIQUE NOT NULL,
+    CONSTRAINT PK_INTEREST_TAG PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `(optional)notification_read`
@@ -101,15 +110,16 @@ CREATE TABLE `scrap`
 
 CREATE TABLE `opinion`
 (
-    `id`            bigint(20) NOT NULL,
-    `content_id`    bigint(20) NOT NULL,
+    `id`            bigint(20) NOT NULL AUTO_INCREMENT,
+    `article_id`    bigint(20) NOT NULL,
     `author_id`     bigint(20) NOT NULL,
     `version`       bigint(20) NOT NULL,
     `comment`       longtext NOT NULL,
     `date_created`  datetime NOT NULL,
     `last_updated`  datetime NOT NULL,
     `like_count`    int(11) NOT NULL,
-    `dislike_count` int(11) NOT NULL
+    `dislike_count` int(11) NOT NULL,
+    CONSTRAINT PK_OPINIONID PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `oauthid`
@@ -184,6 +194,7 @@ CREATE TABLE `avatar`
     `activity_point` int(11) NOT NULL,
     `nickname`       varchar(20)  NOT NULL,
     `picture`        varchar(255) NOT NULL,
+    `content`        text,
     CONSTRAINT PK_AVATAR PRIMARY KEY (`id`)
 );
 
@@ -291,17 +302,7 @@ CREATE TABLE `(optional)notification`
 CREATE TABLE `content`
 (
     `id`             bigint(20) NOT NULL AUTO_INCREMENT,
-    `version`        bigint(20) NOT NULL,
-    `article_id`     bigint(20) NULL,
-    `author_id`      bigint(20) NULL,
-    `create_ip`      varchar(255) NULL,
-    `date_created`   datetime NOT NULL,
-    `last_editor_id` bigint(20) NULL,
-    `last_updated`   datetime NOT NULL,
     `text`           longtext NOT NULL,
-    `type`           int(11) NOT NULL,
-    `like_count`     int(11) NOT NULL,
-    `dislike_count`  int(11) NOT NULL,
     CONSTRAINT PK_CONTENT PRIMARY KEY (`id`)
 );
 
@@ -358,11 +359,6 @@ ALTER TABLE `scrap`
     ADD CONSTRAINT `PK_SCRAP` PRIMARY KEY (
                                            `avatar_id`,
                                            `article_id`
-        );
-
-ALTER TABLE `opinion`
-    ADD CONSTRAINT `PK_OPINION` PRIMARY KEY (
-                                             `id`
         );
 
 ALTER TABLE `category_old`
@@ -425,6 +421,22 @@ ALTER TABLE `user_role`
                                                          `role_id`
         )
         REFERENCES `role` (
+                           `id`
+            );
+
+ALTER TABLE `avatar_interest_tag`
+    ADD CONSTRAINT `FK_avatar_TO_avatar_interest_tag_1` FOREIGN KEY (
+                                                         `avatar_id`
+        )
+        REFERENCES `avatar` (
+                           `id`
+            );
+
+ALTER TABLE `avatar_interest_tag`
+    ADD CONSTRAINT `FK_tag_TO_avatar_interest_tag_1` FOREIGN KEY (
+                                                         `interest_tag_id`
+        )
+        REFERENCES `interest_tag` (
                            `id`
             );
 

@@ -191,7 +191,7 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public List<UniqueKey<UserRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.CONSTRAINT_3);
+        return Arrays.asList(Keys.CONSTRAINT_36);
     }
 
     private transient UserRolePath _userRole;

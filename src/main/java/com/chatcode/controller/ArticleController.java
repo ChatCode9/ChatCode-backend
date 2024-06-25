@@ -1,25 +1,27 @@
 package com.chatcode.controller;
 
 import com.chatcode.dto.BaseResponseDto;
-import com.chatcode.dto.article.ArticleRequestDto.*;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.article.ArticleResponseDTO;
+import com.chatcode.dto.article.ArticleRetrieveRequest;
+import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.service.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/articles")
 public class ArticleController {
     private final ArticleService articleService;
-
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
 
     @PostMapping("")
     @Operation(summary = "Article 작성", description = "Article을 작성합니다.")
@@ -37,9 +39,10 @@ public class ArticleController {
 
     @GetMapping("")
     @Operation(summary = "Article 목록 조회", description = "Article 목록을 조회합니다.")
-    public ResponseEntity<BaseResponseDto<List<String>>> getArticleList() {
-        List<String> articleList = articleService.readArticleList();
-        return ResponseEntity.ok(new BaseResponseDto<>(1, articleList, "게시글 목록 조회 성공"));
+    public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO>>> getArticleList(@RequestBody ArticleRetrieveRequest requestDto) {
+        ArticleRetrieveServiceDto serviceDto = ArticleRetrieveRequest.fromRequestDto(requestDto);
+
+        return ResponseEntity.ok(articleService.findAll(serviceDto));
     }
 
     @GetMapping("/{articleId}")

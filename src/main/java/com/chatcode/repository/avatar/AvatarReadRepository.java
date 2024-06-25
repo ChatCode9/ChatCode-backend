@@ -29,6 +29,13 @@ public class AvatarReadRepository implements ReadRepository<Avatar> {
         return (avatars.isEmpty()) ? Optional.empty() : Optional.of(avatars.get(0));
     }
 
+    public Avatar findByName(String name) {
+        List<Avatar> avatars = nativeQuery(em, dsl.select().from(AVATAR).where(AVATAR.NICKNAME.eq(name)),
+                Avatar.class);
+
+        return avatars.get(0);
+    }
+
     public List<Avatar> findAll() {
         return nativeQuery(em, dsl.select()
                 .from(AVATAR), Avatar.class);

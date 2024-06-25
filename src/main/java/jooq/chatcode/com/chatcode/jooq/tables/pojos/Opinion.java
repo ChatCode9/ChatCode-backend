@@ -17,7 +17,7 @@ public class Opinion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Long id;
-    private final Long contentId;
+    private final Long articleId;
     private final Long authorId;
     private final Long version;
     private final String comment;
@@ -28,7 +28,7 @@ public class Opinion implements Serializable {
 
     public Opinion(Opinion value) {
         this.id = value.id;
-        this.contentId = value.contentId;
+        this.articleId = value.articleId;
         this.authorId = value.authorId;
         this.version = value.version;
         this.comment = value.comment;
@@ -40,7 +40,7 @@ public class Opinion implements Serializable {
 
     public Opinion(
         Long id,
-        Long contentId,
+        Long articleId,
         Long authorId,
         Long version,
         String comment,
@@ -50,7 +50,7 @@ public class Opinion implements Serializable {
         Integer dislikeCount
     ) {
         this.id = id;
-        this.contentId = contentId;
+        this.articleId = articleId;
         this.authorId = authorId;
         this.version = version;
         this.comment = comment;
@@ -68,10 +68,10 @@ public class Opinion implements Serializable {
     }
 
     /**
-     * Getter for <code>opinion.content_id</code>.
+     * Getter for <code>opinion.article_id</code>.
      */
-    public Long getContentId() {
-        return this.contentId;
+    public Long getArticleId() {
+        return this.articleId;
     }
 
     /**
@@ -138,11 +138,11 @@ public class Opinion implements Serializable {
         }
         else if (!this.id.equals(other.id))
             return false;
-        if (this.contentId == null) {
-            if (other.contentId != null)
+        if (this.articleId == null) {
+            if (other.articleId != null)
                 return false;
         }
-        else if (!this.contentId.equals(other.contentId))
+        else if (!this.articleId.equals(other.articleId))
             return false;
         if (this.authorId == null) {
             if (other.authorId != null)
@@ -194,7 +194,7 @@ public class Opinion implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.contentId == null) ? 0 : this.contentId.hashCode());
+        result = prime * result + ((this.articleId == null) ? 0 : this.articleId.hashCode());
         result = prime * result + ((this.authorId == null) ? 0 : this.authorId.hashCode());
         result = prime * result + ((this.version == null) ? 0 : this.version.hashCode());
         result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
@@ -210,7 +210,7 @@ public class Opinion implements Serializable {
         StringBuilder sb = new StringBuilder("Opinion (");
 
         sb.append(id);
-        sb.append(", ").append(contentId);
+        sb.append(", ").append(articleId);
         sb.append(", ").append(authorId);
         sb.append(", ").append(version);
         sb.append(", ").append(comment);

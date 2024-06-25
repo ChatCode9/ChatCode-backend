@@ -1,16 +1,15 @@
 package com.chatcode.service;
 
-import com.chatcode.domain.entity.Article;
+import com.chatcode.domain.common.PageInfo;
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.repository.ArticleRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
-import com.chatcode.repository.article.ArticleRepository;
-import com.chatcode.service.ArticleTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +19,13 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleWriteRepository articleWriteRepository;
-    private final ArticleTagService articleTagService;
     private final ArticleReadRepository articleReadRepository;
+    private final ArticleTagService articleTagService;
 
-    @Transactional
     public void articleCreate(ArticleCreateRequestDTO params) {
         Long articleId = articleRepository.createArticle(params);
 
@@ -42,12 +41,6 @@ public class ArticleService {
                 .orElseThrow(() -> new ContentNotFoundException("해당 아티클에 대한 콘텐츠가 없습니다."));
 
         articleRepository.updateArticle(articleId, contentId, updateDTO);
-
-        Article article = articleWriteRepository.findById(articleId)
-                .orElseThrow(() -> new ContentNotFoundException("Article not found"));
-
-        articleTagService.updateArticleTags(article, updateDTO.getTags());
-    }
 
     public Optional<String> readArticleById(Long articleId) {
         return articleRepository.readArticleById(articleId);

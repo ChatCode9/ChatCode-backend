@@ -3,6 +3,7 @@ package com.chatcode.config.auth.oauth;
 import static com.chatcode.domain.RoleType.USER;
 
 import com.chatcode.config.auth.LoginUser;
+import com.chatcode.config.auth.enums.Status;
 import com.chatcode.config.auth.oauth.dto.OAuth2Response;
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.Role;
@@ -28,7 +29,6 @@ import org.springframework.stereotype.Service;
 public class OAuth2LoginUserService extends DefaultOAuth2UserService {
 
     private static final Integer INITIAL_ACTIVITY_POINT = 0;
-    private static final Integer INITIAL_STATUS = 0;
 
     private final UserReadRepository userReadRepository;
     private final UserWriteRepository userWriteRepository;
@@ -79,7 +79,7 @@ public class OAuth2LoginUserService extends DefaultOAuth2UserService {
                 .createIp(ip)
                 .lastUpdateIp(ip)
                 .username(oAuth2Response.getUsername())
-                .status(INITIAL_STATUS)
+                .status(Status.NO_PROFILE)
                 .withdraw(false)
                 .build();
         signUpUser.addRole(userRoleType);

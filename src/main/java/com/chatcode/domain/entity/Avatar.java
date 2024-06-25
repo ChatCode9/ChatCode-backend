@@ -1,16 +1,13 @@
 package com.chatcode.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,4 +34,21 @@ public class Avatar {
     @Column(nullable = false)
     private String picture;
 
+    @Column(nullable = true)
+    private String content;
+
+    @OneToMany(mappedBy = "avatar", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private final List<AvatarInterestTag> avatarInterestTags = new ArrayList<>();
+
+    public void addInterestTag(InterestTag interestTag) {
+        if (avatarInterestTags.stream().noneMatch(
+                avatarInterestTag -> interestTag.getId().equals(avatarInterestTag.getInterestTag().getId()))) {
+            avatarInterestTags.add(AvatarInterestTag.of(this, interestTag));
+        }
+    }
+
+    public void removeInterestTag(InterestTag interestTag) {
+        avatarInterestTags.removeIf(
+                avatarInterestTag -> interestTag.getId().equals(avatarInterestTag.getInterestTag().getId()));
+    }
 }

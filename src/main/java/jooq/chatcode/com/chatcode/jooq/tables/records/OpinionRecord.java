@@ -36,17 +36,17 @@ public class OpinionRecord extends UpdatableRecordImpl<OpinionRecord> {
     }
 
     /**
-     * Setter for <code>opinion.content_id</code>.
+     * Setter for <code>opinion.article_id</code>.
      */
-    public OpinionRecord setContentId(Long value) {
+    public OpinionRecord setArticleId(Long value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>opinion.content_id</code>.
+     * Getter for <code>opinion.article_id</code>.
      */
-    public Long getContentId() {
+    public Long getArticleId() {
         return (Long) get(1);
     }
 
@@ -178,11 +178,11 @@ public class OpinionRecord extends UpdatableRecordImpl<OpinionRecord> {
     /**
      * Create a detached, initialised OpinionRecord
      */
-    public OpinionRecord(Long id, Long contentId, Long authorId, Long version, String comment, LocalDateTime dateCreated, LocalDateTime lastUpdated, Integer likeCount, Integer dislikeCount) {
+    public OpinionRecord(Long id, Long articleId, Long authorId, Long version, String comment, LocalDateTime dateCreated, LocalDateTime lastUpdated, Integer likeCount, Integer dislikeCount) {
         super(Opinion.OPINION);
 
         setId(id);
-        setContentId(contentId);
+        setArticleId(articleId);
         setAuthorId(authorId);
         setVersion(version);
         setComment(comment);
@@ -201,7 +201,7 @@ public class OpinionRecord extends UpdatableRecordImpl<OpinionRecord> {
 
         if (value != null) {
             setId(value.getId());
-            setContentId(value.getContentId());
+            setArticleId(value.getArticleId());
             setAuthorId(value.getAuthorId());
             setVersion(value.getVersion());
             setComment(value.getComment());

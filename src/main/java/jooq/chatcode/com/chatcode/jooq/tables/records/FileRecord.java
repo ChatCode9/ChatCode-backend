@@ -6,6 +6,8 @@ package com.chatcode.jooq.tables.records;
 
 import com.chatcode.jooq.tables.File;
 
+import java.time.LocalDateTime;
+
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
 
@@ -34,123 +36,63 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
     }
 
     /**
-     * Setter for <code>file.version</code>.
+     * Setter for <code>file.url</code>.
      */
-    public FileRecord setVersion(Long value) {
+    public FileRecord setUrl(String value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>file.version</code>.
+     * Getter for <code>file.url</code>.
      */
-    public Long getVersion() {
-        return (Long) get(1);
+    public String getUrl() {
+        return (String) get(1);
     }
 
     /**
-     * Setter for <code>file.attach_type</code>.
+     * Setter for <code>file.target_id</code>.
      */
-    public FileRecord setAttachType(String value) {
+    public FileRecord setTargetId(Long value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>file.attach_type</code>.
+     * Getter for <code>file.target_id</code>.
      */
-    public String getAttachType() {
-        return (String) get(2);
+    public Long getTargetId() {
+        return (Long) get(2);
     }
 
     /**
-     * Setter for <code>file.byte_size</code>.
+     * Setter for <code>file.date_created</code>.
      */
-    public FileRecord setByteSize(Integer value) {
+    public FileRecord setDateCreated(LocalDateTime value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>file.byte_size</code>.
+     * Getter for <code>file.date_created</code>.
      */
-    public Integer getByteSize() {
-        return (Integer) get(3);
+    public LocalDateTime getDateCreated() {
+        return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>file.height</code>.
+     * Setter for <code>file.last_updated</code>.
      */
-    public FileRecord setHeight(Integer value) {
+    public FileRecord setLastUpdated(LocalDateTime value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>file.height</code>.
+     * Getter for <code>file.last_updated</code>.
      */
-    public Integer getHeight() {
-        return (Integer) get(4);
-    }
-
-    /**
-     * Setter for <code>file.width</code>.
-     */
-    public FileRecord setWidth(Integer value) {
-        set(5, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>file.width</code>.
-     */
-    public Integer getWidth() {
-        return (Integer) get(5);
-    }
-
-    /**
-     * Setter for <code>file.name</code>.
-     */
-    public FileRecord setName(String value) {
-        set(6, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>file.name</code>.
-     */
-    public String getName() {
-        return (String) get(6);
-    }
-
-    /**
-     * Setter for <code>file.org_name</code>.
-     */
-    public FileRecord setOrgName(String value) {
-        set(7, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>file.org_name</code>.
-     */
-    public String getOrgName() {
-        return (String) get(7);
-    }
-
-    /**
-     * Setter for <code>file.type</code>.
-     */
-    public FileRecord setType(String value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>file.type</code>.
-     */
-    public String getType() {
-        return (String) get(8);
+    public LocalDateTime getLastUpdated() {
+        return (LocalDateTime) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -176,18 +118,14 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
     /**
      * Create a detached, initialised FileRecord
      */
-    public FileRecord(Long id, Long version, String attachType, Integer byteSize, Integer height, Integer width, String name, String orgName, String type) {
+    public FileRecord(Long id, String url, Long targetId, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         super(File.FILE);
 
         setId(id);
-        setVersion(version);
-        setAttachType(attachType);
-        setByteSize(byteSize);
-        setHeight(height);
-        setWidth(width);
-        setName(name);
-        setOrgName(orgName);
-        setType(type);
+        setUrl(url);
+        setTargetId(targetId);
+        setDateCreated(dateCreated);
+        setLastUpdated(lastUpdated);
         resetChangedOnNotNull();
     }
 
@@ -199,14 +137,10 @@ public class FileRecord extends UpdatableRecordImpl<FileRecord> {
 
         if (value != null) {
             setId(value.getId());
-            setVersion(value.getVersion());
-            setAttachType(value.getAttachType());
-            setByteSize(value.getByteSize());
-            setHeight(value.getHeight());
-            setWidth(value.getWidth());
-            setName(value.getName());
-            setOrgName(value.getOrgName());
-            setType(value.getType());
+            setUrl(value.getUrl());
+            setTargetId(value.getTargetId());
+            setDateCreated(value.getDateCreated());
+            setLastUpdated(value.getLastUpdated());
             resetChangedOnNotNull();
         }
     }

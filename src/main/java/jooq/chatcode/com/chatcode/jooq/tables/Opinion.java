@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -53,12 +54,12 @@ public class Opinion extends TableImpl<OpinionRecord> {
     /**
      * The column <code>opinion.id</code>.
      */
-    public final TableField<OpinionRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OpinionRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>opinion.content_id</code>.
+     * The column <code>opinion.article_id</code>.
      */
-    public final TableField<OpinionRecord, Long> CONTENT_ID = createField(DSL.name("content_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OpinionRecord, Long> ARTICLE_ID = createField(DSL.name("article_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>opinion.author_id</code>.
@@ -130,8 +131,13 @@ public class Opinion extends TableImpl<OpinionRecord> {
     }
 
     @Override
+    public Identity<OpinionRecord, Long> getIdentity() {
+        return (Identity<OpinionRecord, Long>) super.getIdentity();
+    }
+
+    @Override
     public UniqueKey<OpinionRecord> getPrimaryKey() {
-        return Keys.PK_OPINION;
+        return Keys.PK_OPINIONID;
     }
 
     @Override
