@@ -41,7 +41,6 @@ public class ArticleController {
     @Operation(summary = "Article 목록 조회", description = "Article 목록을 조회합니다.")
     public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO>>> getArticleList(@RequestBody ArticleRetrieveRequest requestDto) {
         ArticleRetrieveServiceDto serviceDto = ArticleRetrieveRequest.fromRequestDto(requestDto);
-
         return ResponseEntity.ok(articleService.findAll(serviceDto));
     }
 

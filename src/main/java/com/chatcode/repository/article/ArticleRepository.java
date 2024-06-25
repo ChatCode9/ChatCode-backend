@@ -5,6 +5,7 @@ import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
+import com.chatcode.jooq.tables.records.ArticleRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -31,7 +32,7 @@ public class ArticleRepository {
                 .returningResult(CONTENT.ID)
                 .fetchOneInto(Long.class);
 
-        dslContext
+        ArticleRecord articleRecord = dslContext
                 .insertInto(ARTICLE)
                 .set(ARTICLE.CONTENT_ID, contentId)
                 .set(ARTICLE.TITLE, articleDTO.getTitle())
@@ -46,10 +47,10 @@ public class ArticleRepository {
                 .set(ARTICLE.LAST_UPDATED, currentLocalDateTime())
                 .set(ARTICLE.ENABLED, true)
                 .set(ARTICLE.TAG_STRING, String.join(tagSplit, articleDTO.getTags()))
-                .returning()
+                .returning(ARTICLE.ID)
                 .fetchOne();
 
-        return  articleRecord.getId();
+        return articleRecord.getId();
     }
 
     public Long findContentIdByArticleId(Long articleId) {
@@ -73,12 +74,12 @@ public class ArticleRepository {
 
         dslContext.update(ARTICLE)
                 .set(ARTICLE.TITLE, updateDTO.getTitle())
-                .set(ARTICLE.TAG_STRING, String.join(tagSplit , updateDTO.getTags()))
+                .set(ARTICLE.TAG_STRING, String.join(tagSplit, updateDTO.getTags()))
                 .where(ARTICLE.ID.eq(articleId))
                 .execute();
     }
 
-    public List<String> readArticleList(){
+    public List<String> readArticleList() {
         return dslContext
                 .select(Article.ARTICLE.TITLE)
                 .from(Article.ARTICLE)
