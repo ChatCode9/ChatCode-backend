@@ -1,17 +1,22 @@
 package com.chatcode.service;
 
 import com.chatcode.domain.entity.Article;
-import com.chatcode.dto.article.ArticleRequestDto.ArticleCreateRequestDTO;
-import com.chatcode.dto.article.ArticleRequestDto.ArticleUpdateRequestDTO;
+import com.chatcode.dto.BaseResponseDto;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
+import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.dto.article.ArticleResponseDTO;
+import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.exception.common.ContentNotFoundException;
-import com.chatcode.repository.article.ArticleRepository;
+import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
+import com.chatcode.repository.article.ArticleRepository;
+import com.chatcode.service.ArticleTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,6 +24,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleWriteRepository articleWriteRepository;
     private final ArticleTagService articleTagService;
+    private final ArticleReadRepository articleReadRepository;
 
     @Transactional
     public void articleCreate(ArticleCreateRequestDTO params) {
@@ -27,8 +33,9 @@ public class ArticleService {
         Article article = articleWriteRepository.findById(articleId)
                 .orElseThrow(() -> new ContentNotFoundException("Article not found"));
 
-        articleTagService.createTagToArticle(article, params.getTags());
+        articleTagService.addTagToArticle(article, params.getTags());
     }
+
     @Transactional
     public void articleUpdate(Long articleId, ArticleUpdateRequestDTO updateDTO) {
         Long contentId = Optional.ofNullable(articleRepository.findContentIdByArticleId(articleId))
@@ -42,18 +49,20 @@ public class ArticleService {
         articleTagService.updateArticleTags(article, updateDTO.getTags());
     }
 
-    public List<String> readArticleList() {
-        return articleRepository.readArticleList();
-    }
-
     public Optional<String> readArticleById(Long articleId) {
         return articleRepository.readArticleById(articleId);
     }
-
 
     @Transactional
     public void deleteArticle(Long articleId) {
         articleTagService.removeTagsFromArticle(articleId);
         articleRepository.deleteArticle(articleId);
+    }
+
+    public BaseResponseDto<List<ArticleResponseDTO>> findAll(ArticleRetrieveServiceDto serviceDto) {
+        List<ArticleResponseDTO> list = articleReadRepository.retrieve(serviceDto).stream().map(ArticleResponseDTO::of).toList();
+        Long totalElements = articleReadRepository.getTotalElements(serviceDto);
+
+        return new BaseResponseDto<>(200, list, "", PageInfo.of(serviceDto.getPageInfo(), totalElements));
     }
 }
