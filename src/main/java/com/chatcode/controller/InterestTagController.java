@@ -55,7 +55,7 @@ public class InterestTagController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(@RequestBody List<InterestTagIdRequest> params,
                                                                     @AuthenticationPrincipal LoginUser loginUser) {
-        avatarService.addInterestTags(params, loginUser.getId());
+        avatarService.addInterestTags(params, loginUser.getAvatarId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), null, "success"));
     }
 
@@ -65,7 +65,7 @@ public class InterestTagController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@PathVariable Long interestTagId,
                                                                        @AuthenticationPrincipal LoginUser loginUser) {
-        avatarService.deleteInterestTags(interestTagId, loginUser.getId());
+        avatarService.deleteInterestTags(interestTagId, loginUser.getAvatarId());
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));
     }
 
