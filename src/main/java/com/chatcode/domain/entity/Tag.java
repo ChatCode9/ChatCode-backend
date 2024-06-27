@@ -35,9 +35,6 @@ public class Tag {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateCreated;
 
-    @Column
-    private String description;
-
     @Column(nullable = false)
     private String name;
 
