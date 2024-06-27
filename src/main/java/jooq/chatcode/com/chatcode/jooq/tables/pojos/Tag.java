@@ -18,14 +18,12 @@ public class Tag implements Serializable {
 
     private final Long id;
     private final LocalDateTime dateCreated;
-    private final String description;
     private final String name;
     private final Integer taggedCount;
 
     public Tag(Tag value) {
         this.id = value.id;
         this.dateCreated = value.dateCreated;
-        this.description = value.description;
         this.name = value.name;
         this.taggedCount = value.taggedCount;
     }
@@ -33,13 +31,11 @@ public class Tag implements Serializable {
     public Tag(
         Long id,
         LocalDateTime dateCreated,
-        String description,
         String name,
         Integer taggedCount
     ) {
         this.id = id;
         this.dateCreated = dateCreated;
-        this.description = description;
         this.name = name;
         this.taggedCount = taggedCount;
     }
@@ -56,13 +52,6 @@ public class Tag implements Serializable {
      */
     public LocalDateTime getDateCreated() {
         return this.dateCreated;
-    }
-
-    /**
-     * Getter for <code>tag.description</code>.
-     */
-    public String getDescription() {
-        return this.description;
     }
 
     /**
@@ -100,12 +89,6 @@ public class Tag implements Serializable {
         }
         else if (!this.dateCreated.equals(other.dateCreated))
             return false;
-        if (this.description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!this.description.equals(other.description))
-            return false;
         if (this.name == null) {
             if (other.name != null)
                 return false;
@@ -127,7 +110,6 @@ public class Tag implements Serializable {
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.dateCreated == null) ? 0 : this.dateCreated.hashCode());
-        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.taggedCount == null) ? 0 : this.taggedCount.hashCode());
         return result;
@@ -139,7 +121,6 @@ public class Tag implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(dateCreated);
-        sb.append(", ").append(description);
         sb.append(", ").append(name);
         sb.append(", ").append(taggedCount);
 
