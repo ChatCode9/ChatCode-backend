@@ -1,9 +1,12 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_AVATAR_ID;
+
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.Follow;
 import com.chatcode.dto.avatar.AvatarResponse;
 import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.exception.common.ResourceNotFoundException;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.follow.FollowReadRepository;
 import com.chatcode.repository.follow.FollowWriteRepository;
@@ -28,7 +31,7 @@ public class FollowService {
             Avatar following = avatarWriteRepository.getReferenceById(followingId);
             followWriteRepository.save(Follow.of(follower, following));
         } catch (EntityNotFoundException e) {
-            throw new ContentNotFoundException("Follow: Avatar not found");
+            throw new ResourceNotFoundException(NOT_FOUND_AVATAR_ID);
         }
     }
 

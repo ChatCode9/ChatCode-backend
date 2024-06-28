@@ -1,11 +1,15 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.INVALID_CATEGORY_ORDER_DUPLICATE;
+import static com.chatcode.exception.ExceptionCode.INVALID_CATEGORY_ORDER_SIZE;
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CATEGORY_ID;
+
 import com.chatcode.domain.entity.Category;
 import com.chatcode.dto.category.CategoryRequest.CategoryCreateRequest;
 import com.chatcode.dto.category.CategoryRequest.CategoryUpdateNameRequest;
 import com.chatcode.dto.category.CategoryRequest.CategoryUpdateOrderRequest;
 import com.chatcode.dto.category.CategoryResponse;
-import com.chatcode.exception.category.IllegalCategoryOrderException;
+import com.chatcode.exception.category.CategoryOrderException;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.category.CategoryReadRepository;
 import com.chatcode.repository.category.CategoryWriteRepository;
@@ -32,7 +36,7 @@ public class CategoryService {
     public CategoryResponse updateCategoryName(Long categoryId, CategoryUpdateNameRequest params) {
 
         Category category = categoryReadRepository.findById(categoryId)
-                .orElseThrow(() -> new ContentNotFoundException("Category not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_CATEGORY_ID));
 
         if (params.getName() != null) {
             category.setName(params.getName());
@@ -45,16 +49,16 @@ public class CategoryService {
     public List<CategoryResponse> updateCategoryOrders(CategoryUpdateOrderRequest params) {
 
         if (isInvalidOrderSize(params.getOrders())) {
-            throw new IllegalCategoryOrderException("Invalid order size");
+            throw new CategoryOrderException(INVALID_CATEGORY_ORDER_SIZE, "total category size: " + categoryReadRepository.count());
         }
 
         if (isDuplicated(params.getOrders())) {
-            throw new IllegalCategoryOrderException("Duplicated category id");
+            throw new CategoryOrderException(INVALID_CATEGORY_ORDER_DUPLICATE);
         }
 
         for (Long param : params.getOrders()) {
             Category category = categoryReadRepository.findById(param)
-                    .orElseThrow(() -> new ContentNotFoundException("Category not found"));
+                    .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_CATEGORY_ID));
             category.setSortOrder(params.getOrders().indexOf(param));
             categoryWriteRepository.save(category);
         }
@@ -66,7 +70,7 @@ public class CategoryService {
     @Transactional
     public void deleteCategory(Long id) {
         Category category = categoryReadRepository.findById(id)
-                .orElseThrow(() -> new ContentNotFoundException("Category not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_CATEGORY_ID));
         categoryWriteRepository.delete(category);
     }
 
@@ -80,7 +84,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryResponse getOneCategory(Long id) {
         Category category = categoryReadRepository.findById(id)
-                .orElseThrow(() -> new ContentNotFoundException("Category not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_CATEGORY_ID));
         return CategoryResponse.of(category);
     }
 

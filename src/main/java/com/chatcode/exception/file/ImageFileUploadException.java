@@ -1,11 +1,13 @@
 package com.chatcode.exception.file;
 
-public class ImageFileUploadException extends RuntimeException{
-    public ImageFileUploadException(){
-        super("이미지 파일 업로드 중 에러가 발생했습니다.");
+import static com.chatcode.exception.ExceptionCode.FAIL_IMAGE_UPLOAD;
+
+public class ImageFileUploadException extends ImageException {
+    public ImageFileUploadException() {
+        super(FAIL_IMAGE_UPLOAD);
     }
 
-    public ImageFileUploadException(String message){
-        super(message);
+    public ImageFileUploadException(String message) {
+        super(FAIL_IMAGE_UPLOAD, message);
     }
 }

@@ -1,11 +1,14 @@
 package com.chatcode.exception.reaction;
 
-public class AlreadyReactException extends RuntimeException{
-  public AlreadyReactException(){
-    super("You have already raected to this content.");
-  }
+import static com.chatcode.exception.ExceptionCode.ALREADY_REACTED;
 
-  public AlreadyReactException(String message){
-    super(message);
-  }
+
+public class AlreadyReactException extends ReactException {
+    public AlreadyReactException() {
+        super(ALREADY_REACTED);
+    }
+
+    public AlreadyReactException(String message) {
+        super(ALREADY_REACTED, message);
+    }
 }

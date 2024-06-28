@@ -1,5 +1,7 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_AVATAR_ID;
+
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.InterestTag;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarCreateRequest;
@@ -7,6 +9,7 @@ import com.chatcode.dto.avatar.AvatarRequest.AvatarUpdateRequest;
 import com.chatcode.dto.avatar.AvatarResponse;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagIdRequest;
 import com.chatcode.dto.tag.InterestTagResponse;
+import com.chatcode.exception.ExceptionCode;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
@@ -41,7 +44,7 @@ public class AvatarService {
     @Transactional
     public AvatarResponse updateAvatar(Long avatarId, AvatarUpdateRequest params) {
         Avatar avatar = avatarReadRepository.findById(avatarId)
-                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_AVATAR_ID));
 
         if (params.getNickname() != null) {
             avatar.setNickname(params.getNickname());
@@ -63,7 +66,7 @@ public class AvatarService {
             Avatar avatar = avatarWriteRepository.getReferenceById(id);
             avatarWriteRepository.delete(avatar);
         } catch (EntityNotFoundException e) {
-            throw new ContentNotFoundException("Avatar not found");
+            throw new ContentNotFoundException(NOT_FOUND_AVATAR_ID);
         }
     }
 
@@ -77,14 +80,14 @@ public class AvatarService {
     @Transactional(readOnly = true)
     public AvatarResponse getOneAvatar(Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
-                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_AVATAR_ID));
         return AvatarResponse.of(avatar);
     }
 
     @Transactional
     public void addInterestTags(List<InterestTagIdRequest> params, Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
-                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_AVATAR_ID));
         List<InterestTag> newTags = params.stream()
                 .map(InterestTagIdRequest::getId)
                 .map(interestTagWriteRepository::getReferenceById)
@@ -99,7 +102,7 @@ public class AvatarService {
     @Transactional
     public void deleteInterestTags(Long interestTagId, Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
-                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_AVATAR_ID));
 
         InterestTag interestTag = interestTagWriteRepository.getReferenceById(interestTagId);
         avatar.removeInterestTag(interestTag);
@@ -108,7 +111,7 @@ public class AvatarService {
     @Transactional(readOnly = true)
     public List<InterestTagResponse> getInterestTags(Long avatarId) {
         Avatar avatar = avatarReadRepository.findById(avatarId)
-                .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_AVATAR_ID));
 
         return avatar.getAvatarInterestTags().stream()
                 .map(avatarInterestTag -> InterestTagResponse.of(avatarInterestTag.getInterestTag()))
