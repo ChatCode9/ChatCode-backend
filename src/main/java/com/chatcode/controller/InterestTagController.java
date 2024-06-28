@@ -50,7 +50,7 @@ public class InterestTagController {
     }
 
     @PostMapping("/avatars/interest-tags")
-    @Operation(summary = "USER의 관심 태그 추가", description = "USER의 관심 태그를 추가합니다. (본인만 접근 가능)")
+    @Operation(summary = "USER의 관심 태그 추가(로그인 필요)", description = "USER의 관심 태그를 덮어씌웁니다. 기존에 등록된 유저의 태그들은 모두 삭제되고 새롭게 요청 들어온 태그들로 업데이트됩니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "USER의 관심 태그 추가 성공")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(@RequestBody List<InterestTagIdRequest> params,
