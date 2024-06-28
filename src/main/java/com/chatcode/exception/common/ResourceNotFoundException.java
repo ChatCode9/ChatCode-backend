@@ -1,11 +1,13 @@
 package com.chatcode.exception.common;
 
-public class ResourceNotFoundException extends RuntimeException {
-  public ResourceNotFoundException() {
-    super("Resource is not found");
-  }
+import com.chatcode.exception.ExceptionCode;
 
-  public ResourceNotFoundException(String message) {
-    super(message);
-  }
+public class ResourceNotFoundException extends NotFoundException {
+    public ResourceNotFoundException(ExceptionCode exceptionCode) {
+        super(exceptionCode);
+    }
+
+    public ResourceNotFoundException(ExceptionCode exceptionCode, Object data) {
+        super(exceptionCode, data);
+    }
 }
