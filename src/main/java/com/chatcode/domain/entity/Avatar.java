@@ -47,8 +47,16 @@ public class Avatar {
         }
     }
 
+    public void addInterestTags(List<InterestTag> interestTags) {
+        interestTags.forEach(this::addInterestTag);
+    }
+
     public void removeInterestTag(InterestTag interestTag) {
         avatarInterestTags.removeIf(
                 avatarInterestTag -> interestTag.getId().equals(avatarInterestTag.getInterestTag().getId()));
+    }
+
+    public void removeAllInterestTags() {
+        avatarInterestTags.clear();
     }
 }
