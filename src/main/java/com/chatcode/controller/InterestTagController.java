@@ -44,7 +44,7 @@ public class InterestTagController {
     @GetMapping("/avatars/{avatarId}/interest-tags")
     @Operation(summary = "USER의 관심 태그 목록 조회", description = "USER의 관심 태그 목록을 조회합니다. (누구나 접근 가능)")
     @ApiResponse(responseCode = "200", description = "USER의 관심 태그 목록 조회 성공")
-    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> get(@PathVariable Long avatarId) {
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> get(@PathVariable("avatarId") Long avatarId) {
         List<InterestTagResponse> responseBody = avatarService.getInterestTags(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
