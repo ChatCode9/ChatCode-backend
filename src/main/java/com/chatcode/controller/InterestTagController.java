@@ -44,18 +44,18 @@ public class InterestTagController {
     @GetMapping("/avatars/{avatarId}/interest-tags")
     @Operation(summary = "USER의 관심 태그 목록 조회", description = "USER의 관심 태그 목록을 조회합니다. (누구나 접근 가능)")
     @ApiResponse(responseCode = "200", description = "USER의 관심 태그 목록 조회 성공")
-    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> get(@PathVariable Long avatarId) {
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> get(@PathVariable("avatarId") Long avatarId) {
         List<InterestTagResponse> responseBody = avatarService.getInterestTags(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 
     @PostMapping("/avatars/interest-tags")
-    @Operation(summary = "USER의 관심 태그 추가", description = "USER의 관심 태그를 추가합니다. (본인만 접근 가능)")
+    @Operation(summary = "USER의 관심 태그 추가(로그인 필요)", description = "USER의 관심 태그를 덮어씌웁니다. 기존에 등록된 유저의 태그들은 모두 삭제되고 새롭게 요청 들어온 태그들로 업데이트됩니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "USER의 관심 태그 추가 성공")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(@RequestBody List<InterestTagIdRequest> params,
                                                                     @AuthenticationPrincipal LoginUser loginUser) {
-        avatarService.addInterestTags(params, loginUser.getId());
+        avatarService.addInterestTags(params, loginUser.getAvatarId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), null, "success"));
     }
 
@@ -65,7 +65,7 @@ public class InterestTagController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BaseResponseDto<InterestTagResponse>> delete(@PathVariable Long interestTagId,
                                                                        @AuthenticationPrincipal LoginUser loginUser) {
-        avatarService.deleteInterestTags(interestTagId, loginUser.getId());
+        avatarService.deleteInterestTags(interestTagId, loginUser.getAvatarId());
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));
     }
 

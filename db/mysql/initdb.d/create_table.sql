@@ -243,11 +243,11 @@ CREATE TABLE `user`
 
 CREATE TABLE `tag`
 (
-    `id`           bigint(20) NOT NULL,
+    `id`           bigint(20) NOT NULL AUTO_INCREMENT,
     `date_created` datetime     NOT NULL,
-    `description`  varchar(255) NULL,
     `name`         varchar(255) NOT NULL,
-    `tagged_count` int(11) NOT NULL
+    `tagged_count` int(11) NOT NULL,
+    CONSTRAINT PK_TAG PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `change_log`
@@ -387,10 +387,6 @@ ALTER TABLE `content_vote`
                                                   `id`
         );
 
-ALTER TABLE `tag`
-    ADD CONSTRAINT `PK_TAG` PRIMARY KEY (
-                                         `id`
-        );
 
 ALTER TABLE `change_log`
     ADD CONSTRAINT `PK_CHANGE_LOG` PRIMARY KEY (
