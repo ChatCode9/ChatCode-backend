@@ -47,11 +47,6 @@ public class CategoryService {
         if (isInvalidOrderSize(params.getOrders())) {
             throw new IllegalCategoryOrderException("Invalid order size");
         }
-
-        if (isDuplicated(params.getOrders())) {
-            throw new IllegalCategoryOrderException("Duplicated category id");
-        }
-
         for (Long param : params.getOrders()) {
             Category category = categoryReadRepository.findById(param)
                     .orElseThrow(() -> new ContentNotFoundException("Category not found"));
@@ -88,7 +83,4 @@ public class CategoryService {
         return ids.size() != categoryReadRepository.count();
     }
 
-    private boolean isDuplicated(List<Long> ids) {
-        return ids.size() != ids.stream().distinct().count();
-    }
 }
