@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -53,17 +54,12 @@ public class Tag extends TableImpl<TagRecord> {
     /**
      * The column <code>tag.id</code>.
      */
-    public final TableField<TagRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<TagRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>tag.date_created</code>.
      */
     public final TableField<TagRecord, LocalDateTime> DATE_CREATED = createField(DSL.name("date_created"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
-
-    /**
-     * The column <code>tag.description</code>.
-     */
-    public final TableField<TagRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>tag.name</code>.
@@ -107,6 +103,11 @@ public class Tag extends TableImpl<TagRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
+    }
+
+    @Override
+    public Identity<TagRecord, Long> getIdentity() {
+        return (Identity<TagRecord, Long>) super.getIdentity();
     }
 
     @Override

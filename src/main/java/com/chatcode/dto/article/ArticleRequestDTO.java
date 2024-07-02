@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
+
 public class ArticleRequestDTO {
 
     @Data
@@ -20,6 +22,9 @@ public class ArticleRequestDTO {
         @NotNull
         @NotEmpty
         private String title;
+
+        // tags
+        private List<String> tags;
     }
 
     @Data
@@ -37,5 +42,7 @@ public class ArticleRequestDTO {
         @NotEmpty
         private String title;
 
+        // tags
+        private List<String> tags;
     }
 }

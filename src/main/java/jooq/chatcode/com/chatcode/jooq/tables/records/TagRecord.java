@@ -51,25 +51,10 @@ public class TagRecord extends UpdatableRecordImpl<TagRecord> {
     }
 
     /**
-     * Setter for <code>tag.description</code>.
-     */
-    public TagRecord setDescription(String value) {
-        set(2, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>tag.description</code>.
-     */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>tag.name</code>.
      */
     public TagRecord setName(String value) {
-        set(3, value);
+        set(2, value);
         return this;
     }
 
@@ -77,14 +62,14 @@ public class TagRecord extends UpdatableRecordImpl<TagRecord> {
      * Getter for <code>tag.name</code>.
      */
     public String getName() {
-        return (String) get(3);
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>tag.tagged_count</code>.
      */
     public TagRecord setTaggedCount(Integer value) {
-        set(4, value);
+        set(3, value);
         return this;
     }
 
@@ -92,7 +77,7 @@ public class TagRecord extends UpdatableRecordImpl<TagRecord> {
      * Getter for <code>tag.tagged_count</code>.
      */
     public Integer getTaggedCount() {
-        return (Integer) get(4);
+        return (Integer) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -118,12 +103,11 @@ public class TagRecord extends UpdatableRecordImpl<TagRecord> {
     /**
      * Create a detached, initialised TagRecord
      */
-    public TagRecord(Long id, LocalDateTime dateCreated, String description, String name, Integer taggedCount) {
+    public TagRecord(Long id, LocalDateTime dateCreated, String name, Integer taggedCount) {
         super(Tag.TAG);
 
         setId(id);
         setDateCreated(dateCreated);
-        setDescription(description);
         setName(name);
         setTaggedCount(taggedCount);
         resetChangedOnNotNull();
@@ -138,7 +122,6 @@ public class TagRecord extends UpdatableRecordImpl<TagRecord> {
         if (value != null) {
             setId(value.getId());
             setDateCreated(value.getDateCreated());
-            setDescription(value.getDescription());
             setName(value.getName());
             setTaggedCount(value.getTaggedCount());
             resetChangedOnNotNull();

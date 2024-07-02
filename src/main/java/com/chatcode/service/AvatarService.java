@@ -85,11 +85,14 @@ public class AvatarService {
     public void addInterestTags(List<InterestTagIdRequest> params, Long id) {
         Avatar avatar = avatarReadRepository.findById(id)
                 .orElseThrow(() -> new ContentNotFoundException("Avatar not found"));
-
-        params.stream()
+        List<InterestTag> newTags = params.stream()
                 .map(InterestTagIdRequest::getId)
                 .map(interestTagWriteRepository::getReferenceById)
-                .forEach(avatar::addInterestTag);
+                .toList();
+
+        avatar.removeAllInterestTags();
+        avatar.addInterestTags(newTags);
+
         avatarWriteRepository.save(avatar);
     }
 
