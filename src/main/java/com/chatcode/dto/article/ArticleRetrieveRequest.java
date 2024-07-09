@@ -22,7 +22,8 @@ public class ArticleRetrieveRequest {
     private String sortBy = "latest";
     @Schema(description = "필터링 조건", example = "wait(해결대기중), finish(해결완료)", defaultValue = "wait,finish")
     private String status = "";
-    private PageInfo pageInfo = new PageInfo(0, 10);
+    private int page = 0;
+    private int pageSize = 10;
 
     public static ArticleRetrieveServiceDto fromRequestDto(ArticleRetrieveRequest request) {
         return new ArticleRetrieveServiceDto(
@@ -30,7 +31,7 @@ public class ArticleRetrieveRequest {
                 request.getCategory().isBlank() ? null : CategoryType.of(request.getCategory()),
                 request.getSortBy().isBlank() ? null : SortType.of(request.getSortBy()),
                 request.getStatus().isBlank() ? null : StatusType.of(request.getStatus()),
-                request.getPageInfo()
+                new PageInfo(request.getPage(), request.getPageSize())
         );
     }
 }
