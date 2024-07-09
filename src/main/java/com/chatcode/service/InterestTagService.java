@@ -1,10 +1,13 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_TAG_ID;
+
 import com.chatcode.domain.entity.InterestTag;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagNameRequest;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagRenameRequest;
 import com.chatcode.dto.tag.InterestTagResponse;
 import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.exception.common.ResourceNotFoundException;
 import com.chatcode.repository.tag.InterestTagReadRepository;
 import com.chatcode.repository.tag.InterestTagWriteRepository;
 import java.util.List;
@@ -47,7 +50,7 @@ public class InterestTagService {
         List<InterestTag> tags = params.stream()
                         .map(tag -> {
                             InterestTag entity = interestTagReadRepository.findById(tag.getId())
-                                    .orElseThrow(() -> new ContentNotFoundException("Interest tag not found"));
+                                    .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_TAG_ID));
                             entity.setName(tag.getName());
                             return entity;
                         })
