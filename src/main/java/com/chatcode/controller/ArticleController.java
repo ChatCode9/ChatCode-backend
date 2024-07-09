@@ -1,6 +1,7 @@
 package com.chatcode.controller;
 
 import com.chatcode.dto.BaseResponseDto;
+import com.chatcode.dto.article.ArticleDetailResponseDto;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -46,12 +46,9 @@ public class ArticleController {
 
     @GetMapping("/{articleId}")
     @Operation(summary = "Article 내용 조회", description = "Article 내용을 조회합니다.")
-    public ResponseEntity<BaseResponseDto<Object>> readArticleById(@PathVariable Long articleId) {
-        Optional<String> contentText = articleService.readArticleById(articleId);
-        if (contentText.isPresent()) {
-            return ResponseEntity.ok(new BaseResponseDto<>(1, contentText.get(), "글 내용 조회 성공"));
-        }
-        return ResponseEntity.ok(new BaseResponseDto<>(0, null, "해당 제목에 대한 글 내용이 없습니다."));
+    public ResponseEntity<BaseResponseDto<ArticleDetailResponseDto>> readArticleById(@PathVariable Long articleId) {
+        ArticleDetailResponseDto articleDetailResponseDto = articleService.readArticleById(articleId);
+        return ResponseEntity.ok(new BaseResponseDto<>(200, articleDetailResponseDto, "success"));
     }
 
     @DeleteMapping("/{articleId}")

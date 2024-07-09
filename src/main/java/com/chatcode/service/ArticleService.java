@@ -1,10 +1,14 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
 import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
 
+import com.chatcode.domain.LikeableContentType;
+import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.common.PageInfo;
 import com.chatcode.domain.entity.Article;
 import com.chatcode.dto.BaseResponseDto;
+import com.chatcode.dto.article.ArticleDetailResponseDto;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
@@ -12,9 +16,9 @@ import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.exception.ExceptionCode;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
+import com.chatcode.repository.RedisReactionRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
-import com.chatcode.service.ArticleTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +32,14 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleWriteRepository articleWriteRepository;
     private final ArticleReadRepository articleReadRepository;
+    private final RedisReactionRepository redisReactionRepository;
     private final ArticleTagService articleTagService;
 
     public void articleCreate(ArticleCreateRequestDTO params) {
         Long articleId = articleRepository.createArticle(params);
 
         Article article = articleWriteRepository.findById(articleId)
-                .orElseThrow(() -> new ContentNotFoundException("Article not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_ARTICLE_ID));
 
         articleTagService.createTagToArticle(article, params.getTags());
     }
@@ -47,13 +52,18 @@ public class ArticleService {
         articleRepository.updateArticle(articleId, contentId, updateDTO);
 
         Article article = articleWriteRepository.findById(articleId)
-                .orElseThrow(() -> new ContentNotFoundException("Article not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_ARTICLE_ID));
 
         articleTagService.updateArticleTags(article, updateDTO.getTags());
     }
 
-    public Optional<String> readArticleById(Long articleId) {
-        return articleRepository.readArticleById(articleId);
+    public ArticleDetailResponseDto readArticleById(Long articleId) {
+        ArticleVo articleById = articleReadRepository.findArticleById(articleId);
+
+        //todo 실제 userId로
+        Boolean isLiked = redisReactionRepository.checkAlreadyLiked(LikeableContentType.OPINION, articleId, 1).orElse(false);
+
+        return ArticleDetailResponseDto.of(articleById, isLiked);
     }
 
     @Transactional

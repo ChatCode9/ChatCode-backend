@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
@@ -80,21 +78,6 @@ public class ArticleRepository {
                 .set(ARTICLE.TAG_STRING, String.join(tagSplit, updateDTO.getTags()))
                 .where(ARTICLE.ID.eq(articleId))
                 .execute();
-    }
-
-    public List<String> readArticleList() {
-        return dslContext
-                .select(Article.ARTICLE.TITLE)
-                .from(Article.ARTICLE)
-                .fetch(Article.ARTICLE.TITLE);
-    }
-
-    public Optional<String> readArticleById(Long articleId) {
-        return dslContext.select(Content.CONTENT.TEXT)
-                .from(ARTICLE)
-                .join(CONTENT).on(ARTICLE.CONTENT_ID.eq(CONTENT.ID))
-                .where(ARTICLE.ID.eq(articleId))
-                .fetchOptionalInto(String.class);
     }
 
     public void deleteArticle(Long articleId) {
