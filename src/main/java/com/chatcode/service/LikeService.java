@@ -66,7 +66,7 @@ public class LikeService {
     }
   }
 
-  private void checkAlreadyLiked(LikeableContentType contentType, int contentId, long userId) {
+  private void checkAlreadyLiked(LikeableContentType contentType, long contentId, long userId) {
     Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyLiked(contentType,
         contentId, userId);
     alreadyLiked.filter(liked -> !liked)

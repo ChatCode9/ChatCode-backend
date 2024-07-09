@@ -34,6 +34,26 @@ public class ArticleReadRepository implements ReadRepository<Article> {
                 Article.class).get(0));
     }
 
+    public ArticleVo findArticleById(Long id) {
+        return dsl.select(
+                        ARTICLE.ID,
+                        ARTICLE.DATE_CREATED,
+                        AVATAR.PICTURE,
+                        AVATAR.NICKNAME,
+                        ARTICLE.TITLE,
+                        CONTENT.TEXT,
+                        ARTICLE.TAG_STRING,
+                        ARTICLE.ENABLED,
+                        ARTICLE.VIEW_COUNT,
+                        ARTICLE.LIKE_COUNT
+                )
+                .from(ARTICLE)
+                .join(AVATAR).on(ARTICLE.AUTHOR_ID.eq(AVATAR.ID))
+                .join(CONTENT).on(ARTICLE.CONTENT_ID.eq(CONTENT.ID))
+                .where(ARTICLE.ID.eq(id))
+                .fetchOneInto(ArticleVo.class);
+    }
+
     public List<ArticleVo> retrieve(ArticleRetrieveServiceDto query) {
         return dsl.select(
                         ARTICLE.ID,

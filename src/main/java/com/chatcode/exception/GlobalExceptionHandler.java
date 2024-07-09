@@ -1,7 +1,5 @@
 package com.chatcode.exception;
 
-import static com.chatcode.exception.ExceptionCode.INTERNAL_SEVER_ERROR;
-
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.exception.category.CategoryException;
 import com.chatcode.exception.common.NotFoundException;
@@ -10,6 +8,8 @@ import com.chatcode.exception.reaction.ReactException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static com.chatcode.exception.ExceptionCode.INTERNAL_SEVER_ERROR;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
