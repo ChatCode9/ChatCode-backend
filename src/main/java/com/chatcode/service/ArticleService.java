@@ -13,18 +13,16 @@ import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
-import com.chatcode.exception.ExceptionCode;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
 import com.chatcode.repository.RedisReactionRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
