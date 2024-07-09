@@ -1,10 +1,13 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_RESOURCE_ID;
+
 import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.entity.Article;
 import com.chatcode.domain.entity.Opinion;
 import com.chatcode.dto.like.LikeRequest;
 import com.chatcode.dto.like.Likeable;
+import com.chatcode.exception.ExceptionCode;
 import com.chatcode.exception.common.ResourceNotFoundException;
 import com.chatcode.exception.reaction.AlreadyReactException;
 import com.chatcode.repository.ReadRepository;
@@ -44,7 +47,7 @@ public class LikeService {
   private <T extends Likeable> T fetchContent(ReadRepository<T> repository, int contentId,
       String typeName) {
     return repository.findById(contentId).orElseThrow(() ->
-        new ResourceNotFoundException(typeName + " not found with ID: " + contentId));
+            new ResourceNotFoundException(NOT_FOUND_RESOURCE_ID, "type" + typeName + ", ID" + contentId));
   }
 
   private void updateLikeCount(LikeableContentType contentType, Likeable content,

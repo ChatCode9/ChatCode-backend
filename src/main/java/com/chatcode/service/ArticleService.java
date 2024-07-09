@@ -1,5 +1,8 @@
 package com.chatcode.service;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
+
 import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.common.PageInfo;
@@ -10,6 +13,7 @@ import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
+import com.chatcode.exception.ExceptionCode;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.repository.ArticleRepository;
 import com.chatcode.repository.RedisReactionRepository;
@@ -35,7 +39,7 @@ public class ArticleService {
         Long articleId = articleRepository.createArticle(params);
 
         Article article = articleWriteRepository.findById(articleId)
-                .orElseThrow(() -> new ContentNotFoundException("Article not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_ARTICLE_ID));
 
         articleTagService.createTagToArticle(article, params.getTags());
     }
@@ -43,12 +47,12 @@ public class ArticleService {
     @Transactional
     public void articleUpdate(Long articleId, ArticleUpdateRequestDTO updateDTO) {
         Long contentId = Optional.ofNullable(articleRepository.findContentIdByArticleId(articleId))
-                .orElseThrow(() -> new ContentNotFoundException("해당 아티클에 대한 콘텐츠가 없습니다."));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_CONTENT_FROM_ARTICLE_ID, articleId));
 
         articleRepository.updateArticle(articleId, contentId, updateDTO);
 
         Article article = articleWriteRepository.findById(articleId)
-                .orElseThrow(() -> new ContentNotFoundException("Article not found"));
+                .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_ARTICLE_ID));
 
         articleTagService.updateArticleTags(article, updateDTO.getTags());
     }

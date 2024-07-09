@@ -2,6 +2,7 @@ package com.chatcode.repository;
 
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
+import com.chatcode.exception.ExceptionCode;
 import com.chatcode.exception.common.ContentNotFoundException;
 import com.chatcode.jooq.tables.Article;
 import com.chatcode.jooq.tables.Content;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
+import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_ID;
 import static com.chatcode.jooq.Tables.ARTICLE;
 import static com.chatcode.jooq.Tables.CONTENT;
 import static org.jooq.impl.DSL.currentLocalDateTime;
@@ -59,7 +62,7 @@ public class ArticleRepository {
                 .fetchOneInto(Long.class);
 
         if (contentId == null) {
-            throw new ContentNotFoundException("Content not found for article id: " + articleId);
+            throw new ContentNotFoundException(NOT_FOUND_CONTENT_FROM_ARTICLE_ID, articleId);
         }
         return contentId;
     }
