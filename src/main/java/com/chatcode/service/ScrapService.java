@@ -1,5 +1,7 @@
 package com.chatcode.service;
 
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_SCRAP_ID;
+
 import com.chatcode.domain.entity.Article;
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.Scrap;
@@ -49,6 +51,6 @@ public class ScrapService {
             scrapWriteRepository.delete(scrap.get());
             return;
         }
-        throw new ContentNotFoundException("Scrap not found");
+        throw new ContentNotFoundException(NOT_FOUND_SCRAP_ID);
     }
 }

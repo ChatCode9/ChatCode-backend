@@ -1,5 +1,7 @@
 package com.chatcode.service;
 
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_RESOURCE_ID;
+
 import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.entity.Article;
 import com.chatcode.domain.entity.Opinion;
@@ -19,55 +21,55 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LikeService {
 
-  private final ReadRepository<Article> articleReadRepository;
-  private final WriteRepository<Article> articleWriteRepository;
-  private final ReadRepository<Opinion> opinionReadRepository;
-  private final WriteRepository<Opinion> opinionWriteRepository;
-  private final RedisReactionRepository redisReactionRepository;
+    private final ReadRepository<Article> articleReadRepository;
+    private final WriteRepository<Article> articleWriteRepository;
+    private final ReadRepository<Opinion> opinionReadRepository;
+    private final WriteRepository<Opinion> opinionWriteRepository;
+    private final RedisReactionRepository redisReactionRepository;
 
-  @Transactional
-  public void like(LikeableContentType contentType, int contentId, int userId,
-      LikeRequest likeRequest) {
-    Likeable content = getContent(contentType, contentId);
-    checkAlreadyLiked(contentType, contentId, userId);
-    redisReactionRepository.addValue(contentType, contentId, 1);
-    updateLikeCount(contentType, content, likeRequest);
-  }
-
-  private Likeable getContent(LikeableContentType contentType, int contentId) {
-    return switch (contentType) {
-      case ARTICLE -> fetchContent(articleReadRepository, contentId, contentType.name());
-      case OPINION -> fetchContent(opinionReadRepository, contentId, contentType.name());
-    };
-  }
-
-  private <T extends Likeable> T fetchContent(ReadRepository<T> repository, int contentId,
-      String typeName) {
-    return repository.findById(contentId).orElseThrow(() ->
-        new ResourceNotFoundException(typeName + " not found with ID: " + contentId));
-  }
-
-  private void updateLikeCount(LikeableContentType contentType, Likeable content,
-      LikeRequest likeRequest) {
-    switch (contentType) {
-      case ARTICLE:
-        Article a = (Article) content;
-        a.updateLikeCount(likeRequest);
-        articleWriteRepository.save(a);
-        break;
-      case OPINION:
-        Opinion op = (Opinion) content;
-        op.updateLikeCount(likeRequest);
-        opinionWriteRepository.save(op);
-        break;
+    @Transactional
+    public void like(LikeableContentType contentType, int contentId, int userId,
+                     LikeRequest likeRequest) {
+        Likeable content = getContent(contentType, contentId);
+        checkAlreadyLiked(contentType, contentId, userId);
+        redisReactionRepository.addValue(contentType, contentId, 1);
+        updateLikeCount(contentType, content, likeRequest);
     }
-  }
 
-  private void checkAlreadyLiked(LikeableContentType contentType, int contentId, long userId) {
-    Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyLiked(contentType,
-        contentId, userId);
-    alreadyLiked.filter(liked -> !liked)
-        .orElseThrow(() -> new AlreadyReactException(
-            "User " + userId + " has already reacted to content " + contentId));
-  }
+    private Likeable getContent(LikeableContentType contentType, int contentId) {
+        return switch (contentType) {
+            case ARTICLE -> fetchContent(articleReadRepository, contentId, contentType.name());
+            case OPINION -> fetchContent(opinionReadRepository, contentId, contentType.name());
+        };
+    }
+
+    private <T extends Likeable> T fetchContent(ReadRepository<T> repository, int contentId,
+                                                String typeName) {
+        return repository.findById(contentId).orElseThrow(() ->
+                new ResourceNotFoundException(NOT_FOUND_RESOURCE_ID, "type" + typeName + ", ID" + contentId));
+    }
+
+    private void updateLikeCount(LikeableContentType contentType, Likeable content,
+                                 LikeRequest likeRequest) {
+        switch (contentType) {
+            case ARTICLE:
+                Article a = (Article) content;
+                a.updateLikeCount(likeRequest);
+                articleWriteRepository.save(a);
+                break;
+            case OPINION:
+                Opinion op = (Opinion) content;
+                op.updateLikeCount(likeRequest);
+                opinionWriteRepository.save(op);
+                break;
+        }
+    }
+
+    private void checkAlreadyLiked(LikeableContentType contentType, long contentId, long userId) {
+        Optional<Boolean> alreadyLiked = redisReactionRepository.checkAlreadyLiked(contentType,
+                contentId, userId);
+        alreadyLiked.filter(liked -> !liked)
+                .orElseThrow(() -> new AlreadyReactException(
+                        "User " + userId + " has already reacted to content " + contentId));
+    }
 }

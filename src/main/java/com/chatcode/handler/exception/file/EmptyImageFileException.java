@@ -1,11 +1,9 @@
 package com.chatcode.handler.exception.file;
 
-public class EmptyImageFileException extends RuntimeException{
-    public EmptyImageFileException(){
-        super("이미지 파일이 존재하지 않습니다.");
-    }
+import static com.chatcode.handler.exception.ExceptionCode.EMPTY_IMAGE_FILE;
 
-    public EmptyImageFileException(String message){
-        super(message);
+public class EmptyImageFileException extends ImageException {
+    public EmptyImageFileException() {
+        super(EMPTY_IMAGE_FILE);
     }
 }

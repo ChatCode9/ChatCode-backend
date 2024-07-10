@@ -1,10 +1,12 @@
 package com.chatcode.service;
 
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_TAG_ID;
+
 import com.chatcode.domain.entity.InterestTag;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagNameRequest;
 import com.chatcode.dto.tag.InterestTagRequest.InterestTagRenameRequest;
 import com.chatcode.dto.tag.InterestTagResponse;
-import com.chatcode.handler.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.common.ResourceNotFoundException;
 import com.chatcode.repository.tag.InterestTagReadRepository;
 import com.chatcode.repository.tag.InterestTagWriteRepository;
 import java.util.List;
@@ -29,9 +31,9 @@ public class InterestTagService {
     @Transactional
     public List<InterestTagResponse> addInterestTags(List<InterestTagNameRequest> params) {
         List<InterestTag> tags = params.stream()
-                        .map(tag -> interestTagReadRepository.findByName(tag.getName())
-                                .orElse(InterestTagNameRequest.toEntity(tag)))
-                        .collect(Collectors.toList());
+                .map(tag -> interestTagReadRepository.findByName(tag.getName())
+                        .orElse(InterestTagNameRequest.toEntity(tag)))
+                .collect(Collectors.toList());
 
         interestTagWriteRepository.saveAll(tags);
         return InterestTagResponse.of(tags);
@@ -45,13 +47,13 @@ public class InterestTagService {
     @Transactional
     public List<InterestTagResponse> updateInterestTags(List<InterestTagRenameRequest> params) {
         List<InterestTag> tags = params.stream()
-                        .map(tag -> {
-                            InterestTag entity = interestTagReadRepository.findById(tag.getId())
-                                    .orElseThrow(() -> new ContentNotFoundException("Interest tag not found"));
-                            entity.setName(tag.getName());
-                            return entity;
-                        })
-                        .toList();
+                .map(tag -> {
+                    InterestTag entity = interestTagReadRepository.findById(tag.getId())
+                            .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_TAG_ID));
+                    entity.setName(tag.getName());
+                    return entity;
+                })
+                .toList();
         interestTagWriteRepository.saveAll(tags);
         return InterestTagResponse.of(tags);
     }

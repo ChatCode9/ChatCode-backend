@@ -9,6 +9,8 @@ import com.chatcode.dto.tag.InterestTagResponse;
 import com.chatcode.service.AvatarService;
 import com.chatcode.service.InterestTagService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,7 +39,11 @@ public class InterestTagController {
 
     @GetMapping("/avatars/interest-tags")
     @Operation(summary = "관심 태그 목록 조회", description = "모든 관심 태그 목록을 조회합니다. (누구나 접근 가능)")
-    @ApiResponse(responseCode = "200", description = "관심 태그 목록 조회 성공")
+    @ApiResponse(responseCode = "200", description = "관심 태그 목록 조회 성공", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class,
+                    example = "{\"code\":200,\"data\":[{\"id\":1,\"name\":\"Java\"},{\"id\":2,\"name\":\"Spring\"}],\"message\":\"success\"}")
+            )
+    })
     public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> getAll() {
         List<InterestTagResponse> responseBody = interestTagService.getAllInterestTags();
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
@@ -45,7 +51,11 @@ public class InterestTagController {
 
     @GetMapping("/avatars/{avatarId}/interest-tags")
     @Operation(summary = "USER의 관심 태그 목록 조회", description = "USER의 관심 태그 목록을 조회합니다. (누구나 접근 가능)")
-    @ApiResponse(responseCode = "200", description = "USER의 관심 태그 목록 조회 성공")
+    @ApiResponse(responseCode = "200", description = "USER의 관심 태그 목록 조회 성공", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class,
+                    example = "{\"code\":200,\"data\":[{\"id\":1,\"name\":\"Java\"},{\"id\":2,\"name\":\"Spring\"}],\"message\":\"success\"}")
+            )
+    })
     public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> get(@PathVariable("avatarId") Long avatarId) {
         List<InterestTagResponse> responseBody = avatarService.getInterestTags(avatarId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
@@ -55,10 +65,12 @@ public class InterestTagController {
     @Operation(summary = "USER의 관심 태그 추가(로그인 필요)", description = "USER의 관심 태그를 덮어씌웁니다. 기존에 등록된 유저의 태그들은 모두 삭제되고 새롭게 요청 들어온 태그들로 업데이트됩니다. (본인만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "USER의 관심 태그 추가 성공")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(@RequestBody List<InterestTagIdRequest> params,
-                                                                    @AuthenticationPrincipal LoginUser loginUser) {
+    public ResponseEntity<BaseResponseDto<InterestTagResponse>> addUserTag(
+            @RequestBody List<InterestTagIdRequest> params,
+            @AuthenticationPrincipal LoginUser loginUser) {
         avatarService.addInterestTags(params, loginUser.getAvatarId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), null, "success"));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new BaseResponseDto<>(HttpStatus.CREATED.value(), null, "success"));
     }
 
     @DeleteMapping("/avatars/interest-tags/{interestTagId}")
@@ -74,10 +86,12 @@ public class InterestTagController {
     @PostMapping("/admin/interest-tags")
     @Operation(summary = "관심 태그 추가", description = "관심 태그를 추가합니다. (관리자만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "관심 태그 추가 성공")
-    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> add(@Valid @RequestBody List<InterestTagNameRequest> params,
-                                                                          BindingResult bindingResult) {
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> add(
+            @Valid @RequestBody List<InterestTagNameRequest> params,
+            BindingResult bindingResult) {
         List<InterestTagResponse> responseBody = interestTagService.addInterestTags(params);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
     }
 
     @DeleteMapping("/admin/interest-tags/{interestTagId}")
@@ -91,9 +105,11 @@ public class InterestTagController {
     @PutMapping("/admin/interest-tags")
     @Operation(summary = "관심 태그 수정", description = "관심 태그를 수정합니다. (관리자만 접근 가능)")
     @ApiResponse(responseCode = "200", description = "관심 태그 수정 성공")
-    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> update(@Valid @RequestBody List<InterestTagRenameRequest> params,
-                                                                             BindingResult bindingResult) {
+    public ResponseEntity<BaseResponseDto<List<InterestTagResponse>>> update(
+            @Valid @RequestBody List<InterestTagRenameRequest> params,
+            BindingResult bindingResult) {
         List<InterestTagResponse> responseBody = interestTagService.updateInterestTags(params);
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 }
