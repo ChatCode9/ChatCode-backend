@@ -1,6 +1,7 @@
-package com.chatcode.exception.common;
+package com.chatcode.handler.exception.common;
 
-import com.chatcode.exception.ExceptionCode;
+
+import com.chatcode.handler.exception.ExceptionCode;
 
 public class ContentNotFoundException extends NotFoundException {
     public ContentNotFoundException(ExceptionCode exceptionCode) {

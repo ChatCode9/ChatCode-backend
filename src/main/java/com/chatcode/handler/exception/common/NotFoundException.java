@@ -1,21 +1,21 @@
-package com.chatcode.exception.reaction;
+package com.chatcode.handler.exception.common;
 
-import com.chatcode.exception.ExceptionCode;
+import com.chatcode.handler.exception.ExceptionCode;
 import lombok.Getter;
 
 @Getter
-public class ReactException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
     private final int code;
     private final String message;
     private final Object data;
 
-    public ReactException(final ExceptionCode exceptionCode) {
+    public NotFoundException(final ExceptionCode exceptionCode) {
         this.code = exceptionCode.getCode();
         this.message = exceptionCode.getMessage();
         this.data = null;
     }
 
-    public ReactException(final ExceptionCode exceptionCode, Object data) {
+    public NotFoundException(final ExceptionCode exceptionCode, Object data) {
         this.code = exceptionCode.getCode();
         this.message = exceptionCode.getMessage();
         this.data = data;

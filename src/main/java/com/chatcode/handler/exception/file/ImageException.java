@@ -1,6 +1,6 @@
-package com.chatcode.exception.file;
+package com.chatcode.handler.exception.file;
 
-import com.chatcode.exception.ExceptionCode;
+import com.chatcode.handler.exception.ExceptionCode;
 import lombok.Getter;
 
 @Getter

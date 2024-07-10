@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +28,9 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/avatars/{avatarId}/follow")
-    @Operation(summary = "팔로우", description = "특정 아바타를 팔로우합니다. (인증된 사용자만 접근 가능)")
+    @Operation(summary = "팔로우", description = "현재 로그인한 유저가 특정 아바타를 팔로우합니다. (인증된 사용자만 접근 가능)")
     @ApiResponse(responseCode = "201", description = "팔로우 성공")
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BaseResponseDto<String>> follow(@PathVariable Long avatarId,
                                                           @AuthenticationPrincipal LoginUser loginUser) {
         followService.follow(loginUser.getAvatarId(), avatarId);
@@ -37,9 +38,9 @@ public class FollowController {
     }
 
     @PostMapping("/avatars/{avatarId}/unfollow")
-    @Operation(summary = "언팔로우", description = "특정 아바타를 언팔로우합니다. (인증된 사용자만 접근 가능)")
+    @Operation(summary = "언팔로우", description = "현재 로그인한 유저가 특정 아바타를 언팔로우합니다. (인증된 사용자만 접근 가능)")
     @ApiResponse(responseCode = "200", description = "언팔로우 성공")
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BaseResponseDto<String>> unfollow(@PathVariable Long avatarId,
                                                             @AuthenticationPrincipal LoginUser loginUser) {
         followService.unfollow(loginUser.getAvatarId(), avatarId);

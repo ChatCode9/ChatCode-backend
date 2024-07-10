@@ -1,7 +1,7 @@
 package com.chatcode.service;
 
-import static com.chatcode.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
-import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
 
 import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.article.ArticleVo;
@@ -13,10 +13,10 @@ import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
-import com.chatcode.exception.common.ContentNotFoundException;
-import com.chatcode.repository.ArticleRepository;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.RedisReactionRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
+import com.chatcode.repository.article.ArticleRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +59,8 @@ public class ArticleService {
         ArticleVo articleById = articleReadRepository.findArticleById(articleId);
 
         //todo 실제 userId로
-        Boolean isLiked = redisReactionRepository.checkAlreadyLiked(LikeableContentType.OPINION, articleId, 1).orElse(false);
+        Boolean isLiked = redisReactionRepository.checkAlreadyLiked(LikeableContentType.OPINION, articleId, 1)
+                .orElse(false);
 
         return ArticleDetailResponseDto.of(articleById, isLiked);
     }
@@ -71,7 +72,8 @@ public class ArticleService {
     }
 
     public BaseResponseDto<List<ArticleResponseDTO>> findAll(ArticleRetrieveServiceDto serviceDto) {
-        List<ArticleResponseDTO> list = articleReadRepository.retrieve(serviceDto).stream().map(ArticleResponseDTO::of).toList();
+        List<ArticleResponseDTO> list = articleReadRepository.retrieve(serviceDto).stream().map(ArticleResponseDTO::of)
+                .toList();
         Long totalElements = articleReadRepository.getTotalElements(serviceDto);
 
         return new BaseResponseDto<>(200, list, "", PageInfo.of(serviceDto.getPageInfo(), totalElements));

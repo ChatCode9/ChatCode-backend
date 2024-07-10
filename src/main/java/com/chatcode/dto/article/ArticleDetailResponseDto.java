@@ -2,14 +2,13 @@ package com.chatcode.dto.article;
 
 import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.article.StatusType;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @Builder
 @Getter
