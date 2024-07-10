@@ -33,8 +33,8 @@ public class ArticleService {
     private final RedisReactionRepository redisReactionRepository;
     private final ArticleTagService articleTagService;
 
-    public void articleCreate(ArticleCreateRequestDTO params) {
-        Long articleId = articleRepository.createArticle(params);
+    public void articleCreate(ArticleCreateRequestDTO params, Long avatarId) {
+        Long articleId = articleRepository.createArticle(params, avatarId);
 
         Article article = articleWriteRepository.findById(articleId)
                 .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_ARTICLE_ID));
@@ -77,5 +77,9 @@ public class ArticleService {
         Long totalElements = articleReadRepository.getTotalElements(serviceDto);
 
         return new BaseResponseDto<>(200, list, "", PageInfo.of(serviceDto.getPageInfo(), totalElements));
+    }
+
+    public boolean isAuthor(Long articleId, Long avatarId) {
+        return articleReadRepository.isAuthor(articleId, avatarId);
     }
 }
