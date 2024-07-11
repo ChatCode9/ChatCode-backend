@@ -100,7 +100,7 @@ public class AvatarController {
             @Valid @RequestBody AvatarUpdateRequest params,
             BindingResult bindingResult
     ) {
-        AvatarResponse responseBody = avatarService.updateAvatar(avatarId, params);
+        AvatarResponse responseBody = avatarService.updateAvatar(loginUser, params);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 }
