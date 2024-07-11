@@ -150,7 +150,7 @@ public class Article extends TableImpl<ArticleRecord> {
     /**
      * The column <code>article.category_id</code>.
      */
-    public final TableField<ArticleRecord, String> CATEGORY_ID = createField(DSL.name("category_id"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ArticleRecord, Long> CATEGORY_ID = createField(DSL.name("category_id"), SQLDataType.BIGINT, this, "");
 
     private Article(Name alias, Table<ArticleRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

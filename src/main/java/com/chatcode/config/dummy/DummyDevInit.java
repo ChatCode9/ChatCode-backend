@@ -179,7 +179,7 @@ public class DummyDevInit extends DummyObject {
                 .viewCount(faker.random().nextInt())
                 .likeCount(faker.random().nextInt())
                 .dislikeCount(faker.random().nextInt())
-                .categoryId("question")
+                .categoryId(faker.random().nextLong(1, 2))
                 .build();
     }
 

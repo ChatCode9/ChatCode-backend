@@ -293,7 +293,7 @@ public class ArticleRecord extends UpdatableRecordImpl<ArticleRecord> {
     /**
      * Setter for <code>article.category_id</code>.
      */
-    public ArticleRecord setCategoryId(String value) {
+    public ArticleRecord setCategoryId(Long value) {
         set(18, value);
         return this;
     }
@@ -301,8 +301,8 @@ public class ArticleRecord extends UpdatableRecordImpl<ArticleRecord> {
     /**
      * Getter for <code>article.category_id</code>.
      */
-    public String getCategoryId() {
-        return (String) get(18);
+    public Long getCategoryId() {
+        return (Long) get(18);
     }
 
     // -------------------------------------------------------------------------
@@ -328,7 +328,7 @@ public class ArticleRecord extends UpdatableRecordImpl<ArticleRecord> {
     /**
      * Create a detached, initialised ArticleRecord
      */
-    public ArticleRecord(Long id, Long version, Long authorId, Boolean completed, Long contentId, String createIp, LocalDateTime dateCreated, Boolean enabled, Long lastEditorId, LocalDateTime lastUpdated, Integer noteCount, Integer scrapCount, Long selectedNoteId, String tagString, String title, Integer viewCount, Integer likeCount, Integer dislikeCount, String categoryId) {
+    public ArticleRecord(Long id, Long version, Long authorId, Boolean completed, Long contentId, String createIp, LocalDateTime dateCreated, Boolean enabled, Long lastEditorId, LocalDateTime lastUpdated, Integer noteCount, Integer scrapCount, Long selectedNoteId, String tagString, String title, Integer viewCount, Integer likeCount, Integer dislikeCount, Long categoryId) {
         super(Article.ARTICLE);
 
         setId(id);

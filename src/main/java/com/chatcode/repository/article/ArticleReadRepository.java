@@ -98,7 +98,8 @@ public class ArticleReadRepository implements ReadRepository<Article> {
         }
 
         if (request.getCategory() != null) {
-            result = result.and(ARTICLE.CATEGORY_ID.eq(request.getCategory().name()));
+            // TODO: Fix this (request.getCategory().name() 가 category 이름이라면? 어떻게 비교?)
+//            result = result.and(ARTICLE.CATEGORY_ID.eq(request.getCategory().name()));
         }
 
         return result;
