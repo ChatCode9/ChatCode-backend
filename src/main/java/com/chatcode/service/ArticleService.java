@@ -1,8 +1,5 @@
 package com.chatcode.service;
 
-import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
-import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
-
 import com.chatcode.domain.LikeableContentType;
 import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.common.PageInfo;
@@ -18,11 +15,16 @@ import com.chatcode.repository.RedisReactionRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
 import com.chatcode.repository.article.ArticleRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
-import java.util.List;
-import java.util.Optional;
+import com.chatcode.repository.scrap.ScrapReadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +34,7 @@ public class ArticleService {
     private final ArticleReadRepository articleReadRepository;
     private final RedisReactionRepository redisReactionRepository;
     private final ArticleTagService articleTagService;
+    private final ScrapReadRepository scrapReadRepository;
 
     public void articleCreate(ArticleCreateRequestDTO params) {
         Long articleId = articleRepository.createArticle(params);
@@ -55,14 +58,13 @@ public class ArticleService {
         articleTagService.updateArticleTags(article, updateDTO.getTags());
     }
 
-    public ArticleDetailResponseDto readArticleById(Long articleId) {
+    public ArticleDetailResponseDto readArticleById(Long articleId, long avatarId) {
         ArticleVo articleById = articleReadRepository.findArticleById(articleId);
 
-        //todo 실제 userId로
-        Boolean isLiked = redisReactionRepository.checkAlreadyLiked(LikeableContentType.OPINION, articleId, 1)
-                .orElse(false);
+        Boolean hasScrap = scrapReadRepository.existsByAvatarIdAndArticleId(avatarId, articleId);
+        Boolean isLiked = redisReactionRepository.checkAlreadyLiked(LikeableContentType.OPINION, articleId, avatarId).orElse(false);
 
-        return ArticleDetailResponseDto.of(articleById, isLiked);
+        return ArticleDetailResponseDto.of(articleById, isLiked, hasScrap);
     }
 
     @Transactional
