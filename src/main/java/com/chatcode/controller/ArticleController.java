@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +41,11 @@ public class ArticleController {
                     )
             )
     )
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BaseResponseDto<Void>> createArticle(@Valid @RequestBody ArticleCreateRequestDTO params,
+                                                               @AuthenticationPrincipal LoginUser loginUser,
                                                                BindingResult bindingResult) {
-        articleService.articleCreate(params);
+        articleService.articleCreate(params, loginUser.getAvatarId());
         return ResponseEntity.ok(new BaseResponseDto<>(1, null, "성공적으로 게시글이 등록되었습니다."));
     }
 
@@ -57,6 +60,7 @@ public class ArticleController {
                     )
             )
     )
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BaseResponseDto<Void>> updateArticle(@PathVariable Long articleId,
                                                                @Valid @RequestBody ArticleUpdateRequestDTO params,
                                                                BindingResult bindingResult) {
@@ -117,7 +121,12 @@ public class ArticleController {
                     )
             )
     )
-    public ResponseEntity<BaseResponseDto<Void>> deleteArticleAndContent(@PathVariable Long articleId) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<BaseResponseDto<Void>> deleteArticleAndContent(@PathVariable Long articleId,
+                                                                         @AuthenticationPrincipal LoginUser loginUser) {
+        if (!articleService.isAuthor(articleId, loginUser.getAvatarId())) {
+            return ResponseEntity.ok(new BaseResponseDto<>(0, null, "작성자만 삭제할 수 있습니다."));
+        }
         articleService.deleteArticle(articleId);
         return ResponseEntity.ok(new BaseResponseDto<>(1, null, "포스트 삭제 성공"));
     }

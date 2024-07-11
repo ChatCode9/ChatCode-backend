@@ -103,4 +103,11 @@ public class ArticleReadRepository implements ReadRepository<Article> {
 
         return result;
     }
+
+    public boolean isAuthor(Long articleId, Long avatarId) {
+        return dsl.selectCount()
+                .from(ARTICLE)
+                .where(ARTICLE.ID.eq(articleId).and(ARTICLE.AUTHOR_ID.eq(avatarId)))
+                .fetchOneInto(Long.class) > 0;
+    }
 }

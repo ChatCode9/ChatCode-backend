@@ -22,7 +22,7 @@ public class ArticleRepository {
     private final DSLContext dslContext;
     public static final String tagSplit = " ";
 
-    public Long createArticle(ArticleCreateRequestDTO articleDTO) {
+    public Long createArticle(ArticleCreateRequestDTO articleDTO, Long avatarId) {
 
         Long contentId = dslContext
                 .insertInto(CONTENT)
@@ -34,6 +34,7 @@ public class ArticleRepository {
                 .insertInto(ARTICLE)
                 .set(ARTICLE.CONTENT_ID, contentId)
                 .set(ARTICLE.TITLE, articleDTO.getTitle())
+                .set(ARTICLE.AUTHOR_ID, avatarId)
                 .set(ARTICLE.NOTE_COUNT, 0)
                 .set(ARTICLE.SCRAP_COUNT, 0)
                 .set(ARTICLE.VIEW_COUNT, 0)
