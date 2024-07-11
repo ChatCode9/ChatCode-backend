@@ -31,7 +31,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("")
-    @Operation(summary = "Article 작성", description = "Article을 작성합니다.")
+    @Operation(summary = "Article 작성 (로그인 필요)", description = "Article을 작성합니다.")
     @ApiResponse(
             responseCode = "200",
             description = "성공적으로 게시글이 등록되었습니다.",
@@ -50,7 +50,7 @@ public class ArticleController {
     }
 
     @PutMapping("/{articleId}")
-    @Operation(summary = "Article 수정", description = "Article을 수정합니다.")
+    @Operation(summary = "Article 수정 (로그인 필요)", description = "Article을 수정합니다.")
     @ApiResponse(
             responseCode = "200",
             description = "업데이트 성공",
@@ -111,7 +111,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{articleId}")
-    @Operation(summary = "Article 삭제", description = "Article을 삭제합니다.")
+    @Operation(summary = "Article 삭제 (로그인 필요)", description = "Article을 삭제합니다.")
     @ApiResponse(
             responseCode = "200",
             description = "포스트 삭제 성공",
