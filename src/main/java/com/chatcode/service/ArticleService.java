@@ -10,10 +10,10 @@ import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleUpdateRequestDTO;
 import com.chatcode.dto.article.ArticleResponseDTO;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
-import com.chatcode.exception.common.ContentNotFoundException;
-import com.chatcode.repository.ArticleRepository;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.RedisReactionRepository;
 import com.chatcode.repository.article.ArticleReadRepository;
+import com.chatcode.repository.article.ArticleRepository;
 import com.chatcode.repository.article.ArticleWriteRepository;
 import com.chatcode.repository.scrap.ScrapReadRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.chatcode.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
-import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_ARTICLE_ID;
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_CONTENT_FROM_ARTICLE_ID;
 
 @RequiredArgsConstructor
 @Service
@@ -74,7 +74,8 @@ public class ArticleService {
     }
 
     public BaseResponseDto<List<ArticleResponseDTO>> findAll(ArticleRetrieveServiceDto serviceDto) {
-        List<ArticleResponseDTO> list = articleReadRepository.retrieve(serviceDto).stream().map(ArticleResponseDTO::of).toList();
+        List<ArticleResponseDTO> list = articleReadRepository.retrieve(serviceDto).stream().map(ArticleResponseDTO::of)
+                .toList();
         Long totalElements = articleReadRepository.getTotalElements(serviceDto);
 
         return new BaseResponseDto<>(200, list, "", PageInfo.of(serviceDto.getPageInfo(), totalElements));

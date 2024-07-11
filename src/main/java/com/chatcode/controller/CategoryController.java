@@ -16,6 +16,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,7 +68,6 @@ public class CategoryController {
     }
 
     @PostMapping("")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 생성", description = "새로운 카테고리를 생성하는 API (관리자 권한 필요) <br />")
     @ApiResponse(
             responseCode = "201",
@@ -77,13 +78,14 @@ public class CategoryController {
                     )
             )
     )
-    public ResponseEntity<BaseResponseDto<CategoryResponse>> create(@Valid @RequestBody CategoryCreateRequest params) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<BaseResponseDto<CategoryResponse>> create(@Valid @RequestBody CategoryCreateRequest params,
+                                                                    BindingResult bindingResult) {
         CategoryResponse responseBody = categoryService.createNewCategory(params);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.CREATED.value(), responseBody, "success"));
     }
 
     @PutMapping("/{categoryId}/name")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 이름 수정", description = "특정 카테고리의 이름을 수정하는 API (관리자 권한 필요) <br />")
     @ApiResponse(
             responseCode = "200",
@@ -103,14 +105,15 @@ public class CategoryController {
                     )
             )
     )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BaseResponseDto<CategoryResponse>> updateName(@PathVariable Long categoryId,
-                                                                        @Valid @RequestBody CategoryUpdateNameRequest params) {
+                                                                        @Valid @RequestBody CategoryUpdateNameRequest params,
+                                                                        BindingResult bindingResult) {
         CategoryResponse responseBody = categoryService.updateCategoryName(categoryId, params);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 
     @PutMapping("/order")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 순서 수정", description = "카테고리의 순서를 수정하는 API (관리자 권한 필요) <br />")
     @ApiResponse(
             responseCode = "200",
@@ -130,14 +133,16 @@ public class CategoryController {
                     )
             )
     )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BaseResponseDto<List<CategoryResponse>>> updateOrders(
-            @Valid @RequestBody CategoryUpdateOrderRequest params) {
+            @Valid @RequestBody CategoryUpdateOrderRequest params,
+            BindingResult bindingResult
+    ) {
         List<CategoryResponse> responseBody = categoryService.updateCategoryOrders(params);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));
     }
 
     @DeleteMapping("/{categoryId}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "카테고리 삭제", description = "특정 카테고리를 삭제하는 API (관리자 권한 필요) <br />")
     @ApiResponse(
             responseCode = "200",
@@ -148,6 +153,7 @@ public class CategoryController {
                     )
             )
     )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BaseResponseDto<Void>> delete(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), null, "success"));

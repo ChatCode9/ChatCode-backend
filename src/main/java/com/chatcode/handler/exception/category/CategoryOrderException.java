@@ -1,6 +1,7 @@
-package com.chatcode.exception.category;
+package com.chatcode.handler.exception.category;
 
-import com.chatcode.exception.ExceptionCode;
+
+import com.chatcode.handler.exception.ExceptionCode;
 
 public class CategoryOrderException extends CategoryException {
     public CategoryOrderException(ExceptionCode exceptionCode) {

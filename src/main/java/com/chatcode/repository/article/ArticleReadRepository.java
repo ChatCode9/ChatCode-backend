@@ -1,23 +1,22 @@
 package com.chatcode.repository.article;
 
+import static com.chatcode.jooq.tables.Article.ARTICLE;
+import static com.chatcode.jooq.tables.Avatar.AVATAR;
+import static com.chatcode.jooq.tables.Content.CONTENT;
+import static org.jooq.impl.DSL.noCondition;
+
 import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.entity.Article;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
 import com.chatcode.repository.ReadRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
-
-import static com.chatcode.jooq.tables.Article.ARTICLE;
-import static com.chatcode.jooq.tables.Avatar.AVATAR;
-import static com.chatcode.jooq.tables.Content.CONTENT;
-import static org.jooq.impl.DSL.noCondition;
 
 @Repository
 @RequiredArgsConstructor

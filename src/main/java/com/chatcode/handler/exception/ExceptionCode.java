@@ -1,4 +1,4 @@
-package com.chatcode.exception;
+package com.chatcode.handler.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

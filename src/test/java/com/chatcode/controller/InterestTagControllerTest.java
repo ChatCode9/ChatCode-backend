@@ -96,14 +96,14 @@ class InterestTagControllerTest {
         String requestBody = om.writeValueAsString(requests);
 
         // when
-        ResultActions resultActions = mvc.perform(delete("/admin/interest-tags")
+        ResultActions resultActions = mvc.perform(delete("/admin/interest-tags/" + deleteId)
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("responseBody = " + responseBody);
 
         // then
-        resultActions.andExpect(status().isNoContent());
+        resultActions.andExpect(status().isOk());
     }
 
     @Test

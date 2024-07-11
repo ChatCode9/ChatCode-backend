@@ -14,11 +14,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -38,7 +40,8 @@ public class ArticleController {
                     )
             )
     )
-    public ResponseEntity<BaseResponseDto<Void>> createArticle(@Valid @RequestBody ArticleCreateRequestDTO params) {
+    public ResponseEntity<BaseResponseDto<Void>> createArticle(@Valid @RequestBody ArticleCreateRequestDTO params,
+                                                               BindingResult bindingResult) {
         articleService.articleCreate(params);
         return ResponseEntity.ok(new BaseResponseDto<>(1, null, "성공적으로 게시글이 등록되었습니다."));
     }
@@ -55,7 +58,8 @@ public class ArticleController {
             )
     )
     public ResponseEntity<BaseResponseDto<Void>> updateArticle(@PathVariable Long articleId,
-                                                               @RequestBody ArticleUpdateRequestDTO params) {
+                                                               @Valid @RequestBody ArticleUpdateRequestDTO params,
+                                                               BindingResult bindingResult) {
         articleService.articleUpdate(articleId, params);
         return ResponseEntity.ok(new BaseResponseDto<>(1, null, "업데이트 성공"));
     }
@@ -72,7 +76,7 @@ public class ArticleController {
             )
     )
     public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO>>> getArticleList(
-            ArticleRetrieveRequest requestDto) {
+            @RequestBody ArticleRetrieveRequest requestDto) {
         ArticleRetrieveServiceDto serviceDto = ArticleRetrieveRequest.fromRequestDto(requestDto);
         return ResponseEntity.ok(articleService.findAll(serviceDto));
     }

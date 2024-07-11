@@ -10,12 +10,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -81,7 +83,7 @@ public class AvatarController {
     }
 
     @PutMapping("/{avatarId}")
-//    @PreAuthorize("isAuthenticated() and #avatarId == principal.id")
+    @PreAuthorize("isAuthenticated() and #loginUser.avatarId == #avatarId")
     @Operation(summary = "아바타 수정", description = "특정 아바타를 수정합니다. (본인만 접근 가능)")
     @ApiResponse(
             responseCode = "200",
@@ -94,7 +96,9 @@ public class AvatarController {
     )
     public ResponseEntity<BaseResponseDto<AvatarResponse>> update(
             @PathVariable Long avatarId,
-            @RequestBody AvatarUpdateRequest params
+            @AuthenticationPrincipal LoginUser loginUser,
+            @Valid @RequestBody AvatarUpdateRequest params,
+            BindingResult bindingResult
     ) {
         AvatarResponse responseBody = avatarService.updateAvatar(avatarId, params);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK.value(), responseBody, "success"));

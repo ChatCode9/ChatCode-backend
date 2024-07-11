@@ -1,15 +1,19 @@
-package com.chatcode.exception;
+package com.chatcode.handler.exception;
+
+import static com.chatcode.handler.exception.ExceptionCode.INTERNAL_SEVER_ERROR;
 
 import com.chatcode.dto.BaseResponseDto;
-import com.chatcode.exception.category.CategoryException;
-import com.chatcode.exception.common.NotFoundException;
-import com.chatcode.exception.file.ImageException;
-import com.chatcode.exception.reaction.ReactException;
+import com.chatcode.handler.exception.category.CategoryException;
+import com.chatcode.handler.exception.common.NotFoundException;
+import com.chatcode.handler.exception.dto.DtoValidationException;
+import com.chatcode.handler.exception.file.ImageException;
+import com.chatcode.handler.exception.reaction.ReactException;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.chatcode.exception.ExceptionCode.INTERNAL_SEVER_ERROR;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,5 +42,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BaseResponseDto<Void>> handleException(Exception ex) {
         return ResponseEntity.badRequest()
                 .body(new BaseResponseDto<>(INTERNAL_SEVER_ERROR.getCode(), null, INTERNAL_SEVER_ERROR.getMessage()));
+    }
+
+    @ExceptionHandler(DtoValidationException.class)
+    public ResponseEntity<BaseResponseDto<Map<String, String>>> handleDtoValidationException(
+            DtoValidationException ex) {
+        return ResponseEntity.badRequest()
+                .body(new BaseResponseDto<>(HttpStatus.BAD_REQUEST.value(), ex.getErrorMap(), ex.getMessage()));
     }
 }

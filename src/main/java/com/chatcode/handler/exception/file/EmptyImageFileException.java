@@ -1,6 +1,6 @@
-package com.chatcode.exception.file;
+package com.chatcode.handler.exception.file;
 
-import static com.chatcode.exception.ExceptionCode.EMPTY_IMAGE_FILE;
+import static com.chatcode.handler.exception.ExceptionCode.EMPTY_IMAGE_FILE;
 
 public class EmptyImageFileException extends ImageException {
     public EmptyImageFileException() {

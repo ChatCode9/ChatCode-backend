@@ -1,6 +1,6 @@
-package com.chatcode.exception.file;
+package com.chatcode.handler.exception.file;
 
-import static com.chatcode.exception.ExceptionCode.FAIL_IMAGE_UPLOAD;
+import static com.chatcode.handler.exception.ExceptionCode.FAIL_IMAGE_UPLOAD;
 
 public class ImageFileUploadException extends ImageException {
     public ImageFileUploadException() {

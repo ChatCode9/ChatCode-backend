@@ -1,16 +1,15 @@
 package com.chatcode.service;
 
-import static com.chatcode.exception.ExceptionCode.INVALID_CATEGORY_ORDER_DUPLICATE;
-import static com.chatcode.exception.ExceptionCode.INVALID_CATEGORY_ORDER_SIZE;
-import static com.chatcode.exception.ExceptionCode.NOT_FOUND_CATEGORY_ID;
+import static com.chatcode.handler.exception.ExceptionCode.INVALID_CATEGORY_ORDER_SIZE;
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_CATEGORY_ID;
 
 import com.chatcode.domain.entity.Category;
 import com.chatcode.dto.category.CategoryRequest.CategoryCreateRequest;
 import com.chatcode.dto.category.CategoryRequest.CategoryUpdateNameRequest;
 import com.chatcode.dto.category.CategoryRequest.CategoryUpdateOrderRequest;
 import com.chatcode.dto.category.CategoryResponse;
-import com.chatcode.exception.category.CategoryOrderException;
-import com.chatcode.exception.common.ContentNotFoundException;
+import com.chatcode.handler.exception.category.CategoryOrderException;
+import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.category.CategoryReadRepository;
 import com.chatcode.repository.category.CategoryWriteRepository;
 import java.util.List;
@@ -49,13 +48,9 @@ public class CategoryService {
     public List<CategoryResponse> updateCategoryOrders(CategoryUpdateOrderRequest params) {
 
         if (isInvalidOrderSize(params.getOrders())) {
-            throw new CategoryOrderException(INVALID_CATEGORY_ORDER_SIZE, "total category size: " + categoryReadRepository.count());
+            throw new CategoryOrderException(INVALID_CATEGORY_ORDER_SIZE,
+                    "total category size: " + categoryReadRepository.count());
         }
-
-        if (isDuplicated(params.getOrders())) {
-            throw new CategoryOrderException(INVALID_CATEGORY_ORDER_DUPLICATE);
-        }
-
         for (Long param : params.getOrders()) {
             Category category = categoryReadRepository.findById(param)
                     .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_CATEGORY_ID));
@@ -92,7 +87,4 @@ public class CategoryService {
         return ids.size() != categoryReadRepository.count();
     }
 
-    private boolean isDuplicated(List<Long> ids) {
-        return ids.size() != ids.stream().distinct().count();
-    }
 }

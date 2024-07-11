@@ -10,7 +10,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.chatcode.domain.file.ImageFile;
-import com.chatcode.exception.file.ImageFileUploadException;
+import com.chatcode.handler.exception.file.ImageFileUploadException;
 import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
