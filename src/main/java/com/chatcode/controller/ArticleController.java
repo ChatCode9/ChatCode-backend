@@ -1,5 +1,6 @@
 package com.chatcode.controller;
 
+import com.chatcode.config.auth.LoginUser;
 import com.chatcode.dto.BaseResponseDto;
 import com.chatcode.dto.article.ArticleDetailResponseDto;
 import com.chatcode.dto.article.ArticleRequestDTO.ArticleCreateRequestDTO;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -95,8 +97,8 @@ public class ArticleController {
                     )
             )
     )
-    public ResponseEntity<BaseResponseDto<ArticleDetailResponseDto>> readArticleById(@PathVariable Long articleId) {
-        ArticleDetailResponseDto articleDetailResponseDto = articleService.readArticleById(articleId);
+    public ResponseEntity<BaseResponseDto<ArticleDetailResponseDto>> readArticleById(@PathVariable Long articleId, @AuthenticationPrincipal LoginUser loginUser) {
+        ArticleDetailResponseDto articleDetailResponseDto = articleService.readArticleById(articleId, loginUser.getAvatarId());
         return ResponseEntity.ok(new BaseResponseDto<>(200, articleDetailResponseDto, "success"));
     }
 

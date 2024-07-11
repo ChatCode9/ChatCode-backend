@@ -27,7 +27,7 @@ public class ArticleDetailResponseDto {
     private Integer likeCount;
     private Boolean isLiked;
 
-    public static ArticleDetailResponseDto of(ArticleVo vo, Boolean isLiked) {
+    public static ArticleDetailResponseDto of(ArticleVo vo, Boolean isLiked, Boolean hasBookmark) {
         return ArticleDetailResponseDto.builder()
                 .id(vo.getId())
                 .timeline(vo.getDateCreated())
@@ -38,7 +38,7 @@ public class ArticleDetailResponseDto {
                 .viewCount(vo.getViewCount())
                 .likeCount(vo.getLikeCount())
                 .isLiked(isLiked)
-                .bookmark(false)
+                .bookmark(hasBookmark)
                 .build();
     }
 }

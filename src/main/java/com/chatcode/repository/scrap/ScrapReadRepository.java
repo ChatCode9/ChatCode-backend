@@ -1,19 +1,20 @@
 package com.chatcode.repository.scrap;
 
-import static com.chatcode.jooq.tables.Scrap.SCRAP;
-
 import com.chatcode.domain.entity.Scrap;
 import com.chatcode.dto.ScrapResponseDto;
 import com.chatcode.repository.ReadRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import static com.chatcode.jooq.tables.Article.ARTICLE;
+import static com.chatcode.jooq.tables.Scrap.SCRAP;
+
 @Repository
 @RequiredArgsConstructor
 public class ScrapReadRepository implements ReadRepository<Scrap> {
@@ -33,5 +34,9 @@ public class ScrapReadRepository implements ReadRepository<Scrap> {
                 .join(ARTICLE).on(SCRAP.ARTICLE_ID.eq(ARTICLE.ID))
                 .where(SCRAP.AVATAR_ID.eq(avatarId))
                 .fetchInto(ScrapResponseDto.class);
+    }
+
+    public Boolean existsByAvatarIdAndArticleId(long avatarId, long articleId) {
+        return dsl.selectOne().from(SCRAP).where(SCRAP.AVATAR_ID.eq(avatarId)).and(SCRAP.ARTICLE_ID.eq(articleId)).fetchOne() != null;
     }
 }
