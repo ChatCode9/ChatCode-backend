@@ -30,6 +30,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 @Table(name = "user", indexes = {
         @Index(name = "IDX_user_username", columnList = "username")
 })

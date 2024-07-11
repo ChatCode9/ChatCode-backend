@@ -2,8 +2,11 @@ package com.chatcode.service;
 
 import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_AVATAR_ID;
 
+import com.chatcode.config.auth.LoginUser;
+import com.chatcode.config.auth.enums.Status;
 import com.chatcode.domain.entity.Avatar;
 import com.chatcode.domain.entity.InterestTag;
+import com.chatcode.domain.entity.User;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarCreateRequest;
 import com.chatcode.dto.avatar.AvatarRequest.AvatarUpdateRequest;
 import com.chatcode.dto.avatar.AvatarResponse;
@@ -13,6 +16,7 @@ import com.chatcode.handler.exception.common.ContentNotFoundException;
 import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
 import com.chatcode.repository.tag.InterestTagWriteRepository;
+import com.chatcode.repository.user.UserWriteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,7 @@ public class AvatarService {
     private final AvatarReadRepository avatarReadRepository;
     private final AvatarWriteRepository avatarWriteRepository;
     private final InterestTagWriteRepository interestTagWriteRepository;
+    private final UserWriteRepository userWriteRepository;
 
     @Transactional
     public AvatarResponse createNewAvatar(AvatarCreateRequest params) {
@@ -40,8 +45,13 @@ public class AvatarService {
     }
 
     @Transactional
-    public AvatarResponse updateAvatar(Long avatarId, AvatarUpdateRequest params) {
-        Avatar avatar = avatarReadRepository.findById(avatarId)
+    public AvatarResponse updateAvatar(LoginUser loginUser, AvatarUpdateRequest params) {
+
+        User user = userWriteRepository.getReferenceById(loginUser.getId());
+        user.setStatus(Status.ACTIVE);
+        userWriteRepository.save(user);
+
+        Avatar avatar = avatarReadRepository.findById(loginUser.getAvatarId())
                 .orElseThrow(() -> new ContentNotFoundException(NOT_FOUND_AVATAR_ID));
 
         if (params.getNickname() != null) {
