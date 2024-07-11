@@ -38,7 +38,7 @@ public class ArticleRepository {
                 .set(ARTICLE.NOTE_COUNT, 0)
                 .set(ARTICLE.SCRAP_COUNT, 0)
                 .set(ARTICLE.VIEW_COUNT, 0)
-                .set(ARTICLE.CATEGORY_ID, UUID.randomUUID().toString())
+                .set(ARTICLE.CATEGORY_ID, articleDTO.getCategoryId())
                 .set(ARTICLE.VERSION, 1L)
                 .set(ARTICLE.LIKE_COUNT, 0)
                 .set(ARTICLE.DISLIKE_COUNT, 0)
@@ -74,6 +74,7 @@ public class ArticleRepository {
         dslContext.update(ARTICLE)
                 .set(ARTICLE.TITLE, updateDTO.getTitle())
                 .set(ARTICLE.TAG_STRING, String.join(tagSplit, updateDTO.getTags()))
+                .set(ARTICLE.CATEGORY_ID, updateDTO.getCategoryId())
                 .where(ARTICLE.ID.eq(articleId))
                 .execute();
     }
