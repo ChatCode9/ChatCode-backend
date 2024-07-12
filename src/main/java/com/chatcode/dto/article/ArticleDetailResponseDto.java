@@ -25,10 +25,14 @@ public class ArticleDetailResponseDto {
     private Integer viewCount;
     private Integer likeCount;
     private Boolean isLiked;
+    private String picture;
+    private String nickname;
 
     public static ArticleDetailResponseDto of(ArticleVo vo, Boolean isLiked, Boolean hasBookmark) {
         return ArticleDetailResponseDto.builder()
                 .id(vo.getId())
+                .picture(vo.getPicture())
+                .nickname(vo.getNickname())
                 .timeline(vo.getDateCreated())
                 .title(vo.getTitle())
                 .content(vo.getText())
