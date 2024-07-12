@@ -1,5 +1,6 @@
 package com.chatcode.repository.article;
 
+import static com.chatcode.handler.exception.ExceptionCode.NOT_FOUND_CATEGORY_NAME;
 import static com.chatcode.jooq.tables.Article.ARTICLE;
 import static com.chatcode.jooq.tables.Avatar.AVATAR;
 import static com.chatcode.jooq.tables.Content.CONTENT;
@@ -7,8 +8,11 @@ import static org.jooq.impl.DSL.noCondition;
 
 import com.chatcode.domain.article.ArticleVo;
 import com.chatcode.domain.entity.Article;
+import com.chatcode.domain.entity.Category;
 import com.chatcode.dto.article.ArticleRetrieveServiceDto;
+import com.chatcode.handler.exception.common.ResourceNotFoundException;
 import com.chatcode.repository.ReadRepository;
+import com.chatcode.repository.category.CategoryReadRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
@@ -23,6 +27,7 @@ import org.springframework.stereotype.Repository;
 public class ArticleReadRepository implements ReadRepository<Article> {
 
     private final DSLContext dsl;
+    private final CategoryReadRepository categoryReadRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -87,6 +92,7 @@ public class ArticleReadRepository implements ReadRepository<Article> {
     }
 
     public Condition condition(ArticleRetrieveServiceDto request) {
+
         Condition result = noCondition();
 
         if (request.getSearch() != null) {
@@ -98,7 +104,9 @@ public class ArticleReadRepository implements ReadRepository<Article> {
         }
 
         if (request.getCategory() != null) {
-            result = result.and(ARTICLE.CATEGORY_ID.eq(request.getCategory().name()));
+            Category requestCategory = categoryReadRepository.findByName(request.getCategory().name())
+                    .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_CATEGORY_NAME));
+            result = result.and(ARTICLE.CATEGORY_ID.eq(requestCategory.getId()));
         }
 
         return result;

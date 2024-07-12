@@ -5,6 +5,8 @@ import com.chatcode.domain.entity.*;
 import com.chatcode.repository.article.ArticleWriteRepository;
 import com.chatcode.repository.avatar.AvatarReadRepository;
 import com.chatcode.repository.avatar.AvatarWriteRepository;
+import com.chatcode.repository.category.CategoryReadRepository;
+import com.chatcode.repository.category.CategoryWriteRepository;
 import com.chatcode.repository.content.ContentWriteRepository;
 import com.chatcode.repository.role.RoleReadRepository;
 import com.chatcode.repository.role.RoleWriteRepository;
@@ -28,6 +30,7 @@ public class DummyDevInit extends DummyObject {
     private final EntityManager em;
 
     private static final Faker faker = new Faker();
+    private static int categorySortOrder = 1;
 
     @Bean
     CommandLineRunner dummyUsers(
@@ -105,6 +108,30 @@ public class DummyDevInit extends DummyObject {
         });
     }
 
+    @Bean
+    CommandLineRunner dummyCategories(CategoryWriteRepository categoryWriteRepository,
+                                      CategoryReadRepository categoryReadRepository) {
+        return (args -> {
+            List<Category> categories = List.of(
+                    newCategory("Free"),
+                    newCategory("Question")
+            );
+            categories.forEach(category -> {
+                categoryReadRepository.findByName(category.getName())
+                        .orElseGet(() -> categoryWriteRepository.save(category));
+            });
+            em.clear();
+        });
+    }
+
+
+    private Category newCategory(String community) {
+        return new Category().builder()
+                .name(community)
+                .sortOrder(categorySortOrder++)
+                .build();
+    }
+
 
     @Bean
     CommandLineRunner dummyArticles(ArticleWriteRepository articleWriteRepository,
@@ -152,7 +179,7 @@ public class DummyDevInit extends DummyObject {
                 .viewCount(faker.random().nextInt())
                 .likeCount(faker.random().nextInt())
                 .dislikeCount(faker.random().nextInt())
-                .categoryId("question")
+                .categoryId(faker.random().nextLong(1, 2))
                 .build();
     }
 

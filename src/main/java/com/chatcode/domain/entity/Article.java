@@ -64,7 +64,7 @@ public class Article extends AuditingFields implements Likeable {
   private Integer dislikeCount;
 
   @Column(name = "category_id", nullable = false)
-  private String categoryId;
+  private Long categoryId;
 
   public void updateLikeCount(LikeRequest likeRequest) {
     if (likeRequest.getIsLike()) {

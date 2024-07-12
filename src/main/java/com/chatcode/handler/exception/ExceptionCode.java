@@ -17,6 +17,7 @@ public enum ExceptionCode {
     NOT_FOUND_TAG_ID(1006, "요청한 ID에 해당하는 태그가 존재하지 않습니다."),
     NOT_FOUND_RESOURCE_ID(1007, "요청한 ID에 해당하는 리소스가 존재하지 않습니다."),
     NOT_FOUND_CONTENT_FROM_ARTICLE_ID(1008, "요청한 아티클에 해당하는 컨탠츠가이 존재하지 않습니다."),
+    NOT_FOUND_CATEGORY_NAME(1009, "요청한 카테고리 이름은 존재하지 않습니다."),
 
     INVALID_CATEGORY_ORDER_SIZE(2001, "요청한 카테고리에 누락된 ID가 존재합니다."),
     INVALID_CATEGORY_ORDER_DUPLICATE(2002, "요청한 카테고리에 중복된 ID가 존재합니다."),

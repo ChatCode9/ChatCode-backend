@@ -30,7 +30,7 @@ public class CategoryReadRepository implements ReadRepository<Category> {
     }
 
     public Optional<Category> findByName(String name) {
-        List<Category> categories = nativeQuery(em, dsl.select().from(CATEGORY).where(CATEGORY.NAME.eq(name)),
+        List<Category> categories = nativeQuery(em, dsl.select().from(CATEGORY).where(CATEGORY.NAME.equalIgnoreCase(name)),
                 Category.class);
         return categories.isEmpty() ? Optional.empty() : Optional.of(categories.get(0));
     }

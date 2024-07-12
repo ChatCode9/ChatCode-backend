@@ -40,7 +40,7 @@ CREATE TABLE `article`
     `view_count`       int(11) NOT NULL,
     `like_count`       int(11) NOT NULL,
     `dislike_count`    int(11) NOT NULL,
-    `category_id`      varchar(255) NOT NULL,
+    `category_id`      bigint(20) NULL,
     CONSTRAINT PK_ARTICLE PRIMARY KEY (`id`)
 );
 

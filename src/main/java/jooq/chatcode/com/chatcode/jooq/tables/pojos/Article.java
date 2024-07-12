@@ -34,7 +34,7 @@ public class Article implements Serializable {
     private final Integer viewCount;
     private final Integer likeCount;
     private final Integer dislikeCount;
-    private final String categoryId;
+    private final Long categoryId;
 
     public Article(Article value) {
         this.id = value.id;
@@ -77,7 +77,7 @@ public class Article implements Serializable {
         Integer viewCount,
         Integer likeCount,
         Integer dislikeCount,
-        String categoryId
+        Long categoryId
     ) {
         this.id = id;
         this.version = version;
@@ -229,7 +229,7 @@ public class Article implements Serializable {
     /**
      * Getter for <code>article.category_id</code>.
      */
-    public String getCategoryId() {
+    public Long getCategoryId() {
         return this.categoryId;
     }
 
