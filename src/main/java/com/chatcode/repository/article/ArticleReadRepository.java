@@ -93,9 +93,6 @@ public class ArticleReadRepository implements ReadRepository<Article> {
 
     public Condition condition(ArticleRetrieveServiceDto request) {
 
-        Category requestCategory = categoryReadRepository.findByName(request.getCategory().name())
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_CATEGORY_NAME));
-
         Condition result = noCondition();
 
         if (request.getSearch() != null) {
@@ -107,6 +104,8 @@ public class ArticleReadRepository implements ReadRepository<Article> {
         }
 
         if (request.getCategory() != null) {
+            Category requestCategory = categoryReadRepository.findByName(request.getCategory().name())
+                    .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_CATEGORY_NAME));
             result = result.and(ARTICLE.CATEGORY_ID.eq(requestCategory.getId()));
         }
 

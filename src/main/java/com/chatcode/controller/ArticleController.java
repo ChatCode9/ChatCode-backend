@@ -68,7 +68,7 @@ public class ArticleController {
         return ResponseEntity.ok(new BaseResponseDto<>(1, null, "업데이트 성공"));
     }
 
-    @GetMapping("")
+    @PostMapping("/list")
     @Operation(summary = "Article 목록 조회", description = "Article 목록을 조회합니다.")
     @ApiResponse(
             responseCode = "200",
