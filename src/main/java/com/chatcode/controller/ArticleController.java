@@ -80,7 +80,7 @@ public class ArticleController {
             )
     )
     public ResponseEntity<BaseResponseDto<List<ArticleResponseDTO>>> getArticleList(
-            @RequestBody ArticleRetrieveRequest requestDto) {
+            ArticleRetrieveRequest requestDto) {
         ArticleRetrieveServiceDto serviceDto = ArticleRetrieveRequest.fromRequestDto(requestDto);
         return ResponseEntity.ok(articleService.findAll(serviceDto));
     }

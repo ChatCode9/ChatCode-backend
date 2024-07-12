@@ -57,6 +57,7 @@ public class OAuth2LoginUserService extends DefaultOAuth2UserService {
         // fetch user
         User loginUser = userReadRepository.findByUsername(oAuth2Response.getUsername())
                 .orElseGet(() -> signUpUser(oAuth2Response));
+        loginUser.setStatus(Status.ACTIVE);
 
         List<String> roles = userReadRepository.findRolesById(loginUser.getId());
 
